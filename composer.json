@@ -15,6 +15,6 @@
 	"ext-json": "*"
     },
     "autoload": {
-        "classmap": ["src/"]
+        "classmap": ["src/","bridges/"]
     }
 }
