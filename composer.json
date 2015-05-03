@@ -1,0 +1,20 @@
+{
+    "name": "mesour/components",
+    "description": "Mesour components.",
+    "license": ["BSD-3-Clause", "GPL-3.0"],
+    "keywords": ["components"],
+    "homepage": "http://mesour.com",
+    "authors": [
+        {
+            "name": "Matouš Němec",
+            "homepage": "http://mesour.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.0",
+	"ext/json": "*"
+    },
+    "autoload": {
+        "classmap": ["src/"]
+    }
+}
