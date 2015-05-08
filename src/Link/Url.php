@@ -46,7 +46,7 @@ class Url implements IUrl
     protected function createUrl()
     {
         $query = http_build_query($this->args);
-        return $this->destination . (strpos($this->destination, '?') !== FALSE ? '&' : '?') . $query;
+        return $this->destination . (count($this->args) > 0 ? (strpos($this->destination, '?') !== FALSE ? '&' : '?') : '') . $query;
     }
 
     /**
