@@ -8,8 +8,6 @@
 
 namespace Mesour\Components;
 
-use Mesour\Components\Session\ISession;
-
 /**
  * @author mesour <matous.nemec@mesour.com>
  * @package Mesour Components
@@ -18,13 +16,6 @@ interface IComponent extends \ArrayAccess
 {
 
     public function __construct($name, IComponent $component = NULL);
-
-    public function setSession(ISession $session);
-
-    /**
-     * @return ISession
-     */
-    public function getSession();
 
     public function getName();
 

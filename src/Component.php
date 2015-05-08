@@ -8,8 +8,6 @@
 
 namespace Mesour\Components;
 
-use Mesour\Components\Session\ISession;
-
 /**
  * @author mesour <matous.nemec@mesour.com>
  * @package Mesour Components
@@ -20,11 +18,6 @@ abstract class Component implements IComponent, IObserver
     private $name;
 
     /**
-     * @var ISession
-     */
-    protected $session;
-
-    /**
      * @var Component
      */
     private $parent;
@@ -32,7 +25,7 @@ abstract class Component implements IComponent, IObserver
     /**
      * @var IContainer
      */
-    protected $container;
+    private $container;
 
     public function __construct($name, IComponent $parent = NULL)
     {
@@ -64,20 +57,6 @@ abstract class Component implements IComponent, IObserver
             throw new Exception('Component has no parent.');
         }
         return $this->parent;
-    }
-
-    public function setSession(ISession $session)
-    {
-        $this->session = $session;
-        $this->session->loadState();
-    }
-
-    /**
-     * @return ISession|null
-     */
-    public function getSession()
-    {
-        return !$this->session && $this->parent ? $this->parent->getSession()->getEmptyClone($this->getFullName()) : $this->session;
     }
 
     public function getName()
@@ -112,6 +91,7 @@ abstract class Component implements IComponent, IObserver
 
     public function addComponent(IComponent $component)
     {
+        /** @var self $component */
         $name = $component->getName();
         if ($this->container->hasComponent($name)) {
             throw new InvalidArgumentException('Component with name ' . $name . ' is already exists.');
@@ -125,6 +105,7 @@ abstract class Component implements IComponent, IObserver
         if (!$this->container->hasComponent($name)) {
             throw new InvalidArgumentException('Component with name ' . $name . ' does not exists.');
         }
+        /** @var self $component */
         $component = $this->container->getComponent($name);
         $component->detached($this);
         $this->container->detach($component);
