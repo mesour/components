@@ -163,8 +163,9 @@ abstract class Control extends Component
         return $this;
     }
 
-    public function render() {
-        if($this->getSession()) {
+    public function render()
+    {
+        if ($this->getSession()) {
             $this->getSession()->saveState();
         }
     }
