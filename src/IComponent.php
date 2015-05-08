@@ -15,7 +15,7 @@ namespace Mesour\Components;
 interface IComponent extends \ArrayAccess
 {
 
-    public function __construct($name, IComponent $component = NULL);
+    public function __construct($name = NULL, IComponent $component = NULL);
 
     public function getName();
 

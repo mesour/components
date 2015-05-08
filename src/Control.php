@@ -9,6 +9,8 @@
 namespace Mesour\Components;
 
 use Mesour\Components\Link\ILink;
+use Mesour\Components\Link\IUrl;
+use Mesour\Components\Link\Link;
 use Mesour\Components\Session\ISession;
 
 /**
@@ -38,19 +40,27 @@ abstract class Control extends Component
      */
     private $link;
 
-    public function setLink(ISession $session)
+    public function setLink(ILink $link)
     {
-        $this->session = $session;
-        $this->session->loadState();
+        $this->link = $link;
     }
 
     /**
-     * @return ISession|null
+     * @param $destination
+     * @param array $args
+     * @return IUrl
      */
-    public function getLink()
+    public function link($destination, $args = array()) {
+        return $this->getLink()->create($destination, $args);
+    }
+
+    /**
+     * @return ILink|null
+     */
+    private function getLink()
     {
         $parent = $this->getParent();
-        return !$this->link && $parent instanceof self ? $parent->getLink() : $this->link;
+        return !$this->link && $parent instanceof self ? $parent->getLink() : ($this->link ? $this->link : (self::$default_link?self::$default_link:(self::$default_link = new Link)));
     }
 
     public function setSession(ISession $session)

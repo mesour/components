@@ -7,17 +7,18 @@
  */
 
 namespace Mesour\Components\Link;
-use Mesour\Components\Helper;
 
 /**
  * @author mesour <matous.nemec@mesour.com>
  * @package Mesour Components
  */
-class Link implements ILink
+interface IUrl
 {
 
-    public function create($destination, $args = array()) {
-        return new Url($this, $destination, $args);
-    }
+    public function __construct(ILink $link, $destination, $args = array());
+
+    public function create($data = array());
+
+    public function __toString();
 
 }

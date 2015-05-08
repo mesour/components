@@ -37,4 +37,18 @@ class Helper
         return $m;
     }
 
+    static public function parseValue($value, $data)
+    {
+        if ((is_array($data) || $data instanceof \ArrayAccess) && strpos($value, '{') !== FALSE && strpos($value, '}') !== FALSE) {
+            return preg_replace_callback('/(\{[^\{]+\})/', function ($matches) use ($value, $data) {
+                $matches = array_unique($matches);
+                $match = reset($matches);
+                $key = substr($match, 1, strlen($match) - 2);
+                return isset($data[$key]) ? $data[$key] : '__UNDEFINED_KEY-' . $key . '__';
+            }, $value);
+        } else {
+            return $value;
+        }
+    }
+
 }

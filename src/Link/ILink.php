@@ -16,10 +16,10 @@ interface ILink
 {
 
     /**
-     * @param string $destination
-     * @param array|mixed $args
-     * @return string
+     * @param $destination
+     * @param array $args
+     * @return Url
      */
-    public function link($destination, $args = array());
+    public function create($destination, $args = array());
 
 }

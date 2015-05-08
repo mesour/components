@@ -27,11 +27,11 @@ abstract class Component implements IComponent, IObserver
      */
     private $container;
 
-    public function __construct($name, IComponent $parent = NULL)
+    public function __construct($name = NULL, IComponent $parent = NULL)
     {
         $this->container = new Container();
 
-        if (is_string($name)) {
+        if (is_string($name) || is_null($name)) {
             $this->name = $name;
         } else {
             throw new InvalidArgumentException('Component name must be string.');
@@ -48,14 +48,10 @@ abstract class Component implements IComponent, IObserver
     }
 
     /**
-     * @return IComponent
-     * @throws Exception
+     * @return Component|null
      */
     public function getParent()
     {
-        if (!$this->parent) {
-            throw new Exception('Component has no parent.');
-        }
         return $this->parent;
     }
 
