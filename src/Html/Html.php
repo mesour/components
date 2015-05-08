@@ -7,8 +7,6 @@
 
 namespace Mesour\Components;
 
-use Nette;
-
 
 /**
  * HTML helper.
@@ -285,7 +283,6 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate
      * Sets element's textual content.
      * @param  string
      * @return self
-     * @throws Nette\InvalidArgumentException
      */
     public function setText($text)
     {
