@@ -67,7 +67,6 @@ abstract class Component extends Events implements IComponent, IObserver
 
     public function render()
     {
-        $this->session->saveState();
     }
 
     protected function attached(IComponent $parent)
