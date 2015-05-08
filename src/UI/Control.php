@@ -12,8 +12,9 @@ use Mesour\Components\Component;
 use Mesour\Components\Link\ILink;
 use Mesour\Components\Link\IUrl;
 use Mesour\Components\Link\Link;
+use Mesour\Components\Localize\ITranslator;
+use Mesour\Components\Localize\Translator;
 use Mesour\Components\Session\ISession;
-use Mesour\Components\Session\Session;
 
 /**
  * @author mesour <matous.nemec@mesour.com>
@@ -33,9 +34,19 @@ abstract class Control extends Component
     static public $default_session = NULL;
 
     /**
+     * @var ITranslator|null
+     */
+    static public $default_translator = NULL;
+
+    /**
      * @var ISession|null
      */
-    private $session;
+    private $session = NULL;
+
+    /**
+     * @var ITranslator|null
+     */
+    private $translator = NULL;
 
     /**
      * @var ILink|null
@@ -45,6 +56,7 @@ abstract class Control extends Component
     public function setLink(ILink $link)
     {
         $this->link = $link;
+        return $this;
     }
 
     /**
@@ -78,6 +90,7 @@ abstract class Control extends Component
     {
         $this->session = $session;
         $this->session->loadState();
+        return $this;
     }
 
     /**
@@ -86,7 +99,7 @@ abstract class Control extends Component
     public function getSession()
     {
         $parent = $this->getParent();
-        if(!$this->session && $parent instanceof self) {
+        if (!$this->session && $parent instanceof self) {
             $this->session = $parent->getSession()->getEmptyClone($this->getFullName());
             $this->session->loadState();
             return $this->session;
@@ -97,6 +110,27 @@ abstract class Control extends Component
                 )
             );
         }
+    }
+
+    public function setTranslator(ITranslator $translator)
+    {
+        $this->translator = $translator;
+        return $this;
+    }
+
+    /**
+     * @return ITranslator
+     */
+    public function getTranslator()
+    {
+        $parent = $this->getParent();
+        return !$this->session && $parent instanceof self
+            ? $parent->getTranslator()
+            : ($this->session
+                ? $this->session
+                : (self::$default_translator ? self::$default_translator : (self::$default_link = new Translator)
+                )
+            );
     }
 
 }
