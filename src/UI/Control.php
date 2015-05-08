@@ -9,11 +9,14 @@
 namespace Mesour\UI;
 
 use Mesour\Components\Component;
+use Mesour\Components\InvalidArgumentException;
 use Mesour\Components\Link\ILink;
 use Mesour\Components\Link\IUrl;
 use Mesour\Components\Link\Link;
 use Mesour\Components\Localize\ITranslator;
 use Mesour\Components\Localize\Translator;
+use Mesour\Components\Security\Auth;
+use Mesour\Components\Security\IAuth;
 use Mesour\Components\Session\ISession;
 
 /**
@@ -39,6 +42,18 @@ abstract class Control extends Component
     static public $default_translator = NULL;
 
     /**
+     * @var IAuth|null
+     */
+    static public $default_auth = NULL;
+
+    /**
+     * @var IAuth|null
+     */
+    private $auth = NULL;
+
+    private $resource = FALSE;
+
+    /**
      * @var ISession|null
      */
     private $session = NULL;
@@ -52,6 +67,15 @@ abstract class Control extends Component
      * @var ILink|null
      */
     private $link;
+
+    public function setResource($resource)
+    {
+        if (!is_string($resource) || !is_null($resource)) {
+            throw new InvalidArgumentException('Resource must be string or NULL. ' . gettype($resource) . ' given.');
+        }
+        $this->resource = $resource;
+        return $this;
+    }
 
     public function setLink(ILink $link)
     {
@@ -128,9 +152,32 @@ abstract class Control extends Component
             ? $parent->getTranslator()
             : ($this->session
                 ? $this->session
-                : (self::$default_translator ? self::$default_translator : (self::$default_link = new Translator)
+                : (self::$default_translator ? self::$default_translator : (self::$default_translator = new Translator)
                 )
             );
+    }
+
+    public function setAuth(IAuth $translator)
+    {
+        $this->translator = $translator;
+        return $this;
+    }
+
+    /**
+     * @return IAuth
+     */
+    public function getAuth()
+    {
+        $parent = $this->getParent();
+        $this->auth = !$this->auth && $parent instanceof self
+            ? $parent->getAuth()
+            : ($this->auth
+                ? $this->auth
+                : (self::$default_auth ? self::$default_auth : (self::$default_auth = new Auth)
+                )
+            );
+        $this->auth->setResource($this->resource);
+        return ;
     }
 
 }
