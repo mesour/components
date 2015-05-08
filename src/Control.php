@@ -13,6 +13,7 @@ use Mesour\Components\Link\ILink;
 use Mesour\Components\Link\IUrl;
 use Mesour\Components\Link\Link;
 use Mesour\Components\Session\ISession;
+use Mesour\Components\Session\Session;
 
 /**
  * @author mesour <matous.nemec@mesour.com>
@@ -57,12 +58,20 @@ abstract class Control extends Component
     }
 
     /**
-     * @return ILink|null
+     * @return ILink
      */
     private function getLink()
     {
         $parent = $this->getParent();
-        return !$this->link && $parent instanceof self ? $parent->getLink() : ($this->link ? $this->link : (self::$default_link ? self::$default_link : (self::$default_link = new Link)));
+        return !$this->link && $parent instanceof self
+            ? $parent->getLink()
+            : ($this->link
+                ? $this->link
+                : (self::$default_link
+                    ? self::$default_link
+                    : (self::$default_link = new Link)
+                )
+            );
     }
 
     public function setSession(ISession $session)
@@ -77,7 +86,17 @@ abstract class Control extends Component
     public function getSession()
     {
         $parent = $this->getParent();
-        return !$this->session && $parent instanceof self ? $parent->getSession()->getEmptyClone($this->getFullName()) : $this->session;
+        if(!$this->session && $parent instanceof self) {
+            $this->session = $parent->getSession()->getEmptyClone($this->getFullName());
+            $this->session->loadState();
+            return $this->session;
+        } else {
+            return ($this->session
+                ? $this->session
+                : (self::$default_session ? self::$default_session->getEmptyClone($this->getFullName()) : NULL
+                )
+            );
+        }
     }
 
 }

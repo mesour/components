@@ -15,6 +15,10 @@ namespace Mesour\Components\Session;
 interface ISession
 {
 
+    /**
+     * @param $section
+     * @return ISession
+     */
     public function getEmptyClone($section);
 
     public function set($key, $val);
