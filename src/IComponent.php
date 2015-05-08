@@ -17,6 +17,8 @@ interface IComponent extends \ArrayAccess
 
     public function __construct($name = NULL, IComponent $component = NULL);
 
+    public function setName($name);
+
     public function getName();
 
     /**

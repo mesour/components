@@ -55,6 +55,12 @@ abstract class Component extends Events implements IComponent, IObserver
         return $this->parent;
     }
 
+    public function setName($name)
+    {
+        $this->name = $name;
+        return $this;
+    }
+
     public function getName()
     {
         return $this->name;
@@ -109,7 +115,12 @@ abstract class Component extends Events implements IComponent, IObserver
 
     public function offsetSet($offset, $value)
     {
-        $this->addComponent($value, $offset);
+        if($value instanceof IComponent) {
+            $value->setName($offset);
+            $this->addComponent($value, $offset);
+        } else {
+            throw new InvalidArgumentException('Component must be instance of IComponent.');
+        }
     }
 
     public function offsetExists($offset)
