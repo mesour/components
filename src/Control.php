@@ -3,11 +3,12 @@
  * Mesour Components
  *
  * @license LGPL-3.0 and BSD-3-Clause
- * @copyright (c) 2013 - 2015 Matous Nemec <matous.nemec@mesour.com>
+ * @copyright (c) 2015 Matous Nemec <matous.nemec@mesour.com>
  */
 
-namespace Mesour\Components;
+namespace Mesour\UI;
 
+use Mesour\Components\Component;
 use Mesour\Components\Link\ILink;
 use Mesour\Components\Link\IUrl;
 use Mesour\Components\Link\Link;
@@ -50,7 +51,8 @@ abstract class Control extends Component
      * @param array $args
      * @return IUrl
      */
-    public function link($destination, $args = array()) {
+    public function link($destination, $args = array())
+    {
         return $this->getLink()->create($destination, $args);
     }
 
@@ -60,7 +62,7 @@ abstract class Control extends Component
     private function getLink()
     {
         $parent = $this->getParent();
-        return !$this->link && $parent instanceof self ? $parent->getLink() : ($this->link ? $this->link : (self::$default_link?self::$default_link:(self::$default_link = new Link)));
+        return !$this->link && $parent instanceof self ? $parent->getLink() : ($this->link ? $this->link : (self::$default_link ? self::$default_link : (self::$default_link = new Link)));
     }
 
     public function setSession(ISession $session)

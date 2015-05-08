@@ -3,7 +3,7 @@
  * Mesour Components
  *
  * @license LGPL-3.0 and BSD-3-Clause
- * @copyright (c) 2013 - 2015 Matous Nemec <matous.nemec@mesour.com>
+ * @copyright (c) 2015 Matous Nemec <matous.nemec@mesour.com>
  */
 
 namespace Mesour\Components\Bridges\Nette;
@@ -30,13 +30,15 @@ class Session implements ISession
      */
     private $sessionSection;
 
-    public function __construct($section, Http\Session $session) {
+    public function __construct($section, Http\Session $session)
+    {
         $this->session = $session;
         $this->section = $section;
         $this->sessionSection = $session->getSection($section);
     }
 
-    public function getEmptyClone($section) {
+    public function getEmptyClone($section)
+    {
         return new self($section, $this->session);
     }
 
@@ -68,7 +70,8 @@ class Session implements ISession
     /**
      * @return Http\SessionSection
      */
-    public function getSection() {
+    public function getSection()
+    {
         return $this->sessionSection;
     }
 
