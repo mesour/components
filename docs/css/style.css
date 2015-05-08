@@ -21,6 +21,16 @@ footer {
 .anchor{
     padding-top: 25px;
 }
+.demo{
+    display: block;
+    padding: 15px;
+    margin: 0 0 10px;
+    font-size: 13px;
+    line-height: 1.42857143;
+    color: #333;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
 
 /*
  * Off Canvas
