@@ -9,5 +9,6 @@ $(document).ready(function () {
         nav.append('<li><a href="#'+id+'">'+$(this).next('h1,h2,h3,h4').text()+'</a></li>');
     });
     $('body').scrollspy({ target: '#sidebar' });
+    $('.navbar-brand').text('Mesour\\Components');
 });
 
