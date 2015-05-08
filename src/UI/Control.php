@@ -51,7 +51,7 @@ abstract class Control extends Component
      */
     private $auth = NULL;
 
-    private $resource = FALSE;
+    private $resource = NULL;
 
     /**
      * @var ISession|null
@@ -70,7 +70,7 @@ abstract class Control extends Component
 
     public function setResource($resource)
     {
-        if (!is_string($resource) || !is_null($resource)) {
+        if (!is_string($resource) && !is_null($resource)) {
             throw new InvalidArgumentException('Resource must be string or NULL. ' . gettype($resource) . ' given.');
         }
         $this->resource = $resource;
@@ -177,7 +177,7 @@ abstract class Control extends Component
                 )
             );
         $this->auth->setResource($this->resource);
-        return ;
+        return $this->auth;
     }
 
 }

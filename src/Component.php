@@ -12,7 +12,7 @@ namespace Mesour\Components;
  * @author mesour <matous.nemec@mesour.com>
  * @package Mesour Components
  */
-abstract class Component implements IComponent, IObserver
+abstract class Component extends Events implements IComponent, IObserver
 {
 
     private $name;

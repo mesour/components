@@ -22,7 +22,7 @@ class Auth implements IAuth
 
     public function setResource($resource)
     {
-        if (!is_string($resource) || !is_null($resource)) {
+        if (!is_string($resource) && !is_null($resource)) {
             throw new InvalidArgumentException('Resource must be string or NULL. ' . gettype($resource) . ' given.');
         }
         $this->resource = $resource;

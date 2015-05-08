@@ -49,6 +49,30 @@ class Url implements IUrl
         return $this->destination . (strpos($this->destination, '?') !== FALSE ? '&' : '?') . $query;
     }
 
+    /**
+     * @return ILink
+     */
+    public function getLink()
+    {
+        return $this->link;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDestination()
+    {
+        return $this->destination;
+    }
+
+    /**
+     * @return array
+     */
+    public function getArguments()
+    {
+        return $this->args;
+    }
+
     public function __toString()
     {
         return $this->create();

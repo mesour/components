@@ -19,6 +19,21 @@ interface IUrl
 
     public function create($data = array());
 
+    /**
+     * @return ILink
+     */
+    public function getLink();
+
+    /**
+     * @return string
+     */
+    public function getDestination();
+
+    /**
+     * @return array
+     */
+    public function getArguments();
+
     public function __toString();
 
 }
