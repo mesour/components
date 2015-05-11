@@ -90,10 +90,13 @@ abstract class Component extends Events implements IComponent, IObserver
         $this->parent = NULL;
     }
 
-    public function addComponent(IComponent $component)
+    public function addComponent(IComponent $component, $name = NULL)
     {
         /** @var self $component */
-        $name = $component->getName();
+        $name = is_null($name) ? $component->getName() : $name;
+        if (!is_string($name)) {
+            throw new InvalidArgumentException('Component name must be string.');
+        }
         if ($this->container->hasComponent($name)) {
             throw new InvalidArgumentException('Component with name ' . $name . ' is already exists.');
         }
@@ -116,7 +119,6 @@ abstract class Component extends Events implements IComponent, IObserver
     public function offsetSet($offset, $value)
     {
         if ($value instanceof IComponent) {
-            $value->setName($offset);
             $this->addComponent($value, $offset);
         } else {
             throw new InvalidArgumentException('Component must be instance of IComponent.');

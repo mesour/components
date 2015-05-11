@@ -28,7 +28,7 @@ interface IComponent extends \ArrayAccess
 
     public function isAttached();
 
-    public function addComponent(IComponent $component);
+    public function addComponent(IComponent $component, $name = NULL);
 
     public function removeComponent($name);
 
