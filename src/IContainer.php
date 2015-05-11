@@ -12,7 +12,7 @@ namespace Mesour\Components;
  * @author mesour <matous.nemec@mesour.com>
  * @package Mesour Components
  */
-interface IContainer
+interface IContainer extends \Iterator, \ArrayAccess, \Countable
 {
 
     public function hasComponent($name);
