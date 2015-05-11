@@ -9,6 +9,7 @@
 namespace Mesour\UI;
 
 use Mesour\Components\Application\Request;
+use Mesour\Components\Application\Url;
 use Mesour\Components\Component;
 use Mesour\Components\Link\ILink;
 use Mesour\Components\Localize\ITranslator;
@@ -28,6 +29,11 @@ class Application extends Component
     private $request;
 
     /**
+     * @var Url
+     */
+    private $url;
+
+    /**
      * @return Request
      */
     public function getRequest()
@@ -35,8 +41,25 @@ class Application extends Component
         return $this->request;
     }
 
-    public function isAjax() {
+    /**
+     * @return Request
+     */
+    public function getUrl()
+    {
+        if(!$this->url) {
+            $this->url = new Url($_SERVER['REQUEST_URI']);
+        }
+        return $this->url;
+    }
+
+    public function isAjax()
+    {
         return $this->request->getHeader('X-Requested-With') === 'XMLHttpRequest';
+    }
+
+    public function createLink($component, $args = array()) {
+        dump($this->getUrl());
+        return '';
     }
 
     public function setRequest(array $request)
