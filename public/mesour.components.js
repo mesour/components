@@ -76,7 +76,15 @@ if (!Array.prototype.indexOf) {
         };
 
         this.redrawCallback = function(r) {
-            console.log(r);
+            var html = $(r.responseText);
+            html.find( "[id^='m_snippet-']").each(function() {
+                var $this = $(this),
+                    id = $this.attr('id'),
+                    el = $('#'+id);
+                if(el.is('*')) {
+                    el.replaceWith($(this));
+                }
+            });
         };
 
     };

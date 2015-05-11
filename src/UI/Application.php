@@ -29,6 +29,8 @@ class Application extends Component
      */
     private $request;
 
+    private $snippet = array();
+
     /**
      * @var Url
      */
@@ -58,9 +60,20 @@ class Application extends Component
         return $this->request->getHeader('X-Requested-With') === 'XMLHttpRequest';
     }
 
-    public function createLink($control, $handle, $args = array())
+    public function createLink(Control $control, $handle, $args = array())
     {
         return $this->getUrl()->create($control, $handle, $args);
+    }
+
+    public function setSnippet($id, Control $control)
+    {
+        $this->snippet[$id] = $control;
+        return $this;
+    }
+
+    public function getSnippets()
+    {
+        return $this->snippet;
     }
 
     public function setRequest(array $request)

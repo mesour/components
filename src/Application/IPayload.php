@@ -15,6 +15,10 @@ namespace Mesour\Components\Application;
 interface IPayload
 {
 
+    public function set($key, $value);
+
+    public function get($key = NULL, $default = NULL);
+
     public function sendPayload();
 
 }

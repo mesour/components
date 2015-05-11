@@ -13,6 +13,7 @@ use Mesour\Components\Application\Payload;
 use Mesour\Components\BadStateException;
 use Mesour\Components\Component;
 use Mesour\Components\Helper;
+use Mesour\Components\Html;
 use Mesour\Components\InvalidArgumentException;
 use Mesour\Components\Link\ILink;
 use Mesour\Components\Link\IUrl;
@@ -29,6 +30,8 @@ use Mesour\Components\Session\ISession;
  */
 abstract class Control extends Component
 {
+
+    const SNIPPET_PREFIX = 'm_snippet-';
 
     /**
      * @var ILink|null
@@ -162,11 +165,6 @@ abstract class Control extends Component
         return $this;
     }
 
-    public function redraw()
-    {
-        dump($this->getPayload());
-    }
-
     /**
      * @param $destination
      * @param array $args
@@ -198,6 +196,13 @@ abstract class Control extends Component
     {
         $this->payload = $payload;
         return $this;
+    }
+
+    public function createSnippet()
+    {
+        $name = self::SNIPPET_PREFIX . $this->createLinkName();
+        //$this->getApplication()->setSnippet($name, $this);
+        return Html::el('div', array('id' => $name));
     }
 
     /**
