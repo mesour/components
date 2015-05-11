@@ -8,11 +8,6 @@
 
 namespace Mesour\Components\Application;
 
-use Mesour\Components\Link\ILink;
-use Mesour\Components\Localize\ITranslator;
-use Mesour\Components\Security\IAuth;
-use Mesour\Components\Session\ISession;
-
 /**
  * @author mesour <matous.nemec@mesour.com>
  * @package Mesour Components
@@ -21,14 +16,24 @@ class Request
 {
 
     private $request;
+    private $headers = array();
 
     public function __construct(array $request)
     {
+        $this->headers = getallheaders();
         $this->request = $request;
     }
 
-    public function get($key, $default = NULL)
+    public function getHeader($name, $default = NULL)
     {
+        return isset($this->headers[$name]) ? $this->headers[$name] : $default;
+    }
+
+    public function get($key = NULL, $default = NULL)
+    {
+        if (is_null($key)) {
+            return $this->request;
+        }
         return isset($this->request[$key]) ? $this->request[$key] : $default;
     }
 

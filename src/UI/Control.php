@@ -8,7 +8,10 @@
 
 namespace Mesour\UI;
 
+use Mesour\Components\BadStateException;
 use Mesour\Components\Component;
+use Mesour\Components\Helper;
+use Mesour\Components\IComponent;
 use Mesour\Components\InvalidArgumentException;
 use Mesour\Components\Link\ILink;
 use Mesour\Components\Link\IUrl;
@@ -68,6 +71,53 @@ abstract class Control extends Component
      */
     private $link;
 
+    public function attached(IComponent $parent)
+    {
+        parent::attached($parent);
+        if ($app = $this->getApplication()) {
+            $do = str_replace('m_', '', $app->getRequest()->get('m_do'));
+            $handles = array();
+            if (is_string($do)) {
+                $handles[] = $do;
+            } elseif (is_array($do)) {
+                $handles = $do;
+            }
+            foreach ($handles as $key => $handle) {
+                if ($this->getReflection()->hasMethod('handle' . $handle) && $this->getName() === $key) {
+                    $request = $app->getRequest()->get('m_' . $key);
+
+                    $method = $this->getReflection()->getMethod('handle' . $handle);
+                    $parameters = $method->getParameters();
+                    $args = array();
+                    foreach ($parameters as $parameter) {
+                        $name = $parameter->getName();
+                        if ($parameter->isDefaultValueAvailable()) {
+                            $default_value = $parameter->getDefaultValue();
+                        }
+                        if (isset($request[$name])) {
+                            if (($parameter->isArray() || (isset($default_value) && is_array($default_value))) && !is_array($request[$name])) {
+                                throw new BadStateException('Invalid request. Argument must be an array. ' . gettype($request[$name]) . '" given.');
+                            }
+                            $value = $request[$name];
+                        } else {
+                            if (isset($default_value)) {
+                                $value = $default_value;
+                            } else {
+                                throw new BadStateException('Invalid request. Required parameter "' . $name . '" doest not exists.');
+                            }
+                        }
+                        $args[] = $value;
+                    }
+                    Helper::invokeArgs(array($this, 'handle' . $handle), $args);
+                } elseif ($this->getName() === $key) {
+                    throw new BadStateException('Invalid request. No handler for "handle' . ucfirst($handle) . '".');
+                } else {
+                    throw new BadStateException('Invalid request. Component "' . $key . '" does not exists.');
+                }
+            }
+        }
+    }
+
     public function setResource($resource)
     {
         if (!is_string($resource) && !is_null($resource)) {
@@ -124,7 +174,7 @@ abstract class Control extends Component
     {
         $parent = $this->getParent();
         if (!$this->session && $parent instanceof self) {
-            if($parent->getSession()) {
+            if ($parent->getSession()) {
                 $this->session = $parent->getSession()->getEmptyClone($this->getFullName());
                 $this->session->loadState();
             }
@@ -136,6 +186,14 @@ abstract class Control extends Component
                 )
             );
         }
+    }
+
+    /**
+     * @return Application
+     */
+    public function getApplication()
+    {
+        return $this->getParent() instanceof Application ? $this->getParent() : ($this->getParent() ? $this->getParent()->getApplication() : null);
     }
 
     public function setTranslator(ITranslator $translator)

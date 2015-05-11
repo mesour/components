@@ -15,19 +15,31 @@ namespace Mesour\Components;
 abstract class Events
 {
 
+    /**
+     * @var \ReflectionClass
+     */
+    private $reflection;
+
+    /**
+     * @return \ReflectionClass
+     */
+    public function getReflection() {
+        if(!$this->reflection) {
+            $this->reflection = new \ReflectionClass($this);
+        }
+        return $this->reflection;
+    }
+
     public function __call($name, $args)
     {
         if (substr($name, 0, 2) === 'on') {
-            if (!isset($this->{$name})) {
+            if (!$this->getReflection()->hasProperty($name)) {
                 throw new InvalidArgumentException('Property ' . $name . ' is not defined.');
             } elseif (!is_array($this->{$name})) {
                 throw new InvalidArgumentException('Property ' . $name . ' must be array.');
             } else {
                 foreach ($this->{$name} as $callback) {
-                    if (!is_callable($callback)) {
-                        throw new InvalidArgumentException('Callback for event ' . $name . ' is not callable.');
-                    }
-                    call_user_func_array($callback, $args);
+                    Helper::invokeArgs($callback, $args);
                 }
             }
         } else {

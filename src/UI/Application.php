@@ -22,34 +22,56 @@ use Mesour\Components\Session\ISession;
 class Application extends Component
 {
 
+    /**
+     * @var Request
+     */
     private $request;
 
-    public function getRequest() {
+    /**
+     * @return Request
+     */
+    public function getRequest()
+    {
         return $this->request;
     }
 
-    public function setRequest(array $request) {
+    public function isAjax() {
+        return $this->request->getHeader('X-Requested-With') === 'XMLHttpRequest';
+    }
+
+    public function setRequest(array $request)
+    {
         $this->request = new Request($request);
+        return $this;
     }
 
     public function setSession(ISession $session)
     {
         Control::$default_session = $session;
+        return $this;
     }
 
     public function setLink(ILink $link)
     {
         Control::$default_link = $link;
+        return $this;
     }
 
     public function setTranslator(ITranslator $translator)
     {
         Control::$default_translator = $translator;
+        return $this;
     }
 
     public function setAuth(IAuth $auth)
     {
         Control::$default_auth = $auth;
+        return $this;
+    }
+
+    public function run()
+    {
+
     }
 
 }
