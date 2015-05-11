@@ -58,24 +58,38 @@ class Container implements IContainer
         return $this->components[$name];
     }
 
+    /**
+     * @return IComponent
+     */
     public function rewind()
     {
-        $this->position = 0;
+        reset($this->components);
     }
 
+    /**
+     * @return IComponent
+     */
     public function current()
     {
-        return $this->components[$this->position];
+        $var = current($this->components);
+        return $var;
     }
 
+    /**
+     * @return int
+     */
     public function key()
     {
-        return $this->position;
+        return key($this->components);
     }
 
+    /**
+     * @return IComponent
+     */
     public function next()
     {
-        ++$this->position;
+        $var = next($this->components);
+        return $var;
     }
 
     public function valid()
