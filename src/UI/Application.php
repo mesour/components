@@ -8,6 +8,7 @@
 
 namespace Mesour\UI;
 
+use Mesour\Components\Application\Request;
 use Mesour\Components\Component;
 use Mesour\Components\Link\ILink;
 use Mesour\Components\Localize\ITranslator;
@@ -20,6 +21,16 @@ use Mesour\Components\Session\ISession;
  */
 class Application extends Component
 {
+
+    private $request;
+
+    public function getRequest() {
+        return $this->request;
+    }
+
+    public function setRequest(array $request) {
+        $this->request = new Request($request);
+    }
 
     public function setSession(ISession $session)
     {
