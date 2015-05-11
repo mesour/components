@@ -8,6 +8,7 @@
 
 namespace Mesour\UI;
 
+use Mesour\Components\Application\IPayload;
 use Mesour\Components\Application\Request;
 use Mesour\Components\Application\Url;
 use Mesour\Components\Component;
@@ -42,11 +43,11 @@ class Application extends Component
     }
 
     /**
-     * @return Request
+     * @return Url
      */
     public function getUrl()
     {
-        if(!$this->url) {
+        if (!$this->url) {
             $this->url = new Url($_SERVER['REQUEST_URI']);
         }
         return $this->url;
@@ -57,9 +58,9 @@ class Application extends Component
         return $this->request->getHeader('X-Requested-With') === 'XMLHttpRequest';
     }
 
-    public function createLink($component, $args = array()) {
-        dump($this->getUrl());
-        return '';
+    public function createLink($control, $handle, $args = array())
+    {
+        return $this->getUrl()->create($control, $handle, $args);
     }
 
     public function setRequest(array $request)
@@ -71,6 +72,12 @@ class Application extends Component
     public function setSession(ISession $session)
     {
         Control::$default_session = $session;
+        return $this;
+    }
+
+    public function setPayload(IPayload $payload)
+    {
+        Control::$default_payload = $payload;
         return $this;
     }
 

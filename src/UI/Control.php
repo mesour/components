@@ -8,10 +8,11 @@
 
 namespace Mesour\UI;
 
+use Mesour\Components\Application\IPayload;
+use Mesour\Components\Application\Payload;
 use Mesour\Components\BadStateException;
 use Mesour\Components\Component;
 use Mesour\Components\Helper;
-use Mesour\Components\IComponent;
 use Mesour\Components\InvalidArgumentException;
 use Mesour\Components\Link\ILink;
 use Mesour\Components\Link\IUrl;
@@ -33,6 +34,11 @@ abstract class Control extends Component
      * @var ILink|null
      */
     static public $default_link = NULL;
+    /**
+     *
+     * @var IPayload|null
+     */
+    static public $default_payload = NULL;
 
     /**
      * @var ISession|null
@@ -62,6 +68,11 @@ abstract class Control extends Component
     private $session = NULL;
 
     /**
+     * @var IPayload
+     */
+    private $payload = NULL;
+
+    /**
      * @var ITranslator|null
      */
     private $translator = NULL;
@@ -71,51 +82,69 @@ abstract class Control extends Component
      */
     private $link;
 
-    public function attached(IComponent $parent)
+    protected function beforeRender()
     {
-        parent::attached($parent);
         if ($app = $this->getApplication()) {
             $do = str_replace('m_', '', $app->getRequest()->get('m_do'));
-            $handles = array();
-            if (is_string($do)) {
-                $handles[] = $do;
-            } elseif (is_array($do)) {
-                $handles = $do;
-            }
-            foreach ($handles as $key => $handle) {
-                if ($this->getReflection()->hasMethod('handle' . $handle) && $this->getName() === $key) {
-                    $request = $app->getRequest()->get('m_' . $key);
-
-                    $method = $this->getReflection()->getMethod('handle' . $handle);
-                    $parameters = $method->getParameters();
-                    $args = array();
-                    foreach ($parameters as $parameter) {
-                        $name = $parameter->getName();
-                        if ($parameter->isDefaultValueAvailable()) {
-                            $default_value = $parameter->getDefaultValue();
+            if (strlen($do) > 0) {
+                $exploded = explode('-', $do);
+                $current = NULL;
+                $x = 0;
+                $handle = NULL;
+                foreach ($exploded as $item) {
+                    if ($x === 0) {
+                        $current = $app[$item];
+                    } elseif ($x < count($exploded)) {
+                        if (!isset($current[$item])) {
+                            $handle = $item;
+                            break;
                         }
-                        if (isset($request[$name])) {
-                            if (($parameter->isArray() || (isset($default_value) && is_array($default_value))) && !is_array($request[$name])) {
-                                throw new BadStateException('Invalid request. Argument must be an array. ' . gettype($request[$name]) . '" given.');
-                            }
-                            $value = $request[$name];
-                        } else {
-                            if (isset($default_value)) {
-                                $value = $default_value;
-                            } else {
-                                throw new BadStateException('Invalid request. Required parameter "' . $name . '" doest not exists.');
-                            }
-                        }
-                        $args[] = $value;
+                        $current = $current[$item];
                     }
-                    Helper::invokeArgs(array($this, 'handle' . $handle), $args);
-                } elseif ($this->getName() === $key) {
-                    throw new BadStateException('Invalid request. No handler for "handle' . ucfirst($handle) . '".');
-                } else {
-                    throw new BadStateException('Invalid request. Component "' . $key . '" does not exists.');
+                    $x++;
+                }
+                if ($handle) {
+                    if ($current && $current->getReflection()->hasMethod('handle' . $handle) && $this === $current) {
+                        $method = $this->getReflection()->getMethod('handle' . $handle);
+                        $parameters = $method->getParameters();
+                        $args = array();
+                        foreach ($parameters as $parameter) {
+                            $name = $parameter->getName();
+                            if ($parameter->isDefaultValueAvailable()) {
+                                $default_value = $parameter->getDefaultValue();
+                            }
+                            $parsed_name = $current->createLinkName() . '-' . $name;
+                            if (!is_null($_value = $app->getRequest()->get('m_' . $parsed_name))) {
+                                if (($parameter->isArray() || (isset($default_value) && is_array($default_value))) && !is_array($_value)) {
+                                    throw new BadStateException('Invalid request. Argument must be an array. ' . gettype($_value) . '" given.');
+                                }
+                                $value = $_value;
+                            } else {
+                                if (isset($default_value)) {
+                                    $value = $default_value;
+                                } else {
+                                    throw new BadStateException('Invalid request. Required parameter "' . $parsed_name . '" doest not exists.');
+                                }
+                            }
+                            $args[] = $value;
+                        }
+                        Helper::invokeArgs(array($this, 'handle' . $handle), $args);
+                    } elseif ($this === $current) {
+                        throw new BadStateException('Invalid request. No handler for "handle' . ucfirst($handle) . '".');
+                    }
                 }
             }
         }
+    }
+
+    public function createLink($handle, $args = array())
+    {
+        return $this->getApplication()->createLink($this, $handle, $args);
+    }
+
+    public function createLinkName()
+    {
+        return $this->getParent() instanceof self ? $this->getParent()->createLinkName() . '-' . $this->getName() : $this->getName();
     }
 
     public function setResource($resource)
@@ -131,6 +160,11 @@ abstract class Control extends Component
     {
         $this->link = $link;
         return $this;
+    }
+
+    public function redraw()
+    {
+        dump($this->getPayload());
     }
 
     /**
@@ -156,6 +190,27 @@ abstract class Control extends Component
                 : (self::$default_link
                     ? self::$default_link
                     : (self::$default_link = new Link)
+                )
+            );
+    }
+
+    public function setPayload(IPayload $payload)
+    {
+        $this->payload = $payload;
+        return $this;
+    }
+
+    /**
+     * @return IPayload
+     */
+    public function getPayload()
+    {
+        $parent = $this->getParent();
+        return !$this->payload && $parent instanceof self
+            ? $parent->getPayload()
+            : ($this->payload
+                ? $this->payload
+                : (self::$default_payload ? self::$default_payload : (self::$default_payload = new Payload)
                 )
             );
     }
@@ -225,6 +280,7 @@ abstract class Control extends Component
 
     public function create()
     {
+        $this->beforeRender();
         return '';
     }
 

@@ -20,8 +20,6 @@ class Container implements IContainer
      */
     protected $components = array();
 
-    private $position = 0;
-
     public function attach(IComponent $component)
     {
         return $this->components[$component->getName()] = $component;
