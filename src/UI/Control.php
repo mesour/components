@@ -125,8 +125,10 @@ abstract class Control extends Component
     {
         $parent = $this->getParent();
         if (!$this->session && $parent instanceof self) {
-            $this->session = $parent->getSession()->getEmptyClone($this->getFullName());
-            $this->session->loadState();
+            if($parent->getSession()) {
+                $this->session = $parent->getSession()->getEmptyClone($this->getFullName());
+                $this->session->loadState();
+            }
             return $this->session;
         } else {
             return ($this->session
