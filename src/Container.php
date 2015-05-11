@@ -94,7 +94,8 @@ class Container implements IContainer
 
     public function valid()
     {
-        return isset($this->components[$this->position]);
+        $key = key($this->components);
+        return ($key !== NULL && $key !== FALSE);
     }
 
     /**
