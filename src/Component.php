@@ -115,7 +115,7 @@ abstract class Component extends Events implements IComponent, IObserver
 
     public function offsetSet($offset, $value)
     {
-        if($value instanceof IComponent) {
+        if ($value instanceof IComponent) {
             $value->setName($offset);
             $this->addComponent($value, $offset);
         } else {

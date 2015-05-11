@@ -7,6 +7,7 @@
  */
 
 namespace Mesour\Components\Security;
+
 use Mesour\Components\Link\IUrl;
 
 /**

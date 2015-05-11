@@ -17,14 +17,14 @@ abstract class Events
 
     public function __call($name, $args)
     {
-        if(substr($name, 0, 2) === 'on') {
-            if(!isset($this->{$name})) {
+        if (substr($name, 0, 2) === 'on') {
+            if (!isset($this->{$name})) {
                 throw new InvalidArgumentException('Property ' . $name . ' is not defined.');
-            } elseif(!is_array($this->{$name})) {
+            } elseif (!is_array($this->{$name})) {
                 throw new InvalidArgumentException('Property ' . $name . ' must be array.');
             } else {
-                foreach($this->{$name} as $callback) {
-                    if(!is_callable($callback)) {
+                foreach ($this->{$name} as $callback) {
+                    if (!is_callable($callback)) {
                         throw new InvalidArgumentException('Callback for event ' . $name . ' is not callable.');
                     }
                     call_user_func_array($callback, $args);

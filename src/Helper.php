@@ -61,4 +61,17 @@ class Helper
         return $attributes;
     }
 
+    static public function checkCallback($callback)
+    {
+        if (!is_callable($callback)) {
+            throw new InvalidArgumentException('Argument is not callable.');
+        }
+    }
+
+    static public function invokeArgs($callback, $args)
+    {
+        self::checkCallback($callback);
+        return call_user_func_array($callback, $args);
+    }
+
 }
