@@ -100,6 +100,7 @@ abstract class Component extends Events implements IComponent, IObserver
         if ($this->container->hasComponent($name)) {
             throw new InvalidArgumentException('Component with name ' . $name . ' is already exists.');
         }
+        $component->setName($name);
         $component->attached($this);
         $this->container->attach($component);
     }
