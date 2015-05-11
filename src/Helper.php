@@ -51,4 +51,14 @@ class Helper
         }
     }
 
+    static public function createAttribute(array & $attributes, $key, $value, $append = FALSE)
+    {
+        if ($append && isset($attributes[$key])) {
+            $attributes[$key] = $attributes[$key] . ' ' . $value;
+        } else {
+            $attributes[$key] = $value;
+        }
+        return $attributes;
+    }
+
 }
