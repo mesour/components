@@ -42,9 +42,9 @@ class Session implements ISession
         $_SESSION[__NAMESPACE__][$this->section][$key] = $val;
     }
 
-    public function get($key)
+    public function get($key, $default = NULL)
     {
-        return $_SESSION[__NAMESPACE__][$this->section][$key];
+        return !isset($_SESSION[__NAMESPACE__][$this->section][$key]) ? $default : $_SESSION[__NAMESPACE__][$this->section][$key];
     }
 
     public function deleteAll()

@@ -9,7 +9,6 @@
 namespace Mesour\UI;
 
 use Mesour\Components\Component;
-use Mesour\Components\IHtmlString;
 use Mesour\Components\InvalidArgumentException;
 use Mesour\Components\Link\ILink;
 use Mesour\Components\Link\IUrl;
