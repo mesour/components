@@ -134,6 +134,7 @@ abstract class Control extends Component
                             $args[] = $value;
                         }
                         Helper::invokeArgs(array($this, 'handle' . $handle), $args);
+                        $this->getSession()->saveState();
                     } elseif ($this === $current) {
                         throw new BadStateException('Invalid request. No handler for "handle' . ucfirst($handle) . '".');
                     }

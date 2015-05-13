@@ -15,9 +15,11 @@ namespace Mesour\Components\Session;
 interface ISessionSection
 {
 
+    public function remove();
+
     public function set($key, $val);
 
-    public function get($key = NULL);
+    public function get($key = NULL, $default = NULL);
 
     public function loadState($data);
 

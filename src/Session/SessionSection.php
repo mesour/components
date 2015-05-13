@@ -30,48 +30,27 @@ class SessionSection implements ISessionSection
         $this->name = $section;
     }
 
-    public function loadState($data) {
+    public function loadState($data)
+    {
         $this->data = $data;
     }
 
     public function set($key, $val)
     {
-        $this->session[$key] = $val;
+        $this->data[$key] = $val;
     }
 
-    public function get($key, $default = NULL)
+    public function get($key = NULL, $default = NULL)
     {
-        return !isset($this->session[$key]) ? $default : $this->session[$key];
-    }
-
-    public function deleteAll()
-    {
-        $_SESSION[__NAMESPACE__] = NULL;
-    }
-
-    public function saveState()
-    {
-        $_SESSION[__NAMESPACE__][$this->section] = $this->session;
-        session_write_close();
-    }
-
-    /**
-     * @return array
-     */
-    public function getSection()
-    {
-        return $this->session;
-    }
-
-    public function __destruct() {
-        $this->saveState();
-    }
-
-    static private function sessionStart()
-    {
-        if (session_id() == '') {
-            session_start();
+        if (is_null($key)) {
+            return $this->data;
         }
+        return !isset($this->data[$key]) ? $default : $this->data[$key];
+    }
+
+    public function remove()
+    {
+        $this->data = array();
     }
 
 }

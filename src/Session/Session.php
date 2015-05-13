@@ -39,7 +39,7 @@ class Session implements ISession
      */
     public function getSection($section)
     {
-        if(!$this->sections[$section]) {
+        if (!$this->sections[$section]) {
             $this->sections[$section] = $session_section = new SessionSection($section);
             $session_section->loadState(isset($this->session[$section]) ? $this->session[$section] : array());
         }
@@ -53,7 +53,7 @@ class Session implements ISession
 
     public function loadState()
     {
-        if(!$this->loaded) {
+        if (!$this->loaded) {
             $this->loaded = TRUE;
             $this->session = isset($_SESSION[__NAMESPACE__]) ? $_SESSION[__NAMESPACE__] : array();
         }
@@ -61,12 +61,13 @@ class Session implements ISession
 
     public function saveState()
     {
-        $_SESSION[__NAMESPACE__] = $this->session;
-        session_write_close();
-    }
+        foreach ($this->sections as $name => $section) {
+            /** @var ISessionSection $section */
+            $data = $section->get();
+            $this->session[$name] = $data;
+        }
 
-    public function __destruct() {
-        $this->saveState();
+        $_SESSION[__NAMESPACE__] = $this->session;
     }
 
     static private function sessionStart()
