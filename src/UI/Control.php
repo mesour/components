@@ -23,6 +23,8 @@ use Mesour\Components\Localize\Translator;
 use Mesour\Components\Security\Auth;
 use Mesour\Components\Security\IAuth;
 use Mesour\Components\Session\ISession;
+use Mesour\Components\Session\ISessionSection;
+use Mesour\Components\Session\Session;
 
 /**
  * @author mesour <matous.nemec@mesour.com>
@@ -223,7 +225,6 @@ abstract class Control extends Component
     public function setSession(ISession $session)
     {
         $this->session = $session;
-        $this->session->loadState();
         return $this;
     }
 
@@ -233,19 +234,13 @@ abstract class Control extends Component
     public function getSession()
     {
         $parent = $this->getParent();
-        if (!$this->session && $parent instanceof self) {
-            if ($parent->getSession()) {
-                $this->session = $parent->getSession()->getEmptyClone($this->getFullName());
-                $this->session->loadState();
-            }
-            return $this->session;
-        } else {
-            return ($this->session
+        return !$this->session && $parent instanceof self
+            ? $parent->getSession()
+            : ($this->session
                 ? $this->session
-                : (self::$default_session ? self::$default_session->getEmptyClone($this->getFullName()) : NULL
+                : (self::$default_session ? self::$default_session : (self::$default_session = new Session)
                 )
             );
-        }
     }
 
     /**

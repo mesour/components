@@ -16,59 +16,57 @@ class Session implements ISession
 {
 
     /**
-     * @var string
+     * @var array
      */
-    private $section;
+    private $sections;
 
     /**
      * @var array
      */
     private $session = array();
 
-    public function __construct($section)
+    private $loaded = FALSE;
+
+    public function __construct()
     {
         self::sessionStart();
         $this->loadState();
-        $this->section = $section;
     }
 
-    public function getEmptyClone($section)
+    /**
+     * @param $section
+     * @return ISessionSection
+     */
+    public function getSection($section)
     {
-        return new self($section);
+        if(!$this->sections[$section]) {
+            $this->sections[$section] = $session_section = new SessionSection($section);
+            $session_section->loadState(isset($this->session[$section]) ? $this->session[$section] : array());
+        }
+        return $this->sections[$section];
     }
 
-    public function set($key, $val)
+    public function remove()
     {
-        $_SESSION[__NAMESPACE__][$this->section][$key] = $val;
-    }
-
-    public function get($key, $default = NULL)
-    {
-        return !isset($_SESSION[__NAMESPACE__][$this->section][$key]) ? $default : $_SESSION[__NAMESPACE__][$this->section][$key];
-    }
-
-    public function deleteAll()
-    {
-        $_SESSION[__NAMESPACE__] = NULL;
+        unset($_SESSION[__NAMESPACE__]);
     }
 
     public function loadState()
     {
-        $this->session = isset($_SESSION[__NAMESPACE__][$this->section]) ? $_SESSION[__NAMESPACE__][$this->section] : array();
+        if(!$this->loaded) {
+            $this->loaded = TRUE;
+            $this->session = isset($_SESSION[__NAMESPACE__]) ? $_SESSION[__NAMESPACE__] : array();
+        }
     }
 
     public function saveState()
     {
-        $_SESSION[__NAMESPACE__][$this->section] = $this->session;
+        $_SESSION[__NAMESPACE__] = $this->session;
         session_write_close();
     }
 
-    /**
-     * @return array
-     */
-    public function getSection()
-    {
-        return $this->session;
+    public function __destruct() {
+        $this->saveState();
     }
 
     static private function sessionStart()

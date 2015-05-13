@@ -40,7 +40,6 @@ abstract class SessionStatement extends Statement
     public function setSession(ISession $session)
     {
         $this->session = $session;
-        $this->session->loadState();
     }
 
     public function __destruct()

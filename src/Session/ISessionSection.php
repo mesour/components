@@ -12,19 +12,13 @@ namespace Mesour\Components\Session;
  * @author mesour <matous.nemec@mesour.com>
  * @package Mesour Components
  */
-interface ISession
+interface ISessionSection
 {
 
-    /**
-     * @param $section
-     * @return ISessionSection
-     */
-    public function getSection($section);
+    public function set($key, $val);
 
-    public function remove();
+    public function get($key = NULL);
 
-    public function loadState();
-
-    public function saveState();
+    public function loadState($data);
 
 }
