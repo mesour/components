@@ -18,7 +18,7 @@ class Session implements ISession
     /**
      * @var array
      */
-    private $sections;
+    private $sections = array();
 
     /**
      * @var array
