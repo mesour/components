@@ -23,14 +23,13 @@ use Mesour\Components\Localize\Translator;
 use Mesour\Components\Security\Auth;
 use Mesour\Components\Security\IAuth;
 use Mesour\Components\Session\ISession;
-use Mesour\Components\Session\ISessionSection;
 use Mesour\Components\Session\Session;
 
 /**
  * @author mesour <matous.nemec@mesour.com>
  * @package Mesour Components
  */
-abstract class Control extends Component
+class Control extends Component
 {
 
     const SNIPPET_PREFIX = 'm_snippet-';
