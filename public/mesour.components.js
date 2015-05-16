@@ -34,7 +34,7 @@ if (!Array.prototype.indexOf) {
                 var pair = vars[i].split('=');
                 var key = decodeURIComponent(pair[0]),
                     value = decodeURIComponent(pair[1]);
-                if (!full && key.substr(0, 2) === 'm_') {
+                if (!key || (!full && key.substr(0, 2) === 'm_')) {
                     continue;
                 }
                 data[key] = value;
