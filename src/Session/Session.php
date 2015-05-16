@@ -39,7 +39,7 @@ class Session implements ISession
      */
     public function getSection($section)
     {
-        if (!$this->sections[$section]) {
+        if (!isset($this->sections[$section])) {
             $this->sections[$section] = $session_section = new SessionSection($section);
             $session_section->loadState(isset($this->session[$section]) ? $this->session[$section] : array());
         }
