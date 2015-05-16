@@ -60,6 +60,11 @@ class Application extends Component
         return $this->request->getHeader('X-Requested-With') === 'XMLHttpRequest';
     }
 
+    public function isPost()
+    {
+        return $_SERVER['REQUEST_METHOD'] === 'POST';
+    }
+
     public function createLink(Control $control, $handle, $args = array())
     {
         return $this->getUrl()->create($control, $handle, $args);
