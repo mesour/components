@@ -91,4 +91,65 @@ class Helper
         $array_ptr[$last_key] = $value;
     }
 
+    static public function convertDateToJsFormat($php_format)
+    {
+        $symbols = array(
+            // Day
+            'd' => 'DD',
+            'D' => 'ddd',
+            'j' => 'D',
+            'l' => 'dddd',
+            'N' => 'E',
+            'S' => '',
+            'w' => 'e',
+            'z' => 'DDD',
+            // Week
+            'W' => 'W',
+            // Month
+            'F' => 'MMMM',
+            'm' => 'MM',
+            'M' => 'MMM',
+            'n' => 'M',
+            't' => '',
+            // Year
+            'L' => '',
+            'o' => '',
+            'Y' => 'YYYY',
+            'y' => 'YY',
+            // Time
+            'a' => 'a',
+            'A' => 'A',
+            'B' => 'SSS',
+            'g' => 'h',
+            'G' => 'H',
+            'h' => 'hh',
+            'H' => 'HH',
+            'i' => 'mm',
+            's' => 'ss',
+            'u' => ''
+        );
+        $js_format = "";
+        $escaping = false;
+        for ($i = 0; $i < strlen($php_format); $i++) {
+            $char = $php_format[$i];
+            if ($char === '\\') // PHP date format escaping character
+            {
+                $i++;
+                if ($escaping) $js_format .= $php_format[$i];
+                else $js_format .= '\'' . $php_format[$i];
+                $escaping = true;
+            } else {
+                if ($escaping) {
+                    $js_format .= "'";
+                    $escaping = false;
+                }
+                if (isset($symbols[$char]))
+                    $js_format .= $symbols[$char];
+                else
+                    $js_format .= $char;
+            }
+        }
+        return $js_format;
+    }
+
 }
