@@ -55,7 +55,7 @@ if (!Array.prototype.indexOf) {
             return str.join("&");
         };
 
-        this.createLink = function (link, handle, data) {
+        this.createLink = function (link, handle, data, post) {
             var url = window.location.pathname;
             data = !data ? {} : data;
 
@@ -64,15 +64,24 @@ if (!Array.prototype.indexOf) {
                 new_args['m_' + link + '-' + key] = value;
             });
 
-            var args = $.extend({}, this.getQuery(), new_args);
-
+            var args = {};
             args['m_do'] = link + '-' + handle;
-
-            var serialized = this.serialize(args);
-            if (serialized && serialized !== '') {
-                url += '?' + serialized;
+            if(!post) {
+                args = $.extend(args, this.getQuery(), new_args);
+                var serialized = this.serialize(args);
+                if (serialized && serialized !== '') {
+                    url += '?' + serialized;
+                }
+                return url;
+            } else {
+                args['m_do'] = link + '-' + handle;
+                var data = $.extend(this.getQuery(), new_args);
+                var serialized = this.serialize(args);
+                if (serialized && serialized !== '') {
+                    url += '?' + serialized;
+                }
+                return [url, data];
             }
-            return url;
         };
 
         this.redrawCallback = function(r) {
