@@ -86,7 +86,7 @@ class Control extends Component
      */
     private $link;
 
-    protected function beforeRender()
+    public function beforeRender()
     {
         if ($app = $this->getApplication()) {
             $do = str_replace('m_', '', $app->getRequest()->get('m_do'));
