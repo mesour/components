@@ -41,6 +41,15 @@ class EventsTest extends \Test\BaseTestCase
         }, 'Mesour\Components\InvalidArgumentException');
     }
 
+    public function testNotDefinedPropertyException()
+    {
+        Assert::exception(function() {
+            $test = new TestComponent();
+
+            $test->triggerNotDefined();
+        }, 'Mesour\Components\InvalidArgumentException');
+    }
+
 }
 
 $test = new EventsTest();

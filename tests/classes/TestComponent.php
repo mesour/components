@@ -50,6 +50,11 @@ class TestComponent extends Container
         $this->onPrivate();
     }
 
+    public function triggerNotDefined()
+    {
+        $this->onNonDefined();
+    }
+
     public function attached(IContainer $parent)
     {
         parent::attached($parent);
