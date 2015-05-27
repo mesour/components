@@ -53,7 +53,7 @@ abstract class BaseControl extends Components\Container implements Components\IS
             /** @var Application $app */
             $do = str_replace('m_', '', $app->getRequest()->get('m_do'));
             if (strlen($do) > 0) {
-                $exploded = explode('-', $do);
+                $exploded = array_filter(explode('-', $do));
                 $current = NULL;
                 $x = 0;
                 $handle = NULL;
