@@ -81,7 +81,7 @@ class Application extends BaseControl implements IApplication
 
     public function setRequest(array $request)
     {
-        if($this->is_running) {
+        if ($this->is_running) {
             throw new BadStateException('Can not set request if application running.');
         }
         $this->request = new Request($request);

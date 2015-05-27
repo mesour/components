@@ -23,7 +23,7 @@ interface ISession
 
     public function hasSection($section);
 
-    public function remove();
+    public function destroy();
 
     public function loadState();
 

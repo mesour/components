@@ -1,0 +1,6 @@
+parameters:
+
+nette:
+
+services:
+    router: Test\TestNetteRouter::createRouter

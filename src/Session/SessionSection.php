@@ -7,6 +7,7 @@
  */
 
 namespace Mesour\Components\Session;
+
 use Mesour\Components\Helper;
 use Mesour\Components\InvalidArgumentException;
 
@@ -38,6 +39,7 @@ class SessionSection implements ISessionSection
     public function loadState($data)
     {
         $this->data = $data;
+        return $this;
     }
 
     public function set($key, $val)
@@ -46,6 +48,7 @@ class SessionSection implements ISessionSection
             throw new InvalidArgumentException('Key must be integer or string, ' . gettype($key) . ' given.');
         }
         $this->data[$key] = $val;
+        return $this;
     }
 
     public function get($key = NULL, $default = NULL)
@@ -59,6 +62,7 @@ class SessionSection implements ISessionSection
     public function remove()
     {
         $this->data = array();
+        return $this;
     }
 
 }

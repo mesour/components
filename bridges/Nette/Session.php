@@ -8,7 +8,10 @@
 
 namespace Mesour\Components\Bridges\Nette;
 
+use Mesour\Components\Helper;
+use Mesour\Components\InvalidArgumentException;
 use Mesour\Components\Session\ISession;
+use Mesour\Components\Session\ISessionSection;
 use Nette\Http;
 
 /**
@@ -23,56 +26,45 @@ class Session implements ISession
      */
     private $session;
 
-    private $section;
+    private $sections = array();
 
-    /**
-     * @var Http\SessionSection
-     */
-    private $sessionSection;
-
-    public function __construct($section, Http\Session $session)
+    public function __construct(Http\Session $session)
     {
         $this->session = $session;
-        $this->section = $section;
-        $this->sessionSection = $session->getSection($section);
     }
 
-    public function getEmptyClone($section)
+    /**
+     * @param $section
+     * @return ISessionSection
+     * @throws InvalidArgumentException
+     */
+    public function getSection($section)
     {
-        return new self($section, $this->session);
+        if (!Helper::validateKeyName($section)) {
+            throw new InvalidArgumentException('SessionSection name must be integer or string, ' . gettype($section) . ' given.');
+        }
+        $this->sections[$section] = $section;
+        return new SessionSection($this->session->getSection($section));
     }
 
-    public function set($key, $val)
+    public function hasSection($section)
     {
-        $this->sessionSection[$key] = $val;
+        return isset($this->sections[$section]);
     }
 
-    public function get($key)
+    public function destroy()
     {
-        return $this->sessionSection[$key];
-    }
-
-    public function deleteAll()
-    {
-        $this->sessionSection->remove();
+        $this->session->destroy();
     }
 
     public function loadState()
     {
-        //do nothing, loaded by Nette session
+
     }
 
     public function saveState()
     {
-        //do nothing, loaded by Nette session
-    }
 
-    /**
-     * @return Http\SessionSection
-     */
-    public function getSection()
-    {
-        return $this->sessionSection;
     }
 
 }

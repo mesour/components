@@ -14,7 +14,7 @@
   },
   "require-dev": {
     "nette/tester": "~1.4",
-    "nette/robot-loader": "~2.3",
+    "nette/nette": "~2.3",
     "tracy/tracy": "~2.3"
   },
   "autoload": {

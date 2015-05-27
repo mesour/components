@@ -49,7 +49,7 @@ class Url
         $link_name = $control->createLinkName();
 
         $new_args = array();
-        foreach($args as $key => $value) {
+        foreach ($args as $key => $value) {
             $new_args['m_' . $link_name . '-' . $key] = $value;
         }
 

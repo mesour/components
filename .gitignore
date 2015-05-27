@@ -5,4 +5,5 @@
 /tests/log
 /tests/Component/output
 /tests/Application/output
+/tests/Bridges/output
 /tests/Control/output

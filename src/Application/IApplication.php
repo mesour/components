@@ -7,6 +7,7 @@
  */
 
 namespace Mesour\Components\Application;
+
 use Mesour\UI\Control;
 
 /**

@@ -58,9 +58,10 @@ class Session implements ISession
         return isset($this->sections[$section]);
     }
 
-    public function remove()
+    public function destroy()
     {
         unset($_SESSION[__NAMESPACE__]);
+        return $this;
     }
 
     public function loadState()
@@ -69,6 +70,7 @@ class Session implements ISession
             $this->loaded = TRUE;
             $this->session = isset($_SESSION[__NAMESPACE__]) ? $_SESSION[__NAMESPACE__] : array();
         }
+        return $this;
     }
 
     public function saveState()
@@ -79,6 +81,7 @@ class Session implements ISession
             $this->session[$name] = $data;
         }
         $_SESSION[__NAMESPACE__] = $this->session;
+        return $this;
     }
 
     static private function sessionStart()

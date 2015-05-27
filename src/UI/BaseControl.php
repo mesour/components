@@ -193,15 +193,15 @@ abstract class BaseControl extends Components\Container implements Components\IS
      */
     public function getApplication($need = TRUE)
     {
-        if($this instanceof Components\Application\IApplication) {
+        if ($this instanceof Components\Application\IApplication) {
             return $this;
         }
         $parent = $this->getParent();
-        if($parent instanceof Components\Application\IApplication) {
+        if ($parent instanceof Components\Application\IApplication) {
             return $parent;
         }
-        if(!$parent) {
-            if($need) {
+        if (!$parent) {
+            if ($need) {
                 throw new BadStateException('Component ' . $this->getName() . ' is not attached to Application.');
             }
             return NULL;
