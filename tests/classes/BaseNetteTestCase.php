@@ -20,6 +20,7 @@ abstract class BaseNetteTestCase extends BaseTestCase
     {
         $this->container = $container;
         $this->session = $container->getByType('Nette\Http\Session');
+        $this->session->start();
     }
 
     /**
