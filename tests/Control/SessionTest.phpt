@@ -32,12 +32,12 @@ class SessionTest extends \Test\BaseTestCase
 
     public function testExceptions()
     {
-        Assert::exception(function() {
+        Assert::exception(function () {
             $session = new \Mesour\Components\Session\Session;
             $session->getSection(array());
         }, 'Mesour\Components\InvalidArgumentException');
 
-        Assert::exception(function() {
+        Assert::exception(function () {
             $session = new \Mesour\Components\Session\Session;
             $test = $session->getSection('test');
 

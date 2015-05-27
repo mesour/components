@@ -13,7 +13,7 @@ class EventsTest extends \Test\BaseTestCase
     public function testCall()
     {
         $test = new TestComponent();
-        $test->onTest[] = function($component) use($test) {
+        $test->onTest[] = function ($component) use ($test) {
             Assert::same($test, $component);
             $this->called = TRUE;
         };
@@ -25,7 +25,7 @@ class EventsTest extends \Test\BaseTestCase
 
     public function testNotArrayPropertyException()
     {
-        Assert::exception(function() {
+        Assert::exception(function () {
             $test = new TestComponent();
 
             $test->triggerNotArray();
@@ -34,7 +34,7 @@ class EventsTest extends \Test\BaseTestCase
 
     public function testPrivatePropertyException()
     {
-        Assert::exception(function() {
+        Assert::exception(function () {
             $test = new TestComponent();
 
             $test->triggerPrivateProperty();
@@ -43,7 +43,7 @@ class EventsTest extends \Test\BaseTestCase
 
     public function testNotDefinedPropertyException()
     {
-        Assert::exception(function() {
+        Assert::exception(function () {
             $test = new TestComponent();
 
             $test->triggerNotDefined();

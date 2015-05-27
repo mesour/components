@@ -16,7 +16,7 @@ use Mesour\Components;
  *
  * @method Control getParent()
  */
-class Control extends BaseControl implements Components\IString
+class Control extends Components\BaseControl implements Components\IString
 {
 
     const SNIPPET_PREFIX = 'm_snippet-';

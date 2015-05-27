@@ -92,12 +92,12 @@ class ComponentModelTest extends \Test\BaseTestCase
 
         Assert::count(3, $master->getComponents());
 
-        foreach($master->getComponents() as $name => $component) {
+        foreach ($master->getComponents() as $name => $component) {
             Assert::same($name, $component->getName());
             Assert::same($master, $component->getParent());
         }
 
-        foreach($master as $name => $component) {
+        foreach ($master as $name => $component) {
             Assert::same($name, $component->getName());
             Assert::same($master, $component->getParent());
         }

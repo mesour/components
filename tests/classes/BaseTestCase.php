@@ -9,5 +9,4 @@ abstract class BaseTestCase extends \Tester\TestCase
 {
 
 
-
 }

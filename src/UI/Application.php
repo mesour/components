@@ -12,6 +12,7 @@ use Mesour\Components\Application\IApplication;
 use Mesour\Components\Application\Request;
 use Mesour\Components\Application\Url;
 use Mesour\Components\BadStateException;
+use Mesour\Components\BaseControl;
 
 /**
  * @author mesour <matous.nemec@mesour.com>
@@ -51,6 +52,12 @@ class Application extends BaseControl implements IApplication
             $this->url = new Url(isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : '');
         }
         return $this->url;
+    }
+
+    public function setUrl(Url $url)
+    {
+        $this->url = $url;
+        return $this;
     }
 
     public function isAjax()

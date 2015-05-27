@@ -28,12 +28,12 @@ class PayloadTest extends \Test\BaseTestCase
 
     public function testExceptions()
     {
-        Assert::exception(function() {
+        Assert::exception(function () {
             $session = new \Mesour\Components\Session\Session;
             $session->getSection(array());
         }, 'Mesour\Components\InvalidArgumentException');
 
-        Assert::exception(function() {
+        Assert::exception(function () {
             $payload = new \Mesour\Components\Application\Payload;
 
             $payload->set(array(), TRUE);

@@ -26,6 +26,8 @@ interface IApplication
      */
     public function getUrl();
 
+    public function setUrl(Url $url);
+
     public function isAjax();
 
     public function isPost();

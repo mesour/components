@@ -10,15 +10,15 @@ class ComponentModelTest_Exception extends \Test\BaseTestCase
 
     public function testSetName()
     {
-        Assert::exception(function() {
+        Assert::exception(function () {
             new TestComponent('non-alphanumeric');
         }, 'Mesour\Components\InvalidArgumentException');
 
-        Assert::exception(function() {
+        Assert::exception(function () {
             new TestComponent(array());
         }, 'Mesour\Components\InvalidArgumentException');
 
-        Assert::exception(function() {
+        Assert::exception(function () {
             $test2 = new TestComponent();
             $test2->setName(array());
         }, 'Mesour\Components\InvalidArgumentException');
@@ -26,7 +26,7 @@ class ComponentModelTest_Exception extends \Test\BaseTestCase
 
     public function testAddComponent()
     {
-        Assert::exception(function() {
+        Assert::exception(function () {
             $master = new TestComponent();
             $children = new TestComponent();
 
@@ -36,7 +36,7 @@ class ComponentModelTest_Exception extends \Test\BaseTestCase
 
     public function testGetComponent()
     {
-        Assert::exception(function() {
+        Assert::exception(function () {
             $master = new TestComponent();
             $master->getComponent('not_exist_component');
         }, 'Mesour\Components\InvalidArgumentException');
@@ -44,12 +44,12 @@ class ComponentModelTest_Exception extends \Test\BaseTestCase
 
     public function testRemoveComponent()
     {
-        Assert::exception(function() {
+        Assert::exception(function () {
             $master = new TestComponent();
             $master->removeComponent(array());
         }, 'Mesour\Components\InvalidArgumentException');
 
-        Assert::exception(function() {
+        Assert::exception(function () {
             $master = new TestComponent();
             $master->removeComponent('not_exist_component');
         }, 'Mesour\Components\InvalidArgumentException');

@@ -6,10 +6,10 @@
  * @copyright (c) 2015 Matous Nemec <matous.nemec@mesour.com>
  */
 
-namespace Mesour\UI;
+namespace Mesour\Components;
 
-use Mesour\Components\BadStateException;
-use Mesour\Components;
+use Mesour\Components\Application;
+use Mesour\UI\Control;
 
 /**
  * @author mesour <matous.nemec@mesour.com>
@@ -17,40 +17,40 @@ use Mesour\Components;
  *
  * @method Control getParent()
  */
-abstract class BaseControl extends Components\Container implements Components\IString
+abstract class BaseControl extends Container implements IString
 {
 
     const SNIPPET_PREFIX = 'm_snippet-';
 
     /**
-     * @var Components\Security\IAuth|null
+     * @var Security\IAuth|null
      */
     private $auth = NULL;
 
     /**
-     * @var Components\Session\ISession|null
+     * @var Session\ISession|null
      */
     private $session = NULL;
 
     /**
-     * @var Components\Application\IPayload
+     * @var Application\IPayload
      */
     private $payload = NULL;
 
     /**
-     * @var Components\Localize\ITranslator|null
+     * @var Localize\ITranslator|null
      */
     private $translator = NULL;
 
     /**
-     * @var Components\Link\ILink|null
+     * @var Link\ILink|null
      */
     private $link;
 
     public function beforeRender()
     {
         if ($app = $this->getApplication(FALSE)) {
-            /** @var Application $app */
+            /** @var \Mesour\UI\Application $app */
             $do = str_replace('m_', '', $app->getRequest()->get('m_do'));
             if (strlen($do) > 0) {
                 $exploded = array_filter(explode('-', $do));
@@ -69,6 +69,7 @@ abstract class BaseControl extends Components\Container implements Components\IS
                     }
                     $x++;
                 }
+
                 if ($handle) {
                     /** @var Control $current */
                     if ($current && $current->getReflection()->hasMethod('handle' . $handle) && $this === $current) {
@@ -95,7 +96,7 @@ abstract class BaseControl extends Components\Container implements Components\IS
                             }
                             $args[] = $value;
                         }
-                        Components\Helper::invokeArgs(array($this, 'handle' . $handle), $args);
+                        Helper::invokeArgs(array($this, 'handle' . $handle), $args);
                         $this->getSession()->saveState();
                     } elseif ($this === $current) {
                         throw new BadStateException('Invalid request. No handler for "handle' . ucfirst($handle) . '".');
@@ -110,7 +111,7 @@ abstract class BaseControl extends Components\Container implements Components\IS
         return $this->getParent() instanceof self ? $this->getParent()->createLinkName() . '-' . $this->getName() : $this->getName();
     }
 
-    public function setLink(Components\Link\ILink $link)
+    public function setLink(Link\ILink $link)
     {
         $this->link = $link;
         return $this;
@@ -119,7 +120,7 @@ abstract class BaseControl extends Components\Container implements Components\IS
     /**
      * @param $destination
      * @param array $args
-     * @return Components\Link\IUrl
+     * @return Link\IUrl
      */
     public function link($destination, $args = array())
     {
@@ -127,7 +128,7 @@ abstract class BaseControl extends Components\Container implements Components\IS
     }
 
     /**
-     * @return Components\Link\ILink
+     * @return Link\ILink
      */
     public function getLink()
     {
@@ -136,20 +137,20 @@ abstract class BaseControl extends Components\Container implements Components\IS
             if ($parent instanceof self) {
                 return $parent->getLink();
             } else {
-                return $this->link = new Components\Link\Link;
+                return $this->link = new Link\Link;
             }
         }
         return $this->link;
     }
 
-    public function setPayload(Components\Application\IPayload $payload)
+    public function setPayload(Application\IPayload $payload)
     {
         $this->payload = $payload;
         return $this;
     }
 
     /**
-     * @return Components\Application\IPayload
+     * @return Application\IPayload
      */
     public function getPayload()
     {
@@ -158,20 +159,20 @@ abstract class BaseControl extends Components\Container implements Components\IS
             if ($parent instanceof self) {
                 return $parent->getPayload();
             } else {
-                return $this->payload = new Components\Application\Payload;
+                return $this->payload = new Application\Payload;
             }
         }
         return $this->payload;
     }
 
-    public function setSession(Components\Session\ISession $session)
+    public function setSession(Session\ISession $session)
     {
         $this->session = $session;
         return $this;
     }
 
     /**
-     * @return Components\Session\ISession
+     * @return Session\ISession
      */
     public function getSession()
     {
@@ -180,7 +181,7 @@ abstract class BaseControl extends Components\Container implements Components\IS
             if ($parent instanceof self) {
                 return $parent->getSession();
             } else {
-                return $this->session = new Components\Session\Session;
+                return $this->session = new Session\Session;
             }
         }
         return $this->session;
@@ -188,16 +189,16 @@ abstract class BaseControl extends Components\Container implements Components\IS
 
     /**
      * @param bool $need
-     * @return Components\Application\IApplication|null
+     * @return Application\IApplication|null
      * @throws BadStateException
      */
     public function getApplication($need = TRUE)
     {
-        if ($this instanceof Components\Application\IApplication) {
+        if ($this instanceof Application\IApplication) {
             return $this;
         }
         $parent = $this->getParent();
-        if ($parent instanceof Components\Application\IApplication) {
+        if ($parent instanceof Application\IApplication) {
             return $parent;
         }
         if (!$parent) {
@@ -210,14 +211,14 @@ abstract class BaseControl extends Components\Container implements Components\IS
         }
     }
 
-    public function setTranslator(Components\Localize\ITranslator $translator)
+    public function setTranslator(Localize\ITranslator $translator)
     {
         $this->translator = $translator;
         return $this;
     }
 
     /**
-     * @return Components\Localize\ITranslator
+     * @return Localize\ITranslator
      */
     public function getTranslator()
     {
@@ -226,13 +227,13 @@ abstract class BaseControl extends Components\Container implements Components\IS
             if ($parent instanceof self) {
                 return $parent->getTranslator();
             } else {
-                return $this->translator = new Components\Localize\Translator;
+                return $this->translator = new Localize\Translator;
             }
         }
         return $this->translator;
     }
 
-    public function setAuth(Components\Security\IAuth $auth)
+    public function setAuth(Security\IAuth $auth)
     {
         $this->auth = $auth;
         return $this;
@@ -242,7 +243,7 @@ abstract class BaseControl extends Components\Container implements Components\IS
     {
         $name = self::SNIPPET_PREFIX . $this->createLinkName();
         //$this->getApplication()->setSnippet($name, $this);
-        return Components\Html::el('div', array('id' => $name));
+        return Html::el('div', array('id' => $name));
     }
 
     public function create()
@@ -260,7 +261,7 @@ abstract class BaseControl extends Components\Container implements Components\IS
     }
 
     /**
-     * @return Components\Security\IAuth
+     * @return Security\IAuth
      */
     public function getAuth()
     {
@@ -269,7 +270,7 @@ abstract class BaseControl extends Components\Container implements Components\IS
             if ($parent instanceof self) {
                 return $parent->getAuth();
             } else {
-                return $this->auth = new Components\Security\Auth;
+                return $this->auth = new Security\Auth;
             }
         }
         return $this->auth;

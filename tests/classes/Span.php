@@ -26,6 +26,8 @@ class Span extends Control
 
     private $text = 'Default content';
 
+    private $handleCalled = FALSE;
+
     /**
      * @return Html
      */
@@ -40,13 +42,37 @@ class Span extends Control
         return $this;
     }
 
-    public function create() {
+    public function create()
+    {
         parent::create();
 
         $wrapper = $this->getControlPrototype();
         $wrapper->setText($this->text);
 
         return $wrapper;
+    }
+
+    public function handleChange($page)
+    {
+        $this->handleCalled = TRUE;
+        Assert::same($page, '2');
+    }
+
+    public function handleChangeArray($page = array())
+    {
+        $this->handleCalled = TRUE;
+        Assert::same($page, \HandlesTest::$testArr);
+    }
+
+    public function handleChangeArrayRequired(array $page)
+    {
+        $this->handleCalled = TRUE;
+        Assert::same($page, \HandlesTest::$testArr);
+    }
+
+    public function assertHandleCalled()
+    {
+        Assert::true($this->handleCalled);
     }
 
 }
