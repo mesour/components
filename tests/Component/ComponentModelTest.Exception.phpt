@@ -11,6 +11,10 @@ class ComponentModelTest_Exception extends \Test\BaseTestCase
     public function testSetName()
     {
         Assert::exception(function() {
+            new TestComponent('non-alphanumeric');
+        }, 'Mesour\Components\InvalidArgumentException');
+
+        Assert::exception(function() {
             new TestComponent(array());
         }, 'Mesour\Components\InvalidArgumentException');
 
