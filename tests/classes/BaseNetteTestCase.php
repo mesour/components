@@ -3,20 +3,20 @@
 namespace Test;
 
 use Nette\Application\UI\Presenter;
-use Nette\Application\UI\PresenterComponent;
 use Tester\Assert;
+use Nette\DI\Container;
 
 abstract class BaseNetteTestCase extends BaseTestCase
 {
 
-    /** @var \Nette\DI\Container */
+    /** @var Container */
     private $container;
 
     /** @var \Nette\Http\Session */
 
     private $session;
 
-    public function __construct(\Nette\DI\Container $container)
+    public function __construct(Container $container)
     {
         $this->container = $container;
         $this->session = $container->getByType('Nette\Http\Session');
