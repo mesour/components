@@ -23,6 +23,36 @@ class Helper
         throw new StaticClassException;
     }
 
+    /**
+     * @param $name
+     * @return bool
+     */
+    static public function validateKeyName($name)
+    {
+        return is_string($name) || is_int($name);
+    }
+
+    /**
+     * @param $name
+     * @param bool $need
+     * @return bool
+     * @throws InvalidArgumentException
+     */
+    static public function validateComponentName($name, $need = TRUE)
+    {
+        $valid = TRUE;
+
+        if (!self::validateKeyName($name) || !preg_match('/^[A-Za-z0-9_]+$/', $name)) {
+            $valid = FALSE;
+        }
+
+        if ($need && !$valid) {
+            throw new InvalidArgumentException('Component name must be integer or alphanumeric string, ' . gettype($name) . ' given.');
+        }
+
+        return $valid;
+    }
+
     static public function matchAll($subject, $pattern, $flags = 0, $offset = 0)
     {
         if ($offset > strlen($subject)) {
@@ -87,7 +117,6 @@ class Helper
             }
             $array_ptr = &$array_ptr[$arr_key];
         }
-
         $array_ptr[$last_key] = $value;
     }
 

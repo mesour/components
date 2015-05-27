@@ -23,8 +23,9 @@ abstract class Events
     /**
      * @return \ReflectionClass
      */
-    public function getReflection() {
-        if(!$this->reflection) {
+    public function getReflection()
+    {
+        if (!$this->reflection) {
             $this->reflection = new \ReflectionClass($this);
         }
         return $this->reflection;
@@ -35,6 +36,8 @@ abstract class Events
         if (substr($name, 0, 2) === 'on') {
             if (!$this->getReflection()->hasProperty($name)) {
                 throw new InvalidArgumentException('Property ' . $name . ' is not defined.');
+            } elseif ($this->getReflection()->getProperty($name)->isPrivate()) {
+                throw new InvalidArgumentException('Property ' . $name . ' must not be private.');
             } elseif (!is_array($this->{$name})) {
                 throw new InvalidArgumentException('Property ' . $name . ' must be array.');
             } else {

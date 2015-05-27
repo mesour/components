@@ -8,20 +8,16 @@
 
 namespace Mesour\UI;
 
-use Mesour\Components\Application\IPayload;
+use Mesour\Components\Application\IApplication;
 use Mesour\Components\Application\Request;
 use Mesour\Components\Application\Url;
-use Mesour\Components\Component;
-use Mesour\Components\Link\ILink;
-use Mesour\Components\Localize\ITranslator;
-use Mesour\Components\Security\IAuth;
-use Mesour\Components\Session\ISession;
+use Mesour\Components\BadStateException;
 
 /**
  * @author mesour <matous.nemec@mesour.com>
  * @package Mesour Components
  */
-class Application extends Component
+class Application extends BaseControl implements IApplication
 {
 
     /**
@@ -35,6 +31,8 @@ class Application extends Component
      * @var Url
      */
     private $url;
+
+    private $is_running = FALSE;
 
     /**
      * @return Request
@@ -50,7 +48,7 @@ class Application extends Component
     public function getUrl()
     {
         if (!$this->url) {
-            $this->url = new Url($_SERVER['REQUEST_URI']);
+            $this->url = new Url(isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : '');
         }
         return $this->url;
     }
@@ -83,43 +81,19 @@ class Application extends Component
 
     public function setRequest(array $request)
     {
+        if($this->is_running) {
+            throw new BadStateException('Can not set request if application running.');
+        }
         $this->request = new Request($request);
-        return $this;
-    }
-
-    public function setSession(ISession $session)
-    {
-        Control::$default_session = $session;
-        return $this;
-    }
-
-    public function setPayload(IPayload $payload)
-    {
-        Control::$default_payload = $payload;
-        return $this;
-    }
-
-    public function setLink(ILink $link)
-    {
-        Control::$default_link = $link;
-        return $this;
-    }
-
-    public function setTranslator(ITranslator $translator)
-    {
-        Control::$default_translator = $translator;
-        return $this;
-    }
-
-    public function setAuth(IAuth $auth)
-    {
-        Control::$default_auth = $auth;
         return $this;
     }
 
     public function run()
     {
-
+        if ($this->is_running) {
+            throw new BadStateException('Application is running. Can not run again.');
+        }
+        $this->is_running = TRUE;
     }
 
 }

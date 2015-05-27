@@ -12,6 +12,11 @@
     "php": ">=5.4.0",
     "ext-json": "*"
   },
+  "require-dev": {
+    "nette/tester": "~1.4",
+    "nette/robot-loader": "~2.3",
+    "tracy/tracy": "~2.3"
+  },
   "autoload": {
     "classmap": ["src/","bridges/"]
   }

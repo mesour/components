@@ -3,3 +3,6 @@
 /composer.lock
 /tests/tmp
 /tests/log
+/tests/Component/output
+/tests/Application/output
+/tests/Control/output

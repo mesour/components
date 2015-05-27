@@ -21,6 +21,8 @@ interface ISession
      */
     public function getSection($section);
 
+    public function hasSection($section);
+
     public function remove();
 
     public function loadState();

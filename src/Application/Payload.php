@@ -7,6 +7,7 @@
  */
 
 namespace Mesour\Components\Application;
+use Mesour\Components\InvalidArgumentException;
 
 /**
  * @author mesour <matous.nemec@mesour.com>
@@ -32,7 +33,7 @@ class Payload implements IPayload
 
     public function __get($key)
     {
-        $this->get($key);
+        return $this->get($key);
     }
 
     public function __isset($key)
@@ -47,6 +48,9 @@ class Payload implements IPayload
 
     public function set($key, $value)
     {
+        if (!is_string($key)) {
+            throw new InvalidArgumentException('Key must be string. ' . gettype($key) . ' given.');
+        }
         $this->data[$key] = $value;
         return $this;
     }
@@ -55,6 +59,9 @@ class Payload implements IPayload
     {
         if (is_null($key)) {
             return $this->data;
+        }
+        if (!is_string($key)) {
+            throw new InvalidArgumentException('Key must be string. ' . gettype($key) . ' given.');
         }
         return isset($this->data[$key]) ? $this->data[$key] : $default;
     }

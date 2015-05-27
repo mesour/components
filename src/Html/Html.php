@@ -337,7 +337,7 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate
      */
     public function insert($index, $child, $replace = FALSE)
     {
-        if ($child instanceof Html || is_scalar($child)) {
+        if ($child instanceof Html || $child instanceof IString || is_scalar($child)) {
             if ($index === NULL) { // append
                 $this->children[] = $child;
 

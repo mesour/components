@@ -8,6 +8,9 @@
 
 namespace Mesour\Components\Session;
 
+use Mesour\Components\Helper;
+use Mesour\Components\InvalidArgumentException;
+
 /**
  * @author mesour <matous.nemec@mesour.com>
  * @package Mesour Components
@@ -36,14 +39,23 @@ class Session implements ISession
     /**
      * @param $section
      * @return ISessionSection
+     * @throws InvalidArgumentException
      */
     public function getSection($section)
     {
-        if (!isset($this->sections[$section])) {
+        if (!$this->hasSection($section)) {
             $this->sections[$section] = $session_section = new SessionSection($section);
             $session_section->loadState(isset($this->session[$section]) ? $this->session[$section] : array());
         }
         return $this->sections[$section];
+    }
+
+    public function hasSection($section)
+    {
+        if (!Helper::validateKeyName($section)) {
+            throw new InvalidArgumentException('SessionSection name must be integer or string, ' . gettype($section) . ' given.');
+        }
+        return isset($this->sections[$section]);
     }
 
     public function remove()
@@ -66,7 +78,6 @@ class Session implements ISession
             $data = $section->get();
             $this->session[$name] = $data;
         }
-
         $_SESSION[__NAMESPACE__] = $this->session;
     }
 

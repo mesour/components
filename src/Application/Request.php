@@ -16,6 +16,7 @@ class Request
 {
 
     private $request;
+
     private $headers = array();
 
     public function __construct(array $request)

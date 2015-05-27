@@ -12,7 +12,7 @@ namespace Mesour\Components;
  * @author mesour <matous.nemec@mesour.com>
  * @package Mesour Components
  */
-abstract class Component extends Events implements IComponent, IObserver
+abstract class Component extends Events implements IComponent
 {
 
     private $name;
@@ -23,28 +23,21 @@ abstract class Component extends Events implements IComponent, IObserver
     private $parent;
 
     /**
-     * @var IContainer
+     * @param string|null $name
+     * @param IContainer $parent
+     * @throws InvalidArgumentException
      */
-    private $container;
-
-    public function __construct($name = NULL, IComponent $parent = NULL)
+    public function __construct($name = NULL, IContainer $parent = NULL)
     {
-        $this->container = new Container();
-
-        if (is_string($name) || is_null($name)) {
+        if (is_null($name) || Helper::validateComponentName($name, FALSE)) {
             $this->name = $name;
         } else {
-            throw new InvalidArgumentException('Component name must be string.');
+            throw new InvalidArgumentException('Component name must be integer, string or null.');
         }
 
         if (!is_null($parent)) {
             $parent->addComponent($this, $name);
         }
-    }
-
-    public function getContainer()
-    {
-        return $this->container;
     }
 
     /**
@@ -55,12 +48,20 @@ abstract class Component extends Events implements IComponent, IObserver
         return $this->parent;
     }
 
+    /**
+     * @param $name
+     * @return $this
+     */
     public function setName($name)
     {
+        Helper::validateComponentName($name);
         $this->name = $name;
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getName()
     {
         return $this->name;
@@ -75,93 +76,41 @@ abstract class Component extends Events implements IComponent, IObserver
     {
     }
 
-    protected function attached(IComponent $parent)
+    /**
+     * @param IContainer $parent
+     */
+    public function attached(IContainer $parent)
     {
         $this->parent = $parent;
     }
 
-    public function isAttached()
-    {
-        return (bool)$this->parent;
-    }
-
-    protected function detached(IComponent $parent)
+    /**
+     * @param IContainer $parent
+     */
+    public function detached(IContainer $parent)
     {
         $this->parent = NULL;
     }
 
-    public function addComponent(IComponent $component, $name = NULL)
-    {
-        /** @var self $component */
-        $name = is_null($name) ? $component->getName() : $name;
-        if (!is_string($name)) {
-            throw new InvalidArgumentException('Component name must be string.');
-        }
-        if ($this->container->hasComponent($name)) {
-            throw new InvalidArgumentException('Component with name ' . $name . ' is already exists.');
-        }
-        $component->setName($name);
-        $component->attached($this);
-        $this->container->attach($component);
-    }
-
-    public function removeComponent($name)
-    {
-        if (!$this->container->hasComponent($name)) {
-            throw new InvalidArgumentException('Component with name ' . $name . ' does not exists.');
-        }
-        /** @var self $component */
-        $component = $this->container->getComponent($name);
-        $component->detached($this);
-        $this->container->detach($component);
-        return $this;
-    }
-
-    public function offsetSet($offset, $value)
-    {
-        if ($value instanceof IComponent) {
-            $this->addComponent($value, $offset);
-        } else {
-            throw new InvalidArgumentException('Component must be instance of IComponent.');
-        }
-    }
-
-    public function offsetExists($offset)
-    {
-        return $this->container->hasComponent($offset);
-    }
-
-    public function offsetUnset($offset)
-    {
-        $this->removeComponent($offset);
-    }
-
-    /**
-     * @param mixed $offset
-     * @return IComponent
-     * @throws InvalidArgumentException
-     */
-    public function offsetGet($offset)
-    {
-        if (!$this->container->hasComponent($offset)) {
-            throw new InvalidArgumentException('Component with name ' . $offset . ' does not exists.');
-        }
-        return $this->container->getComponent($offset);
-    }
-
-    public function update(IContainer $container, IComponent $called_by)
-    {
-    }
-
-    public function __toString()
-    {
-        $this->render();
-        return '';
-    }
-
     public function __clone()
     {
-        throw new BadStateException('Can not clone component.');
+        if ($this->parent === NULL) {
+            return;
+        } elseif ($this->parent instanceof Container) {
+            $this->parent = $this->parent->_isCloning();
+        } else {
+            $this->parent = NULL;
+        }
+    }
+
+    public function __wakeup()
+    {
+        throw new Exception('Object unserialization is not supported by class ' . get_class($this));
+    }
+
+    public function __sleep()
+    {
+        throw new Exception('Object unserialization is not supported by class ' . get_class($this));
     }
 
 }

@@ -12,25 +12,40 @@ namespace Mesour\Components;
  * @author mesour <matous.nemec@mesour.com>
  * @package Mesour Components
  */
-interface IComponent extends \ArrayAccess
+interface IComponent
 {
 
-    public function __construct($name = NULL, IComponent $component = NULL);
+    /**
+     * @param string|null $name
+     * @param IContainer $parent
+     */
+    public function __construct($name = NULL, IContainer $parent = NULL);
 
+    /**
+     * @param IContainer $parent
+     */
+    public function attached(IContainer $parent);
+
+    /**
+     * @param IContainer $parent
+     */
+    public function detached(IContainer $parent);
+
+    /**
+     * @param $name
+     * @return mixed
+     */
     public function setName($name);
 
+    /**
+     * @return string|null
+     */
     public function getName();
 
     /**
-     * @return IContainer
+     * @return Component|null
      */
-    public function getContainer();
-
-    public function isAttached();
-
-    public function addComponent(IComponent $component, $name = NULL);
-
-    public function removeComponent($name);
+    public function getParent();
 
     public function render();
 

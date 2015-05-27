@@ -1,0 +1,1 @@
+vendor\bin\tester tests -s -c ..\..\..\php\php.ini

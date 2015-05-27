@@ -15,12 +15,29 @@ namespace Mesour\Components;
 interface IContainer extends \Iterator, \ArrayAccess, \Countable
 {
 
-    public function hasComponent($name);
+    /**
+     * @param IComponent $component
+     * @param string|null $name
+     * @return mixed
+     */
+    public function addComponent(IComponent $component, $name = NULL);
 
-    public function attach(IComponent $component);
+    /**
+     * @param $name
+     * @return mixed
+     */
+    public function removeComponent($name);
 
-    public function detach(IComponent $component);
+    /**
+     * @param $name
+     * @param bool $need
+     * @return IComponent|null
+     */
+    public function getComponent($name, $need = TRUE);
 
-    public function notify(IComponent $called_by = NULL);
+    /**
+     * @return IComponent[]
+     */
+    public function getComponents();
 
 }

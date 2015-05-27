@@ -12,47 +12,73 @@ namespace Mesour\Components;
  * @author mesour <matous.nemec@mesour.com>
  * @package Mesour Components
  */
-class Container implements IContainer
+class Container extends Component implements IContainer
 {
 
     /**
-     * @var array
+     * @var IComponent[]
      */
-    protected $components = array();
+    private $components = array();
 
-    public function attach(IComponent $component)
-    {
-        return $this->components[$component->getName()] = $component;
-    }
+    /** @var IComponent|NULL */
+    private $cloning;
 
-    public function detach(IComponent $component)
+    /**
+     * @param IComponent $component
+     * @param string|null $name
+     * @return $this
+     * @throws InvalidArgumentException
+     */
+    public function addComponent(IComponent $component, $name = NULL)
     {
-        foreach ($this->components as $key => $_component) {
-            if ($_component === $component) {
-                unset($this->components[$key]);
-            }
+        /** @var IComponent $component */
+        $name = is_null($name) ? $component->getName() : $name;
+        Helper::validateComponentName($name);
+        if (isset($this->components[$name])) {
+            throw new InvalidArgumentException('Component with name ' . $name . ' is already exists.');
         }
-    }
-
-    public function notify(IComponent $called_by = NULL)
-    {
-        foreach ($this->components as $component) {
-            /** @var Component $component */
-            $component->update($this, $called_by);
-        }
-    }
-
-    public function hasComponent($name)
-    {
-        return isset($this->components[$name]);
+        $component->setName($name);
+        $this->components[$name] = $component;
+        $component->attached($this);
+        return $this;
     }
 
     /**
      * @param $name
-     * @return IComponent
+     * @return $this
+     * @throws InvalidArgumentException
      */
-    public function getComponent($name)
+    public function removeComponent($name)
     {
+        $component = $this->getComponent($name);
+        $component->detached($this);
+        unset($this->components[$name]);
+        return $this;
+    }
+
+    /**
+     * @return IComponent[]
+     */
+    public function getComponents()
+    {
+        return $this->components;
+    }
+
+    /**
+     * @param $name
+     * @param bool $need
+     * @return IComponent|null
+     * @throws InvalidArgumentException
+     */
+    public function getComponent($name, $need = TRUE)
+    {
+        Helper::validateComponentName($name);
+        if (!isset($this->components[$name])) {
+            if ($need) {
+                throw new InvalidArgumentException('Component with name ' . $name . ' does not exists.');
+            }
+            return NULL;
+        }
         return $this->components[$name];
     }
 
@@ -104,6 +130,15 @@ class Container implements IContainer
         return count($this->components);
     }
 
+    public function offsetSet($offset, $value)
+    {
+        if ($value instanceof IComponent) {
+            $this->addComponent($value, $offset);
+        } else {
+            throw new InvalidArgumentException('Component must be instance of IComponent.');
+        }
+    }
+
     /**
      * @param mixed $offset
      * @return bool
@@ -113,23 +148,37 @@ class Container implements IContainer
         return isset($this->components[$offset]);
     }
 
+    public function offsetUnset($offset)
+    {
+        $this->removeComponent($offset);
+    }
+
     /**
      * @param mixed $offset
-     * @return IContainer
+     * @return IComponent
+     * @throws InvalidArgumentException
      */
     public function offsetGet($offset)
     {
-        return $this->components[$offset];
+        return $this->getComponent($offset);
     }
 
-    public function offsetSet($offset, $value)
+    public function __clone()
     {
-        throw new Exception('You cant set route.');
+        if ($this->components) {
+            $oldMyself = reset($this->components)->getParent();
+            $oldMyself->cloning = $this;
+            foreach ($this->components as $name => $component) {
+                $this->components[$name] = clone $component;
+            }
+            $oldMyself->cloning = NULL;
+        }
+        parent::__clone();
     }
 
-    public function offsetUnset($offset)
+    public function _isCloning()
     {
-        throw new Exception('You cant unset route.');
+        return $this->cloning;
     }
 
 }

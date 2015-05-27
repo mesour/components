@@ -26,6 +26,7 @@ class Url
 
     public function __construct($request_uri)
     {
+        $request_uri = urldecode($request_uri);
         if (strpos($request_uri, '?') !== FALSE) {
             $explode = explode('?', $request_uri);
             $this->destination = $explode[0];
@@ -78,11 +79,6 @@ class Url
     public function getArguments()
     {
         return $this->args;
-    }
-
-    public function __toString()
-    {
-        return $this->create();
     }
 
 }

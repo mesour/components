@@ -8,7 +8,7 @@
 
 namespace Mesour\Components\Link;
 
-use Mesour\Components\Helper;
+use Mesour\Components\InvalidArgumentException;
 
 /**
  * @author mesour <matous.nemec@mesour.com>
@@ -17,8 +17,17 @@ use Mesour\Components\Helper;
 class Link implements ILink
 {
 
+    /**
+     * @param $destination
+     * @param array $args
+     * @return Url
+     * @throws InvalidArgumentException
+     */
     public function create($destination, $args = array())
     {
+        if (!is_string($destination)) {
+            throw new InvalidArgumentException('Destination must be string. ' . gettype($destination) . ' given.');
+        }
         return new Url($this, $destination, $args);
     }
 

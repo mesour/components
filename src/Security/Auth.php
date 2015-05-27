@@ -20,6 +20,11 @@ class Auth implements IAuth
 
     protected $resource = NULL;
 
+    /**
+     * @param null|string $resource
+     * @return $this
+     * @throws InvalidArgumentException
+     */
     public function setResource($resource)
     {
         if (!is_string($resource) && !is_null($resource)) {
