@@ -43,8 +43,9 @@ interface IContainer extends \Iterator, \ArrayAccess, \Countable
     /**
      * @param $className
      * @param bool $need
+     * @param bool $reverse
      * @return IComponent|null
      */
-    public function lookup($className, $need = TRUE);
+    public function lookup($className, $need = TRUE, $reverse = FALSE);
 
 }

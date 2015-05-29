@@ -85,19 +85,31 @@ class Container extends Component implements IContainer
     /**
      * @param $className
      * @param bool $need
+     * @param bool $reverse
      * @return IComponent|null
      * @throws InvalidArgumentException
      */
-    public function lookup($className, $need = TRUE)
+    public function lookup($className, $need = TRUE, $reverse = FALSE)
     {
-        foreach ($this->components as $component) {
-            /** @var IContainer $component */
-            if (get_class($component) === $className || is_subclass_of($component, $className)) {
-                return $component;
+        if (!$reverse) {
+            foreach ($this->components as $component) {
+                /** @var IContainer $component */
+                if (get_class($component) === $className || is_subclass_of($component, $className)) {
+                    return $component;
+                }
+                $out = $component->lookup($className, $need, $reverse);
+                if ($out) {
+                    return $out;
+                }
             }
-            $out = $component->lookup($className, $need);
-            if ($out) {
-                return $out;
+        } else {
+            $parent = $this->getParent();
+            if ($parent instanceof IContainer) {
+                if (get_class($parent) === $className || is_subclass_of($parent, $className)) {
+                    return $parent;
+                } else {
+                    return $parent->lookup($className, $need, $reverse);
+                }
             }
         }
         if ($need) {
