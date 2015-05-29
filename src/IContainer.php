@@ -40,4 +40,11 @@ interface IContainer extends \Iterator, \ArrayAccess, \Countable
      */
     public function getComponents();
 
+    /**
+     * @param $className
+     * @param bool $need
+     * @return IComponent|null
+     */
+    public function lookup($className, $need = TRUE);
+
 }

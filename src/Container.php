@@ -83,6 +83,31 @@ class Container extends Component implements IContainer
     }
 
     /**
+     * @param $className
+     * @param bool $need
+     * @return IComponent|null
+     * @throws InvalidArgumentException
+     */
+    public function lookup($className, $need = TRUE)
+    {
+        foreach ($this->components as $component) {
+            /** @var IContainer $component */
+            if (get_class($component) === $className || is_subclass_of($component, $className)) {
+                return $component;
+            }
+            $out = $component->lookup($className, $need);
+            if ($out) {
+                return $out;
+            }
+        }
+        if ($need) {
+            throw new InvalidArgumentException('Can not find component with class name ' . $className . '.');
+        } else {
+            return NULL;
+        }
+    }
+
+    /**
      * @return IComponent
      */
     public function rewind()
