@@ -174,6 +174,19 @@ class Helper
         $array_ptr[$last_key] = $value;
     }
 
+    static public function arrayContains($str, array $arr)
+    {
+        foreach ($arr as $a) {
+            if (stripos($str, $a) !== false) return true;
+        }
+        return false;
+    }
+
+    static public function isDateHasTime($php_format)
+    {
+        return self::arrayContains($php_format, array('a', 'A', 'B', 'g', 'G', 'h', 'H', 'i', 's', 'u'));
+    }
+
     static public function convertDateToJsFormat($php_format)
     {
         $symbols = array(
