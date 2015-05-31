@@ -20,6 +20,10 @@ class BadStateException extends Exception
 {
 }
 
+class NotSupportedException extends Exception
+{
+}
+
 class InvalidArgumentException extends Exception
 {
 }
