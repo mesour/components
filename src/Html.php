@@ -21,7 +21,7 @@ namespace Mesour\Components;
  *
  * @author     David Grudl
  */
-class Html implements \ArrayAccess, \Countable, \IteratorAggregate
+class Html implements \ArrayAccess, \Countable, \IteratorAggregate, IString
 {
     /** @var string  element's name */
     private $name;
