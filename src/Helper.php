@@ -186,10 +186,8 @@ class Helper
     static public function setOpt(&$array_ptr, $key, $value, $separator = '.')
     {
         $keys = explode($separator, $key);
-        // extract the last key
         $last_key = array_pop($keys);
 
-        // make sure the array is built up
         while ($arr_key = array_shift($keys)) {
             if (!array_key_exists($arr_key, $array_ptr)) {
                 $array_ptr[$arr_key] = array();
