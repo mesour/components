@@ -30,6 +30,10 @@ class InvalidArgumentException extends Exception
 {
 }
 
+class RequiredMissingException extends Exception
+{
+}
+
 class StaticClassException extends Exception
 {
 
