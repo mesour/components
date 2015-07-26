@@ -1,6 +1,6 @@
 <?php
 /**
- * This file is part of the Mesour Components (http://components.mesour.com)
+ * This file is part of the Mesour components (http://components.mesour.com)
  *
  * Copyright (c) 2015 Matouš Němec (http://mesour.com)
  *
@@ -11,9 +11,10 @@ namespace Mesour\Components\Application;
 
 use Mesour\UI\Control;
 
+
+
 /**
- * @author mesour <matous.nemec@mesour.com>
- * @package Mesour Components
+ * @author Matouš Němec <matous.nemec@mesour.com>
  */
 interface IApplication
 {
