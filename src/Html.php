@@ -20,6 +20,9 @@ namespace Mesour\Components;
  * </code>
  *
  * @author     David Grudl
+ *
+ * @method $this style() style(string $style, $append = FALSE) Add style
+ * @method $this src() src(string $src, $append = FALSE) Add src
  */
 class Html implements \ArrayAccess, \Countable, \IteratorAggregate, IString
 {
