@@ -119,13 +119,15 @@ class ComponentModelTest extends \Test\BaseTestCase
 
     public function testClone()
     {
-        $master = new TestComponent();
+        $master = new TestComponent('test1');
         new TestComponent('children', $master);
         new TestComponent('children2', $master);
         new TestComponent('children3', $master);
 
         $master2 = clone $master;
+        $master2->setName('test2');
 
+        Assert::same($master2->getComponent('children')->getParent(), $master2);
         Assert::count(3, $master->getComponents());
         Assert::count(3, $master2->getComponents());
         Assert::notSame($master->getComponent('children'), $master2->getComponent('children'));
