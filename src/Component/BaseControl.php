@@ -249,15 +249,18 @@ abstract class BaseControl extends Container implements IString
     public function create()
     {
         $this->beforeRender();
+        if ($this->getSession()) {
+            $this->getSession()->saveState();
+        }
         return '';
     }
 
     public function render()
     {
+        echo $this->create();
         if ($this->getSession()) {
             $this->getSession()->saveState();
         }
-        echo $this->create();
     }
 
     /**

@@ -10,7 +10,6 @@
 namespace Mesour\Components;
 
 
-
 /**
  * @author Matouš Němec <matous.nemec@mesour.com>
  */
@@ -31,7 +30,7 @@ class Container extends Component implements IContainer
      * @return $this
      * @throws InvalidArgumentException
      */
-    public function addComponent(IComponent $component, $name = NULL)
+    public function addComponent(IComponent $component, $name = NULL, $x = false)
     {
         /** @var IComponent $component */
         $name = is_null($name) ? $component->getName() : $name;

@@ -13,7 +13,6 @@ use Mesour\Components\Helper;
 use Mesour\Components\InvalidArgumentException;
 
 
-
 /**
  * @author Matouš Němec <matous.nemec@mesour.com>
  */
@@ -70,13 +69,19 @@ class Session implements ISession
     {
         if (!$this->loaded) {
             $this->loaded = TRUE;
-            $this->session = isset($_SESSION[__NAMESPACE__]) ? $_SESSION[__NAMESPACE__] : array();
+            $this->session = $this->getFromSession();
         }
         return $this;
     }
 
+    private function getFromSession($default = array())
+    {
+        return isset($_SESSION[__NAMESPACE__]) ? $_SESSION[__NAMESPACE__] : $default;
+    }
+
     public function saveState()
     {
+        $this->session = $this->getFromSession();
         foreach ($this->sections as $name => $section) {
             /** @var ISessionSection $section */
             $data = $section->get();

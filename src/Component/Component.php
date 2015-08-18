@@ -10,7 +10,6 @@
 namespace Mesour\Components;
 
 
-
 /**
  * @author Matouš Němec <matous.nemec@mesour.com>
  */
@@ -84,6 +83,11 @@ abstract class Component extends Events implements IComponent
     public function attached(IContainer $parent)
     {
         $this->parent = $parent;
+        if($this instanceof IContainer) {
+            foreach ($this->getComponents() as $component) {
+                $component->attached($this);
+            }
+        }
     }
 
     /**
@@ -99,7 +103,10 @@ abstract class Component extends Events implements IComponent
         if ($this->parent === NULL) {
             return;
         } elseif ($this->parent instanceof Container) {
-            $this->parent = $this->parent->_isCloning();
+            if ($this->parent->_isCloning()->getName() === 'subGrid') {
+                //dump($this->parent->_isCloning());
+            }
+            $this->attached($this->parent->_isCloning());
         } else {
             $this->parent = NULL;
         }
