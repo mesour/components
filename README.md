@@ -1,7 +1,9 @@
 # Mesour Components
 
+Simple component model
+
+- [Documentation](http://components.mesour.com)
 - [Author](http://mesour.com)
-- [Contact](http://mesour.com/contact)
 
 # Install
 
@@ -10,3 +12,5 @@
         "require": {
             "mesour/components": "dev-master"
         }
+
+- Or download source from [GitHub](https://github.com/mesour/Components/releases)
