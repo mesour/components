@@ -102,10 +102,7 @@ abstract class Component extends Events implements IComponent
     {
         if ($this->parent === NULL) {
             return;
-        } elseif ($this->parent instanceof Container) {
-            if ($this->parent->_isCloning()->getName() === 'subGrid') {
-                //dump($this->parent->_isCloning());
-            }
+        } elseif ($this->parent instanceof Container && $this->parent->_isCloning()) {
             $this->attached($this->parent->_isCloning());
         } else {
             $this->parent = NULL;
