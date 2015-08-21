@@ -1,7 +1,6 @@
 <?php
 
 define('SRC_DIR', __DIR__ . '/../src/');
-define('BRIDGES_DIR', __DIR__ . '/../bridges/');
 define("TEMP_DIR", __DIR__ . "/tmp/");
 
 require __DIR__ . "/../vendor/autoload.php";
@@ -23,7 +22,6 @@ $configurator->setTempDirectory(TEMP_DIR);
 $configurator->createRobotLoader()
     ->addDirectory(SRC_DIR)
     ->addDirectory(__DIR__ . '/classes')
-    ->addDirectory(BRIDGES_DIR)
     ->register();
 
 $configurator->addConfig(__DIR__ . '/config.neon');
