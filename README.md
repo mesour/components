@@ -13,4 +13,4 @@ Simple component model
             "mesour/components": "dev-master"
         }
 
-- Or download source from [GitHub](https://github.com/mesour/Components/releases)
+- Or download source from [GitHub](https://github.com/mesour/components/releases)
