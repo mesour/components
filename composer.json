@@ -18,6 +18,6 @@
     "tracy/tracy": "~2.3"
   },
   "autoload": {
-    "classmap": ["src/","bridges/"]
+    "classmap": ["src/"]
   }
 }
