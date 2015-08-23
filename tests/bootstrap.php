@@ -1,7 +1,7 @@
 <?php
 
 define('SRC_DIR', __DIR__ . '/../src/');
-define("TEMP_DIR", __DIR__ . "/tmp/");
+define("TEMP_DIR", __DIR__ . "/tmp");
 
 require __DIR__ . "/../vendor/autoload.php";
 
