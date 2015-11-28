@@ -125,12 +125,22 @@ class Helper
 
     static public function parseValue($value, $data)
     {
-        if ((is_array($data) || $data instanceof \ArrayAccess) && strpos($value, '{') !== FALSE && strpos($value, '}') !== FALSE) {
+        if (
+            (is_array($data) || $data instanceof \ArrayAccess || is_object($data))
+            && strpos($value, '{') !== FALSE
+            && strpos($value, '}') !== FALSE
+        ) {
             return preg_replace_callback('/(\{[^\{]+\})/', function ($matches) use ($value, $data) {
                 $matches = array_unique($matches);
                 $match = reset($matches);
                 $key = substr($match, 1, strlen($match) - 2);
-                return isset($data[$key]) ? $data[$key] : '__UNDEFINED_KEY-' . $key . '__';
+                if(is_object($data)) {
+                    $currentValue = isset($data->{$key}) ? $data->{$key} : '__UNDEFINED_KEY-' . $key . '__';
+                } else {
+                    $currentValue = isset($data[$key]) ? $data[$key] : '__UNDEFINED_KEY-' . $key . '__';
+                }
+
+                return $currentValue;
             }, $value);
         } else {
             return $value;
