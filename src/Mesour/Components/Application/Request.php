@@ -10,7 +10,6 @@
 namespace Mesour\Components\Application;
 
 
-
 /**
  * @author Matouš Němec <matous.nemec@mesour.com>
  */
@@ -19,11 +18,11 @@ class Request
 
     private $request;
 
-    private $headers = array();
+    private $headers = [];
 
     public function __construct(array $request)
     {
-        $this->headers = getallheaders();
+        $this->headers = $this->getAllHeaders();
         $this->request = $request;
     }
 
@@ -38,6 +37,20 @@ class Request
             return $this->request;
         }
         return isset($this->request[$key]) ? $this->request[$key] : $default;
+    }
+
+    protected function getAllHeaders()
+    {
+        if (!function_exists('getallheaders')) {
+            $headers = '';
+            foreach ($_SERVER as $name => $value) {
+                if (substr($name, 0, 5) == 'HTTP_') {
+                    $headers[str_replace(' ', '-', ucwords(strtolower(str_replace('_', ' ', substr($name, 5)))))] = $value;
+                }
+            }
+            return $headers;
+        }
+        return getallheaders();
     }
 
 }
