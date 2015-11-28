@@ -75,7 +75,7 @@ abstract class BaseControl extends Container implements IString
                     if ($current && $current->getReflection()->hasMethod('handle' . $handle) && $this === $current) {
                         $method = $this->getReflection()->getMethod('handle' . $handle);
                         $parameters = $method->getParameters();
-                        $args = array();
+                        $args = [];
                         foreach ($parameters as $parameter) {
                             $name = $parameter->getName();
                             if ($parameter->isDefaultValueAvailable()) {
@@ -96,7 +96,7 @@ abstract class BaseControl extends Container implements IString
                             }
                             $args[] = $value;
                         }
-                        Helper::invokeArgs(array($this, 'handle' . $handle), $args);
+                        Helper::invokeArgs([$this, 'handle' . $handle], $args);
                         $this->getSession()->saveState();
                     } elseif ($this === $current) {
                         throw new BadStateException('Invalid request. No handler for "handle' . ucfirst($handle) . '".');
@@ -122,7 +122,7 @@ abstract class BaseControl extends Container implements IString
      * @param array $args
      * @return Link\IUrl
      */
-    public function link($destination, $args = array())
+    public function link($destination, $args = [])
     {
         return $this->getLink()->create($destination, $args);
     }
@@ -243,7 +243,7 @@ abstract class BaseControl extends Container implements IString
     {
         $name = self::SNIPPET_PREFIX . $this->createLinkName();
         //$this->getApplication()->setSnippet($name, $this);
-        return Html::el('div', array('id' => $name));
+        return Html::el('div', ['id' => $name]);
     }
 
     public function create()

@@ -19,7 +19,7 @@ use Mesour\Components\InvalidArgumentException;
 class Payload implements IPayload
 {
 
-    private $data = array();
+    private $data = [];
 
     public function sendPayload()
     {

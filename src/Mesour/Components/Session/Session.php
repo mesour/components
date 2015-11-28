@@ -22,12 +22,12 @@ class Session implements ISession
     /**
      * @var array
      */
-    private $sections = array();
+    private $sections = [];
 
     /**
      * @var array
      */
-    private $session = array();
+    private $session = [];
 
     private $loaded = FALSE;
 
@@ -46,7 +46,7 @@ class Session implements ISession
     {
         if (!$this->hasSection($section)) {
             $this->sections[$section] = $session_section = new SessionSection($section);
-            $session_section->loadState(isset($this->session[$section]) ? $this->session[$section] : array());
+            $session_section->loadState(isset($this->session[$section]) ? $this->session[$section] : []);
         }
         return $this->sections[$section];
     }
@@ -74,7 +74,7 @@ class Session implements ISession
         return $this;
     }
 
-    private function getFromSession($default = array())
+    private function getFromSession($default = [])
     {
         return isset($_SESSION[__NAMESPACE__]) ? $_SESSION[__NAMESPACE__] : $default;
     }

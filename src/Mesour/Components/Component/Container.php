@@ -19,7 +19,7 @@ class Container extends Component implements IContainer
     /**
      * @var IComponent[]
      */
-    private $components = array();
+    private $components = [];
 
     /** @var IComponent|NULL */
     private $cloning;

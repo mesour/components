@@ -112,9 +112,9 @@ class Helper
     static public function matchAll($subject, $pattern, $flags = 0, $offset = 0)
     {
         if ($offset > strlen($subject)) {
-            return array();
+            return [];
         }
-        $m = array();
+        $m = [];
         preg_match_all(
             $pattern, $subject, $m,
             ($flags & PREG_PATTERN_ORDER) ? $flags : ($flags | PREG_SET_ORDER),
@@ -202,7 +202,7 @@ class Helper
 
         while ($arr_key = array_shift($keys)) {
             if (!array_key_exists($arr_key, $array_ptr)) {
-                $array_ptr[$arr_key] = array();
+                $array_ptr[$arr_key] = [];
             }
             $array_ptr = &$array_ptr[$arr_key];
         }
@@ -219,12 +219,12 @@ class Helper
 
     static public function isDateHasTime($php_format)
     {
-        return self::arrayContains($php_format, array('a', 'A', 'B', 'g', 'G', 'h', 'H', 'i', 's', 'u'));
+        return self::arrayContains($php_format, ['a', 'A', 'B', 'g', 'G', 'h', 'H', 'i', 's', 'u']);
     }
 
     static public function convertDateToJsFormat($php_format)
     {
-        $symbols = array(
+        $symbols = [
             // Day
             'd' => 'DD',
             'D' => 'ddd',
@@ -258,7 +258,7 @@ class Helper
             'i' => 'mm',
             's' => 'ss',
             'u' => ''
-        );
+        ];
         $js_format = "";
         $escaping = false;
         for ($i = 0; $i < strlen($php_format); $i++) {

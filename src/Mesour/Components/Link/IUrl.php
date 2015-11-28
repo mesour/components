@@ -24,13 +24,13 @@ interface IUrl extends IString
      * @param string $destination
      * @param array $args
      */
-    public function __construct(ILink $link, $destination, $args = array());
+    public function __construct(ILink $link, $destination, $args = []);
 
     /**
      * @param array $data
      * @return string
      */
-    public function create($data = array());
+    public function create($data = []);
 
     /**
      * @return ILink

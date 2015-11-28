@@ -22,6 +22,6 @@ interface ILink
      * @param array $args
      * @return Url
      */
-    public function create($destination, $args = array());
+    public function create($destination, $args = []);
 
 }

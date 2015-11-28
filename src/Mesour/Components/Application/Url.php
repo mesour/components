@@ -22,9 +22,9 @@ class Url
 
     protected $destination;
 
-    protected $args = array();
+    protected $args = [];
 
-    protected $users_args = array();
+    protected $users_args = [];
 
     public function __construct($request_uri)
     {
@@ -43,14 +43,14 @@ class Url
         }
     }
 
-    public function create(Control $control, $handle, $args = array())
+    public function create(Control $control, $handle, $args = [])
     {
         if (!is_string($handle)) {
             throw new InvalidArgumentException('Second parameter handle must be string. ' . gettype($handle) . ' given.');
         }
         $link_name = $control->createLinkName();
 
-        $new_args = array();
+        $new_args = [];
         foreach ($args as $key => $value) {
             $new_args['m_' . $link_name . '-' . $key] = $value;
         }
@@ -61,7 +61,7 @@ class Url
         return $this->createUrl($args);
     }
 
-    protected function createUrl($args = array())
+    protected function createUrl($args = [])
     {
         $query = http_build_query($args);
         return $this->destination . (count($args) > 0 ? (strpos($this->destination, '?') !== FALSE ? '&' : '?') : '') . $query;

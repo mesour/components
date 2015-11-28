@@ -34,7 +34,7 @@ interface IApplication
 
     public function isPost();
 
-    public function createLink(Control $control, $handle, $args = array());
+    public function createLink(Control $control, $handle, $args = []);
 
     public function run();
 

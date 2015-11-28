@@ -486,7 +486,7 @@ class Image
 
     public function __get($name)
     {
-        $allowed = array('width', 'height', 'imageResource');
+        $allowed = ['width', 'height', 'imageResource'];
         if (in_array($name, $allowed)) {
             $method = 'get' . ucfirst($name);
             return $this->{$method}();

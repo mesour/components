@@ -22,7 +22,7 @@ class Url implements IUrl
 
     protected $destination;
 
-    protected $args = array();
+    protected $args = [];
 
     /**
      * @var ILink
@@ -35,7 +35,7 @@ class Url implements IUrl
      * @param array $args
      * @throws InvalidArgumentException
      */
-    public function __construct(ILink $link, $destination, $args = array())
+    public function __construct(ILink $link, $destination, $args = [])
     {
         if (!is_string($destination)) {
             throw new InvalidArgumentException('Destination must be string. ' . gettype($destination) . ' given.');
@@ -49,7 +49,7 @@ class Url implements IUrl
      * @param array $data
      * @return string
      */
-    public function create($data = array())
+    public function create($data = [])
     {
         if (count($data) > 0) {
             foreach ($this->args as $key => $value) {

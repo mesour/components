@@ -25,7 +25,7 @@ class Link implements ILink
      * @return Url
      * @throws InvalidArgumentException
      */
-    public function create($destination, $args = array())
+    public function create($destination, $args = [])
     {
         if (!is_string($destination)) {
             throw new InvalidArgumentException('Destination must be string. ' . gettype($destination) . ' given.');

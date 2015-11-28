@@ -23,7 +23,7 @@ class Control extends Components\BaseControl implements Components\IString
 
     private $resource = NULL;
 
-    public function createLink($handle, $args = array())
+    public function createLink($handle, $args = [])
     {
         return $this->getApplication()->createLink($this, $handle, $args);
     }

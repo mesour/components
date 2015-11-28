@@ -28,7 +28,7 @@ class Application extends BaseControl implements IApplication
      */
     private $request;
 
-    private $snippet = array();
+    private $snippet = [];
 
     /**
      * @var Url
@@ -72,7 +72,7 @@ class Application extends BaseControl implements IApplication
         return $_SERVER['REQUEST_METHOD'] === 'POST';
     }
 
-    public function createLink(Control $control, $handle, $args = array())
+    public function createLink(Control $control, $handle, $args = [])
     {
         return $this->getUrl()->create($control, $handle, $args);
     }

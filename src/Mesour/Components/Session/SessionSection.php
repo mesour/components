@@ -28,7 +28,7 @@ class SessionSection implements ISessionSection
     /**
      * @var array
      */
-    private $data = array();
+    private $data = [];
 
     public function __construct($section)
     {
@@ -63,7 +63,7 @@ class SessionSection implements ISessionSection
 
     public function remove()
     {
-        $this->data = array();
+        $this->data = [];
         return $this;
     }
 

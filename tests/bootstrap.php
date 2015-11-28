@@ -1,20 +1,5 @@
 <?php
 
-function rrmdir($dir) {
-    if (is_dir($dir)) {
-        $objects = scandir($dir);
-        foreach ($objects as $object) {
-            if ($object != "." && $object != "..") {
-                if (is_dir($dir."/".$object))
-                    rrmdir($dir."/".$object);
-                else
-                    @unlink($dir."/".$object);
-            }
-        }
-        @rmdir($dir);
-    }
-}
-
 define('SRC_DIR', __DIR__ . '/../src/');
 define("TEMP_DIR", __DIR__ . "/tmp");
 
@@ -25,7 +10,6 @@ if (!class_exists('Tester\Assert')) {
     exit(1);
 }
 @mkdir(__DIR__ . "/log");
-rrmdir(TEMP_DIR);
 @mkdir(TEMP_DIR);
 
 Tester\Helpers::purge(TEMP_DIR);
