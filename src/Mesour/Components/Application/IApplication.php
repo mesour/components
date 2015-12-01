@@ -9,6 +9,7 @@
 
 namespace Mesour\Components\Application;
 
+use Mesour\Components\IContainer;
 use Mesour\UI\Control;
 
 
@@ -16,7 +17,7 @@ use Mesour\UI\Control;
 /**
  * @author Matouš Němec <matous.nemec@mesour.com>
  */
-interface IApplication
+interface IApplication extends IContainer
 {
 
     public function getRequest();
