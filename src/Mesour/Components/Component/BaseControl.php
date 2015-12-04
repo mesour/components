@@ -16,6 +16,8 @@ use Mesour\UI\Control;
 
 /**
  * @author Matouš Němec <matous.nemec@mesour.com>
+ *
+ * @method BaseControl getParent()
  */
 abstract class BaseControl extends Container implements IString
 {
@@ -53,7 +55,15 @@ abstract class BaseControl extends Container implements IString
             /** @var \Mesour\UI\Application $app */
             $do = str_replace('m_', '', $app->getRequest()->get('m_do'));
             if (strlen($do) > 0) {
-                $exploded = array_filter(explode('-', $do));
+                $exploded = explode('-', $do);
+
+                if(($appKey = array_search($app->getName(), $exploded)) !== FALSE) {
+                    unset($exploded[$appKey]);
+                    $exploded = array_values($exploded);
+                } else {
+                    return;
+                }
+
                 $current = NULL;
                 $x = 0;
                 $handle = NULL;
