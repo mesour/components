@@ -24,6 +24,7 @@ namespace Mesour\Components;
  * @method $this style() style($style, $append = FALSE) Add style
  * @method $this src() src($src, $append = FALSE) Add src
  * @method $this class() class($src, $append = FALSE) Add src
+ * @method $this id($src) Set ID attribute
  */
 class Html implements \ArrayAccess, \Countable, \IteratorAggregate, IString
 {
