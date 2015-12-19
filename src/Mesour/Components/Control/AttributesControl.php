@@ -26,6 +26,7 @@ abstract class AttributesControl extends OptionsControl implements IAttributesCo
 
     public function setAttributes(array $attributes)
     {
+        $this->attributes = [];
         foreach ($attributes as $key => $attribute) {
             $arguments = [$key];
             if (is_array($attribute)) {
