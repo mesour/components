@@ -9,14 +9,13 @@
 
 namespace Mesour\Components\Link;
 
-use Mesour\Components\IString;
-
+use Mesour;
 
 
 /**
  * @author Matouš Němec <matous.nemec@mesour.com>
  */
-interface IUrl extends IString
+interface IUrl extends Mesour\Components\Utils\IString
 {
 
     /**

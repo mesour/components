@@ -9,9 +9,7 @@
 
 namespace Mesour\Components\Application;
 
-use Mesour\Components\InvalidArgumentException;
-use Mesour\UI\Control;
-
+use Mesour;
 
 
 /**
@@ -43,10 +41,10 @@ class Url
         }
     }
 
-    public function create(Control $control, $handle, $args = [])
+    public function create(Mesour\UI\Control $control, $handle, $args = [])
     {
         if (!is_string($handle)) {
-            throw new InvalidArgumentException('Second parameter handle must be string. ' . gettype($handle) . ' given.');
+            throw new Mesour\InvalidArgumentException('Second parameter handle must be string. ' . gettype($handle) . ' given.');
         }
         $link_name = $control->createLinkName();
 

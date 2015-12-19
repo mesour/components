@@ -9,43 +9,39 @@
 
 namespace Mesour\UI;
 
-use Mesour\Components;
-
+use Mesour;
 
 
 /**
  * @author Matouš Němec <matous.nemec@mesour.com>
+ *
+ * @method Mesour\Components\Control\IControl getParent()
+ * @method Mesour\Components\Control\BaseControl getComponent($name, $need = TRUE)
  */
-class Control extends Components\BaseControl implements Components\IString
+class Control extends Mesour\Components\Control\BaseControl implements Mesour\Components\Control\IControl
 {
 
     const SNIPPET_PREFIX = 'm_snippet-';
 
-    private $resource = NULL;
+    private $permission;
 
     public function createLink($handle, $args = [])
     {
         return $this->getApplication()->createLink($this, $handle, $args);
     }
 
-    public function setResource($resource)
+    protected function setPermissionCheck(
+        $role = Mesour\Components\Security\IAuthorizator::ALL,
+        $resource = Mesour\Components\Security\IAuthorizator::ALL,
+        $privilege = Mesour\Components\Security\IAuthorizator::ALL
+    )
     {
-        if (!is_string($resource) && !is_null($resource)) {
-            throw new Components\InvalidArgumentException('Resource must be string or NULL. ' . gettype($resource) . ' given.');
-        }
-        $this->resource = $resource;
-        return $this;
+        $this->permission = [$role, $resource, $privilege];
     }
 
-    public function getResource()
+    public function isAllowed()
     {
-        return $this->resource;
-    }
-
-    public function __toString()
-    {
-        $this->render();
-        return '';
+        return !$this->permission || Mesour\Components\Utils\Helpers::invokeArgs([$this->getAuthorizator(), 'isAllowed'], $this->permission);
     }
 
 }

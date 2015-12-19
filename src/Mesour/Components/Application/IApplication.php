@@ -9,15 +9,13 @@
 
 namespace Mesour\Components\Application;
 
-use Mesour\Components\IContainer;
-use Mesour\UI\Control;
-
+use Mesour;
 
 
 /**
  * @author Matouš Němec <matous.nemec@mesour.com>
  */
-interface IApplication extends IContainer
+interface IApplication extends Mesour\Components\ComponentModel\IContainer
 {
 
     public function getRequest();
@@ -35,7 +33,7 @@ interface IApplication extends IContainer
 
     public function isPost();
 
-    public function createLink(Control $control, $handle, $args = []);
+    public function createLink(Mesour\UI\Control $control, $handle, $args = []);
 
     public function run();
 

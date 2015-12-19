@@ -9,36 +9,32 @@
 
 namespace Mesour\UI;
 
-use Mesour\Components\Application\IApplication;
-use Mesour\Components\Application\Request;
-use Mesour\Components\Application\Url;
-use Mesour\Components\BadStateException;
-use Mesour\Components\BaseControl;
+use Mesour;
 
 
 
 /**
  * @author Matouš Němec <matous.nemec@mesour.com>
  */
-class Application extends BaseControl implements IApplication
+class Application extends Mesour\Components\Control\BaseControl implements Mesour\Components\Application\IApplication
 {
 
     /**
-     * @var Request
+     * @var Mesour\Components\Application\Request
      */
     private $request;
 
     private $snippet = [];
 
     /**
-     * @var Url
+     * @var Mesour\Components\Application\Url
      */
     private $url;
 
     private $is_running = FALSE;
 
     /**
-     * @return Request
+     * @return Mesour\Components\Application\Request
      */
     public function getRequest()
     {
@@ -46,17 +42,17 @@ class Application extends BaseControl implements IApplication
     }
 
     /**
-     * @return Url
+     * @return Mesour\Components\Application\Url
      */
     public function getUrl()
     {
         if (!$this->url) {
-            $this->url = new Url(isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : '');
+            $this->url = new Mesour\Components\Application\Url(isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : '');
         }
         return $this->url;
     }
 
-    public function setUrl(Url $url)
+    public function setUrl(Mesour\Components\Application\Url $url)
     {
         $this->url = $url;
         return $this;
@@ -91,16 +87,16 @@ class Application extends BaseControl implements IApplication
     public function setRequest(array $request)
     {
         if ($this->is_running) {
-            throw new BadStateException('Can not set request if application running.');
+            throw new Mesour\InvalidStateException('Can not set request if application running.');
         }
-        $this->request = new Request($request);
+        $this->request = new Mesour\Components\Application\Request($request);
         return $this;
     }
 
     public function run()
     {
         if ($this->is_running) {
-            throw new BadStateException('Application is running. Can not run again.');
+            throw new Mesour\InvalidStateException('Application is running. Can not run again.');
         }
         $this->is_running = TRUE;
     }

@@ -10,7 +10,6 @@
 namespace Mesour\Components\Session;
 
 
-
 /**
  * @author Matouš Němec <matous.nemec@mesour.com>
  */

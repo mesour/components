@@ -10,7 +10,6 @@
 namespace Mesour\Components\Application;
 
 
-
 /**
  * @author Matouš Němec <matous.nemec@mesour.com>
  */

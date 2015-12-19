@@ -12,7 +12,8 @@ if (!class_exists('Tester\Assert')) {
 @mkdir(__DIR__ . "/log");
 @mkdir(TEMP_DIR);
 
-Tester\Helpers::purge(TEMP_DIR);
+// configure environment
+Tester\Environment::setup();
 
 $configurator = new Nette\Configurator;
 $configurator->enableDebugger(__DIR__ . "/log");
@@ -20,12 +21,12 @@ $configurator->setDebugMode(FALSE);
 $configurator->setTempDirectory(TEMP_DIR);
 $configurator->createRobotLoader()
     ->addDirectory(SRC_DIR)
-    ->addDirectory(__DIR__ . '/classes')
+    ->addDirectory(__DIR__ . '/Mesour/ComponentsTests/Classes')
+    ->addDirectory(__DIR__ . '/Mesour/Tests')
     ->register();
 
 $configurator->addConfig(__DIR__ . '/config.neon');
 $container = $configurator->createContainer();
 
-Tester\Environment::setup();
 
 return $container;
