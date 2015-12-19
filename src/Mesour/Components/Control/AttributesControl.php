@@ -112,6 +112,7 @@ abstract class AttributesControl extends OptionsControl implements IAttributesCo
     protected function setHtmlElement(Mesour\Components\Utils\Html $htmlElement)
     {
         $this->htmlElement = $htmlElement;
+        $this->setAttributes($htmlElement->attrs);
         return $htmlElement;
     }
 
