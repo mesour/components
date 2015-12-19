@@ -30,4 +30,6 @@ interface IAttributesControl extends IOptionsControl
 
     public function getAttribute($key, $need = TRUE);
 
+    public function removeAttribute($key);
+
 }

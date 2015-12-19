@@ -65,22 +65,37 @@ abstract class AttributesControl extends OptionsControl implements IAttributesCo
 
         if ($data && count($data) > 0) {
             foreach ($this->attributes as $key => $value) {
+                if ($value instanceof Mesour\Components\Link\IUrl) {
+                    continue;
+                }
                 $this->setAttribute($key, trim(Mesour\Components\Utils\Helpers::parseValue($value, $data)));
             }
         }
+
         foreach ($this->attributes as $key => $value) {
             if (!$isDisabled && $value instanceof Mesour\Components\Link\IUrl) {
                 $this->setAttribute($key, $value->create($data));
             } elseif ($isDisabled && $value instanceof Mesour\Components\Link\IUrl) {
-                $this->setAttribute($key, NULL);
+                $this->removeAttribute($key);
                 continue;
             }
         }
         if ($isDisabled) {
-            $this->setAttribute('onclick', NULL);
+            $this->removeAttribute('onclick');
             $this->setAttribute('class', 'disabled', TRUE);
         }
         return $this->attributes;
+    }
+
+    public function removeAttribute($key)
+    {
+        if (array_key_exists($key, $this->attributes)) {
+            if ($this->htmlElement) {
+                unset($this->htmlElement->attrs{$key});
+            }
+            unset($this->attributes[$key]);
+        }
+        return $this;
     }
 
     public function getAttribute($key, $need = TRUE)
