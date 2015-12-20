@@ -132,7 +132,9 @@ abstract class AttributesControl extends OptionsControl implements IAttributesCo
 
     public function __clone()
     {
-        $this->htmlElement = clone $this->htmlElement;
+        if($this->htmlElement) {
+            $this->htmlElement = clone $this->htmlElement;
+        }
         foreach ($this->attributes as $key => $attribute) {
             if (is_object($attribute)) {
                 $this->attributes[$key] = clone $attribute;

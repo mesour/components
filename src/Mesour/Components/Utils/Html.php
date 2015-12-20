@@ -23,9 +23,9 @@ use Mesour;
  *
  * @author     David Grudl
  *
- * @method $this style() style($style) Add style
- * @method $this src() src($src) Add src
- * @method $this class() class($src) Add src
+ * @method $this style() style($style, $append = FALSE) Add style
+ * @method $this src() src($src, $append = FALSE) Add src
+ * @method $this class() class($src, $append = FALSE) Add src
  * @method $this id($src) Set ID attribute
  */
 class Html implements \ArrayAccess, \Countable, \IteratorAggregate, IString
