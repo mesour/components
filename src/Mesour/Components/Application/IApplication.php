@@ -22,6 +22,10 @@ interface IApplication extends Mesour\Components\ComponentModel\IContainer
 
     public function setRequest(array $request);
 
+    public function getUserRole();
+
+    public function setUserRole($userRole);
+
     /**
      * @return Url
      */

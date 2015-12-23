@@ -79,6 +79,10 @@ interface IControl extends ComponentModel\IContainer, ComponentModel\IComponent,
 
     public function isAllowed();
 
+    public function getUserRole();
+
+    public function setUserRole($userRole);
+
     /**
      * @return Mesour\Components\Utils\Html
      */

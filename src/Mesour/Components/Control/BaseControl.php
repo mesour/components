@@ -41,6 +41,8 @@ abstract class BaseControl extends Mesour\Components\ComponentModel\Container im
     /** @var Mesour\Components\Link\ILink|null */
     private $link;
 
+    private $userRole = NULL;
+
     public function beforeRender()
     {
         if ($app = $this->getApplication(FALSE)) {
@@ -148,6 +150,28 @@ abstract class BaseControl extends Mesour\Components\ComponentModel\Container im
     public function setPayload(Mesour\Components\Application\IPayload $payload)
     {
         $this->payload = $payload;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getUserRole()
+    {
+        $parent = $this->getParent();
+        if (!$this->userRole) {
+            if ($parent instanceof self) {
+                return $parent->getUserRole();
+            } else {
+                return $this->userRole = 'guest';
+            }
+        }
+        return $this->userRole;
+    }
+
+    public function setUserRole($userRole)
+    {
+        $this->userRole = $userRole;
         return $this;
     }
 

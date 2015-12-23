@@ -31,12 +31,11 @@ class Control extends Mesour\Components\Control\BaseControl implements Mesour\Co
     }
 
     protected function setPermissionCheck(
-        $role = Mesour\Components\Security\IAuthorizator::ALL,
         $resource = Mesour\Components\Security\IAuthorizator::ALL,
         $privilege = Mesour\Components\Security\IAuthorizator::ALL
     )
     {
-        $this->permission = [$role, $resource, $privilege];
+        $this->permission = [$this->getUserRole(), $resource, $privilege];
     }
 
     public function isAllowed()
