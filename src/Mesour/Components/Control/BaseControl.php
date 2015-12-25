@@ -319,7 +319,12 @@ abstract class BaseControl extends Mesour\Components\ComponentModel\Container im
 
     public function __toString()
     {
-        return $this->render();
+        try {
+            return $this->render();
+        } catch (\Exception $e) {
+            trigger_error($e->getMessage(), E_USER_WARNING);
+            return '';
+        }
     }
 
 }
