@@ -43,7 +43,7 @@ use Nette;
  * @method $this type($src) Set type attribute
  * @method $this placeholder($src) Set placeholder attribute
  *
- * @method static $this el($name = NULL, $attrs = NULL)
+ * @method static Html el($name = NULL, $attrs = NULL)
  */
 class Html extends Nette\Utils\Html implements IString
 {
