@@ -22,8 +22,13 @@ abstract class BaseControl extends Mesour\Components\ComponentModel\Container im
 
     const SNIPPET_PREFIX = 'm_snippet-';
 
+    const HANDLER_PREFIX = 'handle';
+
     /** @var Mesour\Components\Security\IAuthorizator|null */
     private $authorizator = NULL;
+
+    /** @var string */
+    private $iconClass = NULL;
 
     /** @var Mesour\Components\Session\ISession|null */
     private $session = NULL;
@@ -45,67 +50,17 @@ abstract class BaseControl extends Mesour\Components\ComponentModel\Container im
 
     public function beforeRender()
     {
-        if ($app = $this->getApplication(FALSE)) {
-            /** @var Mesour\UI\Application $app */
-            $do = str_replace('m_', '', $app->getRequest()->get('m_do'));
-            if (strlen($do) > 0) {
-                $exploded = explode('-', $do);
+        list($handle, $control) = $this->getCurrentHandler();
+        if ($handle !== FALSE) {
+            $methodName = self::HANDLER_PREFIX . $handle;
 
-                if (($appKey = array_search($app->getName(), $exploded)) !== FALSE) {
-                    unset($exploded[$appKey]);
-                    $exploded = array_values($exploded);
-                } else {
-                    return;
-                }
-
-                $current = NULL;
-                $x = 0;
-                $handle = NULL;
-                foreach ($exploded as $item) {
-                    if ($x === 0) {
-                        $current = $app[$item];
-                    } elseif ($x < count($exploded)) {
-                        if (!isset($current[$item])) {
-                            $handle = $item;
-                            break;
-                        }
-                        $current = $current[$item];
-                    }
-                    $x++;
-                }
-
-                if ($handle) {
-                    /** @var Mesour\UI\Control $current */
-                    if ($current && $current->getReflection()->hasMethod('handle' . $handle) && $this === $current) {
-                        $method = $this->getReflection()->getMethod('handle' . $handle);
-                        $parameters = $method->getParameters();
-                        $args = [];
-                        foreach ($parameters as $parameter) {
-                            $name = $parameter->getName();
-                            if ($parameter->isDefaultValueAvailable()) {
-                                $default_value = $parameter->getDefaultValue();
-                            }
-                            $parsed_name = $current->createLinkName() . '-' . $name;
-                            if (!is_null($_value = $app->getRequest()->get('m_' . $parsed_name))) {
-                                if (($parameter->isArray() || (isset($default_value) && is_array($default_value))) && !is_array($_value)) {
-                                    throw new Mesour\UnexpectedValueException('Invalid request. Argument must be an array. ' . gettype($_value) . '" given.');
-                                }
-                                $value = $_value;
-                            } else {
-                                if (isset($default_value)) {
-                                    $value = $default_value;
-                                } else {
-                                    throw new Mesour\InvalidArgumentException('Invalid request. Required parameter "' . $parsed_name . '" doest not exists.');
-                                }
-                            }
-                            $args[] = $value;
-                        }
-                        Mesour\Components\Utils\Helpers::invokeArgs([$this, 'handle' . $handle], $args);
-                        $this->getSession()->saveState();
-                    } elseif ($this === $current) {
-                        throw new Mesour\Components\BadRequestException('Invalid request. No handler for "handle' . ucfirst($handle) . '".');
-                    }
-                }
+            /** @var Mesour\UI\Control $control */
+            if ($control && $control->getReflection()->hasMethod($methodName) && $this === $control) {
+                $this->callHandler($methodName);
+            } elseif ($this === $control) {
+                throw new Mesour\Components\BadRequestException(
+                    sprintf('Invalid request. No handler for "handle%s".', ucfirst($handle))
+                );
             }
         }
     }
@@ -317,6 +272,34 @@ abstract class BaseControl extends Mesour\Components\ComponentModel\Container im
         return $this->authorizator;
     }
 
+    public function setIconClass($iconClass)
+    {
+        if (is_object($iconClass)) {
+            $iconClass = get_class($iconClass);
+        } else {
+            if (!class_exists($iconClass)) {
+                throw new Mesour\InvalidArgumentException(
+                    sprintf('Icon class "%s" does not exits.', $iconClass)
+                );
+            }
+        }
+        $this->iconClass = $iconClass;
+        return $this;
+    }
+
+    public function getIconClass()
+    {
+        $parent = $this->getParent();
+        if (!$this->iconClass) {
+            if ($parent instanceof self) {
+                return $parent->getIconClass();
+            } else {
+                return $this->iconClass = Mesour\UI\Icon::class;
+            }
+        }
+        return $this->iconClass;
+    }
+
     public function __toString()
     {
         try {
@@ -325,6 +308,85 @@ abstract class BaseControl extends Mesour\Components\ComponentModel\Container im
             trigger_error($e->getMessage(), E_USER_WARNING);
             return '';
         }
+    }
+
+    /**
+     * @return array  list($handle, $control) [string|FALSE, Mesour\Components\Control\IControl|null]
+     */
+    protected function getCurrentHandler()
+    {
+        if ($app = $this->getApplication(FALSE)) {
+            /** @var Mesour\UI\Application $app */
+            $do = str_replace('m_', '', $app->getRequest()->get('m_do'));
+            if (strlen($do) > 0) {
+                $exploded = explode('-', $do);
+
+                if (($appKey = array_search($app->getName(), $exploded)) !== FALSE) {
+                    unset($exploded[$appKey]);
+                    $exploded = array_values($exploded);
+                } else {
+                    return [FALSE, NULL];
+                }
+
+                $current = NULL;
+                $x = 0;
+                $handle = FALSE;
+                foreach ($exploded as $item) {
+                    if ($x === 0) {
+                        $current = $app[$item];
+                    } elseif ($x < count($exploded)) {
+                        if (!isset($current[$item])) {
+                            $handle = $item;
+                            break;
+                        }
+                        $current = $current[$item];
+                    }
+                    $x++;
+                }
+                return [$handle, $current];
+            }
+        }
+        return [FALSE, NULL];
+    }
+
+    /**
+     * Called only if called component === $this and handler exists
+     * @param $methodName
+     */
+    private function callHandler($methodName)
+    {
+        $method = $this->getReflection()->getMethod($methodName);
+        $parameters = $method->getParameters();
+        $args = [];
+        foreach ($parameters as $parameter) {
+            $name = $parameter->getName();
+            if ($parameter->isDefaultValueAvailable()) {
+                $default_value = $parameter->getDefaultValue();
+            }
+            $parsed_name = $this->createLinkName() . '-' . $name;
+            if (!is_null($_value = $this->getApplication()->getRequest()->get('m_' . $parsed_name))) {
+                if (
+                    ($parameter->isArray() || (isset($default_value) && is_array($default_value)))
+                    && !is_array($_value)
+                ) {
+                    throw new Mesour\UnexpectedValueException(
+                        sprintf('Invalid request. Argument must be an array. "%s" given.', gettype($_value))
+                    );
+                }
+                $value = $_value;
+            } else {
+                if (isset($default_value)) {
+                    $value = $default_value;
+                } else {
+                    throw new Mesour\InvalidArgumentException(
+                        "Invalid request. Required parameter \"$parsed_name\" doest not exists."
+                    );
+                }
+            }
+            $args[] = $value;
+        }
+        Mesour\Components\Utils\Helpers::invokeArgs([$this, $methodName], $args);
+        $this->getSession()->saveState();
     }
 
 }

@@ -53,7 +53,9 @@ class Session implements ISession
     public function hasSection($section)
     {
         if (!Mesour\Components\Utils\Helpers::validateKeyName($section)) {
-            throw new Mesour\InvalidArgumentException('SessionSection name must be integer or string, ' . gettype($section) . ' given.');
+            throw new Mesour\InvalidArgumentException(
+                sprintf('SessionSection name must be integer or string, %s given.', gettype($section))
+            );
         }
         return isset($this->sections[$section]);
     }

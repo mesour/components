@@ -18,6 +18,9 @@ use Mesour;
 interface IApplication extends Mesour\Components\ComponentModel\IContainer
 {
 
+    /**
+     * @return Request
+     */
     public function getRequest();
 
     public function setRequest(array $request);
@@ -40,5 +43,9 @@ interface IApplication extends Mesour\Components\ComponentModel\IContainer
     public function createLink(Mesour\UI\Control $control, $handle, $args = []);
 
     public function run();
+
+    public function setIconClass($iconClass);
+
+    public function getIconClass();
 
 }

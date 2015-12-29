@@ -10,6 +10,7 @@
 namespace Mesour\Components\Utils;
 
 use Mesour;
+use Nette;
 
 
 /**
@@ -50,7 +51,9 @@ class Helpers
         }
 
         if ($need && !$valid) {
-            throw new Mesour\InvalidArgumentException('Component name must be integer or alphanumeric string, ' . gettype($name) . ' given.');
+            throw new Mesour\InvalidArgumentException(
+                sprintf('Component name must be integer or alphanumeric string, %s given.', gettype($name))
+            );
         }
 
         return $valid;
@@ -63,33 +66,7 @@ class Helpers
      */
     public static function toAscii($s)
     {
-        $s = preg_replace('#[^\x09\x0A\x0D\x20-\x7E\xA0-\x{2FF}\x{370}-\x{10FFFF}]#u', '', $s);
-        $s = strtr($s, '`\'"^~?', "\x01\x02\x03\x04\x05\x06");
-        $s = str_replace(
-            ["\xE2\x80\x9E", "\xE2\x80\x9C", "\xE2\x80\x9D", "\xE2\x80\x9A", "\xE2\x80\x98", "\xE2\x80\x99", "\xC2\xB0"],
-            ["\x03", "\x03", "\x03", "\x02", "\x02", "\x02", "\x04"], $s
-        );
-        if (class_exists('Transliterator') && $transliterator = \Transliterator::create('Any-Latin; Latin-ASCII')) {
-            $s = $transliterator->transliterate($s);
-        }
-        if (ICONV_IMPL === 'glibc') {
-            $s = str_replace(
-                ["\xC2\xBB", "\xC2\xAB", "\xE2\x80\xA6", "\xE2\x84\xA2", "\xC2\xA9", "\xC2\xAE"],
-                ['>>', '<<', '...', 'TM', '(c)', '(R)'], $s
-            );
-            $s = @iconv('UTF-8', 'WINDOWS-1250//TRANSLIT//IGNORE', $s); // intentionally @
-            $s = strtr($s, "\xa5\xa3\xbc\x8c\xa7\x8a\xaa\x8d\x8f\x8e\xaf\xb9\xb3\xbe\x9c\x9a\xba\x9d\x9f\x9e"
-                . "\xbf\xc0\xc1\xc2\xc3\xc4\xc5\xc6\xc7\xc8\xc9\xca\xcb\xcc\xcd\xce\xcf\xd0\xd1\xd2\xd3"
-                . "\xd4\xd5\xd6\xd7\xd8\xd9\xda\xdb\xdc\xdd\xde\xdf\xe0\xe1\xe2\xe3\xe4\xe5\xe6\xe7\xe8"
-                . "\xe9\xea\xeb\xec\xed\xee\xef\xf0\xf1\xf2\xf3\xf4\xf5\xf6\xf8\xf9\xfa\xfb\xfc\xfd\xfe"
-                . "\x96\xa0\x8b\x97\x9b\xa6\xad\xb7",
-                "ALLSSSSTZZZallssstzzzRAAAALCCCEEEEIIDDNNOOOOxRUUUUYTsraaaalccceeeeiiddnnooooruuuuyt- <->|-.");
-            $s = preg_replace('#[^\x00-\x7F]++#', '', $s);
-        } else {
-            $s = @iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $s); // intentionally @
-        }
-        $s = str_replace(['`', "'", '"', '^', '~', '?'], '', $s);
-        return strtr($s, "\x01\x02\x03\x04\x05\x06", '`\'"^~?');
+        return Nette\Utils\Strings::toAscii($s);
     }
 
     /**
@@ -101,27 +78,12 @@ class Helpers
      */
     public static function webalize($s, $charList = NULL, $lower = TRUE)
     {
-        $s = self::toAscii($s);
-        if ($lower) {
-            $s = strtolower($s);
-        }
-        $s = preg_replace('#[^a-z0-9' . preg_quote($charList, '#') . ']+#i', '-', $s);
-        $s = trim($s, '-');
-        return $s;
+        return Nette\Utils\Strings::webalize($s, $charList, $lower);
     }
 
     static public function matchAll($subject, $pattern, $flags = 0, $offset = 0)
     {
-        if ($offset > strlen($subject)) {
-            return [];
-        }
-        $m = [];
-        preg_match_all(
-            $pattern, $subject, $m,
-            ($flags & PREG_PATTERN_ORDER) ? $flags : ($flags | PREG_SET_ORDER),
-            $offset
-        );
-        return $m;
+        return Nette\Utils\Strings::matchAll($subject, $pattern, $flags, $offset);
     }
 
     static public function parseValue($value, $data)
@@ -158,47 +120,19 @@ class Helpers
         return $attributes;
     }
 
-    static public function checkCallback($callback)
-    {
-        if (!is_callable($callback)) {
-            throw new Mesour\InvalidArgumentException('Argument is not callable.');
-        }
-    }
-
-    static public function invokeArgs($callback, $args)
-    {
-        self::checkCallback($callback);
-        return call_user_func_array($callback, $args);
-    }
-
     /**
-     * Invokes internal PHP function with own error handler.
-     * @author David Grudl (http://davidgrudl.com)
-     *
-     * @param $function
-     * @param array $args
-     * @param $onError
-     * @return mixed
-     * @throws \Exception
+     * @param $callable
+     * @param bool|FALSE $syntax
+     * @return callable
      */
-    public static function invokeSafe($function, array $args, $onError)
+    static public function checkCallback($callable, $syntax = FALSE)
     {
-        $prev = set_error_handler(function ($severity, $message, $file) use ($onError, & $prev) {
-            if ($file === __FILE__ && $onError($message, $severity) !== FALSE) {
-                return;
-            } elseif ($prev) {
-                return call_user_func_array($prev, func_get_args());
-            }
-            return FALSE;
-        });
-        try {
-            $res = call_user_func_array($function, $args);
-            restore_error_handler();
-            return $res;
-        } catch (\Exception $e) {
-            restore_error_handler();
-            throw $e;
-        }
+        return Nette\Utils\Callback::check($callable, $syntax);
+    }
+
+    static public function invokeArgs($callable, array $args = [])
+    {
+        return Nette\Utils\Callback::invokeArgs($callable, $args);
     }
 
     static public function setOpt(&$array_ptr, $key, $value, $separator = '.')
@@ -215,7 +149,7 @@ class Helpers
         $array_ptr[$last_key] = $value;
     }
 
-    static public function arrayContains($str, array $arr)
+    static public function containsStringFromArray($str, array $arr)
     {
         foreach ($arr as $a) {
             if (stripos($str, $a) !== false) return true;
@@ -223,9 +157,24 @@ class Helpers
         return false;
     }
 
-    static public function isDateHasTime($php_format)
+    /**
+     * @param $phpFormat
+     * @return bool
+     * @deprecated
+     */
+    static public function isDateHasTime($phpFormat)
     {
-        return self::arrayContains($php_format, ['a', 'A', 'B', 'g', 'G', 'h', 'H', 'i', 's', 'u']);
+        return self::isDateAlsoContainsTime($phpFormat);
+    }
+
+    /**
+     * @param $phpFormat
+     * @return bool
+     * @deprecated
+     */
+    static public function isDateAlsoContainsTime($phpFormat)
+    {
+        return self::containsStringFromArray($phpFormat, ['a', 'A', 'B', 'g', 'G', 'h', 'H', 'i', 's', 'u']);
     }
 
     static public function convertDateToJsFormat($php_format)

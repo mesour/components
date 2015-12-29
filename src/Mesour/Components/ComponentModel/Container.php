@@ -38,7 +38,7 @@ class Container extends Component implements IContainer
         $name = is_null($name) ? $component->getName() : $name;
         Mesour\Components\Utils\Helpers::validateComponentName($name);
         if (isset($this->components[$name])) {
-            throw new Mesour\InvalidStateException('Component with name ' . $name . ' is already exists.');
+            throw new Mesour\InvalidStateException("Component with name $name is already exists.");
         }
         $component->setName($name);
         $this->components[$name] = $component;
@@ -77,7 +77,7 @@ class Container extends Component implements IContainer
         Mesour\Components\Utils\Helpers::validateComponentName($name);
         if (!isset($this->components[$name])) {
             if ($need) {
-                throw new Mesour\InvalidStateException('Component with name ' . $name . ' does not exists.');
+                throw new Mesour\InvalidStateException("Component with name $name does not exists.");
             }
             return NULL;
         }
@@ -115,7 +115,7 @@ class Container extends Component implements IContainer
             }
         }
         if ($need) {
-            throw new Mesour\Components\NotFoundException('Cannot find component with class name ' . $className . '.');
+            throw new Mesour\Components\NotFoundException("Cannot find component with class name $className.");
         } else {
             return NULL;
         }
@@ -189,7 +189,9 @@ class Container extends Component implements IContainer
         if ($value instanceof IComponent) {
             $this->addComponent($value, $offset);
         } else {
-            throw new Mesour\InvalidStateException(sprintf('Component must be instance of %s.', IComponent::class));
+            throw new Mesour\InvalidStateException(
+                sprintf('Component must be instance of %s.', IComponent::class)
+            );
         }
     }
 

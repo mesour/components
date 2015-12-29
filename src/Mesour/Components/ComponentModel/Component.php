@@ -113,12 +113,16 @@ abstract class Component extends Mesour\Object implements IComponent
 
     public function __wakeup()
     {
-        throw new Mesour\NotSupportedException('Object unserialization is not supported by class ' . get_class($this));
+        throw new Mesour\NotSupportedException(
+            sprintf('Object unserialization is not supported by class ', get_class($this))
+        );
     }
 
     public function __sleep()
     {
-        throw new Mesour\NotSupportedException('Object unserialization is not supported by class ' . get_class($this));
+        throw new Mesour\NotSupportedException(
+            sprintf('Object serialization is not supported by class ', get_class($this))
+        );
     }
 
 }

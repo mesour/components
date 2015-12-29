@@ -1,6 +1,6 @@
 <?php
 /**
- * This file is part of the Mesour Button (http://components.mesour.com/component/button)
+ * This file is part of the Mesour components (http://components.mesour.com)
  *
  * Copyright (c) 2015 Matouš Němec (http://mesour.com)
  *
@@ -103,7 +103,7 @@ abstract class AttributesControl extends OptionsControl implements IAttributesCo
     {
         if (!$this->hasAttribute($key)) {
             if ($need) {
-                throw new Mesour\OutOfRangeException('Attribute ' . $key . ' does not exist.');
+                throw new Mesour\OutOfRangeException("Attribute $key does not exist.");
             }
             return NULL;
         }
@@ -132,7 +132,7 @@ abstract class AttributesControl extends OptionsControl implements IAttributesCo
 
     public function __clone()
     {
-        if($this->htmlElement) {
+        if ($this->htmlElement) {
             $this->htmlElement = clone $this->htmlElement;
         }
         foreach ($this->attributes as $key => $attribute) {

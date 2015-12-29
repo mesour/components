@@ -97,4 +97,8 @@ interface IControl extends ComponentModel\IContainer, ComponentModel\IComponent,
      */
     public function createFilterIterator(Mesour\Components\Filter\Rules\RulesContainer $rulesContainer = NULL);
 
+    public function setIconClass($iconClass);
+
+    public function getIconClass();
+
 }

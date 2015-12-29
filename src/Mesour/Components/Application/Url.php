@@ -44,7 +44,9 @@ class Url
     public function create(Mesour\UI\Control $control, $handle, $args = [])
     {
         if (!is_string($handle)) {
-            throw new Mesour\InvalidArgumentException('Second parameter handle must be string. ' . gettype($handle) . ' given.');
+            throw new Mesour\InvalidArgumentException(
+                sprintf('Second parameter handle must be string. %s given.', gettype($handle))
+            );
         }
         $link_name = $control->createLinkName();
 
@@ -62,7 +64,11 @@ class Url
     protected function createUrl($args = [])
     {
         $query = http_build_query($args);
-        return $this->destination . (count($args) > 0 ? (strpos($this->destination, '?') !== FALSE ? '&' : '?') : '') . $query;
+        return $this->destination . (
+        count($args) > 0
+            ? (strpos($this->destination, '?') !== FALSE ? '&' : '?')
+            : ''
+        ) . $query;
     }
 
     /**

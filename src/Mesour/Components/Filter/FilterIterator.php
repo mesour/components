@@ -1,10 +1,20 @@
 <?php
+/**
+ * This file is part of the Mesour components (http://components.mesour.com)
+ *
+ * Copyright (c) 2015 Matouš Němec (http://mesour.com)
+ *
+ * For full licence and copyright please view the file licence.md in root of this project
+ */
 
 namespace Mesour\Components\Filter;
 
-
 use Mesour;
 
+
+/**
+ * @author Matouš Němec <matous.nemec@mesour.com>
+ */
 class FilterIterator extends \FilterIterator
 {
 
@@ -25,7 +35,9 @@ class FilterIterator extends \FilterIterator
     public function getRulesContainer()
     {
         if (!$this->rulesContainer) {
-            throw new Mesour\InvalidStateException(sprintf('No rules are set. Use %s::setRulesContainer method.', get_class($this)));
+            throw new Mesour\InvalidStateException(
+                sprintf('No rules are set. Use %s::setRulesContainer method.', get_class($this))
+            );
         }
         return $this->rulesContainer;
     }
@@ -38,7 +50,7 @@ class FilterIterator extends \FilterIterator
         $this->rules[] = [$ruleName, $searchedValue, $parameters];
     }
 
-    protected function lookup($current, FilterIterator $filter)
+    protected function lookup($current)
     {
         foreach ($this->rules as $rule) {
             list($name, $value, $parameters) = $rule;
@@ -55,7 +67,7 @@ class FilterIterator extends \FilterIterator
 
     public function accept()
     {
-        return $this->lookup($this->current(), $this);
+        return $this->lookup($this->current());
     }
 
     public function fetchAll()

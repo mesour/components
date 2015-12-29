@@ -51,7 +51,9 @@ class Payload implements IPayload
     public function set($key, $value)
     {
         if (!is_string($key)) {
-            throw new Mesour\InvalidArgumentException('Key must be string. ' . gettype($key) . ' given.');
+            throw new Mesour\InvalidArgumentException(
+                sprintf('Key must be string. "%s" given.', gettype($key))
+            );
         }
         $this->data[$key] = $value;
         return $this;
@@ -63,7 +65,9 @@ class Payload implements IPayload
             return $this->data;
         }
         if (!is_string($key)) {
-            throw new Mesour\InvalidArgumentException('Key must be string. ' . gettype($key) . ' given.');
+            throw new Mesour\InvalidArgumentException(
+                sprintf('Key must be string. "%s" given.', gettype($key))
+            );
         }
         return isset($this->data[$key]) ? $this->data[$key] : $default;
     }

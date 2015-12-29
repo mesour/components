@@ -36,7 +36,9 @@ class Url implements IUrl
     public function __construct(ILink $link, $destination, $args = [])
     {
         if (!is_string($destination)) {
-            throw new Mesour\InvalidArgumentException('Destination must be string. ' . gettype($destination) . ' given.');
+            throw new Mesour\InvalidArgumentException(
+                sprintf('Destination must be string. %s given.', gettype($destination))
+            );
         }
         $this->destination = $destination;
         $this->args = $args;
@@ -60,7 +62,11 @@ class Url implements IUrl
     protected function createUrl()
     {
         $query = http_build_query($this->args);
-        return $this->destination . (count($this->args) > 0 ? (strpos($this->destination, '?') !== FALSE ? '&' : '?') : '') . $query;
+        return $this->destination . (
+        count($this->args) > 0
+            ? (strpos($this->destination, '?') !== FALSE ? '&' : '?')
+            : ''
+        ) . $query;
     }
 
     /**

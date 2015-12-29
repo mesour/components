@@ -31,7 +31,9 @@ class SessionSection implements ISessionSection
     public function __construct($section)
     {
         if (!Mesour\Components\Utils\Helpers::validateKeyName($section)) {
-            throw new Mesour\InvalidArgumentException('SessionSection name must be integer or string, ' . gettype($section) . ' given.');
+            throw new Mesour\InvalidArgumentException(
+                sprintf('SessionSection name must be integer or string, %s given.', gettype($section))
+            );
         }
         $this->name = $section;
     }
@@ -45,7 +47,9 @@ class SessionSection implements ISessionSection
     public function set($key, $val)
     {
         if (!Mesour\Components\Utils\Helpers::validateKeyName($key)) {
-            throw new Mesour\InvalidArgumentException('Key must be integer or string, ' . gettype($key) . ' given.');
+            throw new Mesour\InvalidArgumentException(
+                sprintf('Key must be integer or string, %s given.', gettype($key))
+            );
         }
         $this->data[$key] = $val;
         return $this;
