@@ -53,7 +53,7 @@ abstract class Object
     {
         try {
             if (substr($name, 0, 2) === 'on') {
-                if (!isset($this->{$name})) {
+                if (!$this->getReflection()->hasProperty($name)) {
                     throw new Mesour\Components\MethodCallException;
                 } elseif ($this->getReflection()->getProperty($name)->isPrivate()) {
                     throw new Mesour\InvalidStateException('Property ' . $name . ' must be public or protected.');
