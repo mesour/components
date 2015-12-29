@@ -310,7 +310,7 @@ abstract class BaseControl extends Mesour\Components\ComponentModel\Container im
             if ($parent instanceof self) {
                 return $parent->getIconClass();
             } else {
-                if(class_exists(Mesour\UI\Icon::class)) {
+                if(!class_exists(Mesour\UI\Icon::class)) {
                     throw new Mesour\InvalidArgumentException(sprintf(
                         'For using icons, install mesour/icon package. Class "%s" does not exists.',
                         Mesour\UI\Icon::class

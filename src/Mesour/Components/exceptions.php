@@ -115,25 +115,18 @@ class StaticClassException extends \LogicException
 
 namespace Mesour\Components;
 
+/**
+ * Exception thrown if a callback refers to an undefined method or if some
+ * arguments are missing.
+ */
+class MethodCallException extends \Mesour\MethodCallException
+{
+}
+
 class BadRequestException extends \Exception
 {
 }
 
 class NotFoundException extends \Exception
-{
-}
-
-namespace Mesour\Components\Utils;
-/**
- * The exception that is thrown when an image error occurs.
- */
-class ImageException extends \Exception
-{
-}
-
-/**
- * The exception that indicates invalid image file.
- */
-class UnknownImageFileException extends ImageException
 {
 }

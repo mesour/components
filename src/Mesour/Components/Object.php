@@ -53,8 +53,8 @@ abstract class Object
     {
         try {
             if (substr($name, 0, 2) === 'on') {
-                if (!$this->getReflection()->hasProperty($name)) {
-                    throw new Mesour\MethodCallException;
+                if (!isset($this->{$name})) {
+                    throw new Mesour\Components\MethodCallException;
                 } elseif ($this->getReflection()->getProperty($name)->isPrivate()) {
                     throw new Mesour\InvalidStateException('Property ' . $name . ' must be public or protected.');
                 } elseif (!is_array($this->{$name})) {
@@ -65,12 +65,11 @@ abstract class Object
                     }
                 }
             } else {
-                throw new Mesour\MethodCallException;
+                throw new Mesour\Components\MethodCallException;
             }
-        } catch (Mesour\MethodCallException $e) {
+        } catch (Mesour\Components\MethodCallException $e) {
             throw new Mesour\MethodCallException(sprintf("Cannot call undefined method %s::\$$name.", static::class));
         }
-
     }
 
 }
