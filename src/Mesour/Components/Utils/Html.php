@@ -47,4 +47,30 @@ use Nette;
  */
 class Html extends Nette\Utils\Html implements IString
 {
+
+    /**
+     * Inserts child node.
+     * @param  int|NULL position of NULL for appending
+     * @param  Html|string Html node or raw HTML string
+     * @param  bool
+     * @return self
+     * @throws Nette\InvalidArgumentException
+     */
+    public function insert($index, $child, $replace = FALSE)
+    {
+        if ($child instanceof self || is_scalar($child) || $child instanceof IString) {
+            if ($index === NULL) { // append
+                $this->children[] = $child;
+
+            } else { // insert or replace
+                array_splice($this->children, (int) $index, $replace ? 1 : 0, array($child));
+            }
+
+        } else {
+            throw new Nette\InvalidArgumentException(sprintf('Child node must be scalar or Html object, %s given.', is_object($child) ? get_class($child) : gettype($child)));
+        }
+
+        return $this;
+    }
+
 }
