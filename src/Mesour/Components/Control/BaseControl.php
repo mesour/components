@@ -275,7 +275,7 @@ abstract class BaseControl extends Mesour\Components\ComponentModel\Container im
     public function setIconClass($iconClass)
     {
         if (is_object($iconClass)) {
-            if(!$iconClass instanceof Mesour\Icon\IIcon) {
+            if (!$iconClass instanceof Mesour\Icon\IIcon) {
                 throw new Mesour\InvalidArgumentException(
                     sprintf(
                         'Class "%s" must implements interface "%s".',
@@ -303,6 +303,19 @@ abstract class BaseControl extends Mesour\Components\ComponentModel\Container im
         return $this;
     }
 
+    /**
+     * @param $type
+     * @return Mesour\Icon\Icon
+     */
+    protected function createIcon($type)
+    {
+        /** @var Mesour\Icon\Icon $icon */
+        $className = $this->getIconClass();
+        $icon = new $className;
+        $icon->setType($type);
+        return $icon;
+    }
+
     public function getIconClass()
     {
         $parent = $this->getParent();
@@ -310,7 +323,7 @@ abstract class BaseControl extends Mesour\Components\ComponentModel\Container im
             if ($parent instanceof self) {
                 return $parent->getIconClass();
             } else {
-                if(!class_exists(Mesour\UI\Icon::class)) {
+                if (!class_exists(Mesour\UI\Icon::class)) {
                     throw new Mesour\InvalidArgumentException(sprintf(
                         'For using icons, install mesour/icon package. Class "%s" does not exists.',
                         Mesour\UI\Icon::class
