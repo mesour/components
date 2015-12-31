@@ -9,11 +9,13 @@
 
 namespace Mesour\Components\Utils;
 
+use Nette\Utils\IHtmlString;
+
 
 /**
  * @author Matouš Němec <matous.nemec@mesour.com>
  */
-interface IString
+interface IString extends IHtmlString
 {
 
     public function __toString();
