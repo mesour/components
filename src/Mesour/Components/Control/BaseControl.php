@@ -305,11 +305,11 @@ abstract class BaseControl extends Mesour\Components\ComponentModel\Container im
 
     /**
      * @param $type
-     * @return Mesour\Icon\Icon
+     * @return Mesour\Icon\IIcon
      */
     protected function createNewIcon($type)
     {
-        /** @var Mesour\Icon\Icon $icon */
+        /** @var Mesour\Icon\IIcon $icon */
         $className = $this->getIconClass();
         $icon = new $className;
         $icon->setType($type);
