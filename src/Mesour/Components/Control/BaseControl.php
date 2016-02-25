@@ -43,8 +43,6 @@ abstract class BaseControl extends Mesour\Components\ComponentModel\Container im
 
     private $disabledTranslate = FALSE;
 
-    private $disabledSession = FALSE;
-
     /** @var Mesour\Components\Link\ILink|null */
     private $link;
 
