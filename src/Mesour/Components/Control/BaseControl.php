@@ -43,6 +43,8 @@ abstract class BaseControl extends Mesour\Components\ComponentModel\Container im
 
     private $disabledTranslate = FALSE;
 
+    private $disabledSession = FALSE;
+
     /** @var Mesour\Components\Link\ILink|null */
     private $link;
 
@@ -153,16 +155,20 @@ abstract class BaseControl extends Mesour\Components\ComponentModel\Container im
     }
 
     /**
-     * @return Mesour\Components\Session\ISession
+     * @return Mesour\Components\Session\ISession|null
      */
-    public function getSession()
+    public function getSession($need = true)
     {
         $parent = $this->getParent();
         if (!$this->session) {
             if ($parent instanceof self) {
-                return $parent->getSession();
+                return $parent->getSession($need);
             } else {
-                return $this->session = new Mesour\Components\Session\Session;
+                if ($need) {
+                    return $this->session = new Mesour\Components\Session\Session;
+                } else {
+	                return null;
+                }
             }
         }
         return $this->session;
@@ -242,7 +248,7 @@ abstract class BaseControl extends Mesour\Components\ComponentModel\Container im
     public function create()
     {
         $this->beforeRender();
-        if ($this->getSession()) {
+        if ($this->getSession(false)) {
             $this->getSession()->saveState();
         }
         return '';
