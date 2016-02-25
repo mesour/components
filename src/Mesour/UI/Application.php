@@ -12,7 +12,6 @@ namespace Mesour\UI;
 use Mesour;
 
 
-
 /**
  * @author Matouš Němec <matous.nemec@mesour.com>
  */
@@ -34,10 +33,14 @@ class Application extends Mesour\Components\Control\BaseControl implements Mesou
     private $is_running = FALSE;
 
     /**
+     * @param bool $need
      * @return Mesour\Components\Application\Request
      */
-    public function getRequest()
+    public function getRequest($need = true)
     {
+        if ($need && !$this->request instanceof Mesour\Components\Application\Request) {
+            throw new Mesour\InvalidStateException('Request is not set.');
+        }
         return $this->request;
     }
 
