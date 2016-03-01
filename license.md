@@ -2,7 +2,7 @@ Licenses
 ========
 
 Good news! You may use Mesour Components under the terms of either
-the New BSD License or the GNU General Public License (GPL) version 3.
+the New BSD License or the GNU General Public License (GPL) version 2 and 3.
 
 You don't have to notify anyone which license you are using. You can freely
 use Mesour Components in commercial projects as long as the copyright header
