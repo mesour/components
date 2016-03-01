@@ -1,7 +1,7 @@
 {
   "name": "mesour/components",
   "description": "Mesour components.",
-  "license": ["BSD-3-Clause","GPL-3.0"],
+  "license": ["BSD-3-Clause","GPL-2.0","GPL-3.0"],
   "keywords": ["components"],
   "homepage": "http://mesour.com",
   "authors": [{
@@ -10,7 +10,7 @@
   }],
   "require": {
     "php": ">=5.5.0",
-    "nette/utils": ">=2.3.7"
+    "nette/utils": "~2.3.7"
   },
   "require-dev": {
     "nette/tester": "~1.4",
