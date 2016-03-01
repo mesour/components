@@ -79,11 +79,12 @@ abstract class BaseControl extends Mesour\Components\ComponentModel\Container im
     /**
      * @param $destination
      * @param array $args
+     * @param null|mixed $optional
      * @return Mesour\Components\Link\IUrl
      */
-    public function link($destination, $args = [])
+    public function link($destination, $args = [], $optional = null)
     {
-        return $this->getLink()->create($destination, $args);
+        return $this->getLink()->create($destination, $args, $optional);
     }
 
     /**
