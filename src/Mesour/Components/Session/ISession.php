@@ -16,18 +16,18 @@ namespace Mesour\Components\Session;
 interface ISession
 {
 
-    /**
-     * @param $section
-     * @return ISessionSection
-     */
-    public function getSection($section);
+	/**
+	 * @param $section
+	 * @return ISessionSection
+	 */
+	public function getSection($section);
 
-    public function hasSection($section);
+	public function hasSection($section);
 
-    public function destroy();
+	public function destroy();
 
-    public function loadState();
+	public function loadState();
 
-    public function saveState();
+	public function saveState();
 
 }

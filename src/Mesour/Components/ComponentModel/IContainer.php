@@ -18,37 +18,37 @@ use Mesour;
 interface IContainer extends \Iterator, \ArrayAccess, \Countable
 {
 
-    /**
-     * @param IComponent $component
-     * @param string|null $name
-     * @return mixed
-     */
-    public function addComponent(IComponent $component, $name = NULL);
+	/**
+	 * @param IComponent $component
+	 * @param string|null $name
+	 * @return mixed
+	 */
+	public function addComponent(IComponent $component, $name = null);
 
-    /**
-     * @param $name
-     * @return mixed
-     */
-    public function removeComponent($name);
+	/**
+	 * @param $name
+	 * @return mixed
+	 */
+	public function removeComponent($name);
 
-    /**
-     * @param $name
-     * @param bool $need
-     * @return IComponent|null
-     */
-    public function getComponent($name, $need = TRUE);
+	/**
+	 * @param $name
+	 * @param bool $need
+	 * @return IComponent|null
+	 */
+	public function getComponent($name, $need = true);
 
-    /**
-     * @return IComponent[]
-     */
-    public function getComponents();
+	/**
+	 * @return IComponent[]
+	 */
+	public function getComponents();
 
-    /**
-     * @param $className
-     * @param bool $need
-     * @param bool $reverse
-     * @return IComponent|null
-     */
-    public function lookup($className, $need = TRUE, $reverse = FALSE);
+	/**
+	 * @param $className
+	 * @param bool $need
+	 * @param bool $reverse
+	 * @return IComponent|null
+	 */
+	public function lookup($className, $need = true, $reverse = false);
 
 }

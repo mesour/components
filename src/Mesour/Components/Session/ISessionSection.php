@@ -16,12 +16,12 @@ namespace Mesour\Components\Session;
 interface ISessionSection
 {
 
-    public function remove();
+	public function remove();
 
-    public function set($key, $val);
+	public function set($key, $val);
 
-    public function get($key = NULL, $default = NULL);
+	public function get($key = null, $default = null);
 
-    public function loadState($data);
+	public function loadState($data);
 
 }

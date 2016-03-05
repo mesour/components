@@ -18,70 +18,70 @@ use Tester\Assert;
 class Span extends Mesour\UI\Control
 {
 
-    /**
-     * @var Mesour\Components\Utils\Html
-     */
-    private $wrapper;
+	/**
+	 * @var Mesour\Components\Utils\Html
+	 */
+	private $wrapper;
 
-    private $text = 'Default content';
+	private $text = 'Default content';
 
-    private $handleCalled = FALSE;
+	private $handleCalled = false;
 
-    /**
-     * @return Mesour\Components\Utils\Html
-     */
-    public function getControlPrototype()
-    {
-        return !$this->wrapper ? ($this->wrapper = Mesour\Components\Utils\Html::el('span')) : $this->wrapper;
-    }
+	/**
+	 * @return Mesour\Components\Utils\Html
+	 */
+	public function getControlPrototype()
+	{
+		return !$this->wrapper ? ($this->wrapper = Mesour\Components\Utils\Html::el('span')) : $this->wrapper;
+	}
 
-    public function setText($text)
-    {
-        $this->text = $this->getTranslator()->translate($text);
-        return $this;
-    }
+	public function setText($text)
+	{
+		$this->text = $this->getTranslator()->translate($text);
+		return $this;
+	}
 
-    public function getText()
-    {
-        return $this->text;
-    }
+	public function getText()
+	{
+		return $this->text;
+	}
 
-    public function create()
-    {
-        parent::create();
+	public function create()
+	{
+		parent::create();
 
-        $wrapper = $this->getControlPrototype();
-        $wrapper->setText($this->text);
+		$wrapper = $this->getControlPrototype();
+		$wrapper->setText($this->text);
 
-        return $wrapper;
-    }
+		return $wrapper;
+	}
 
-    public function handleChange($page)
-    {
-        $this->handleCalled = TRUE;
-        Assert::same($page, '2');
-    }
+	public function handleChange($page)
+	{
+		$this->handleCalled = true;
+		Assert::same($page, '2');
+	}
 
-    public function getFilter()
-    {
-        return $this->createFilterIterator();
-    }
+	public function getFilter()
+	{
+		return $this->createFilterIterator();
+	}
 
-    public function handleChangeArray($page = [])
-    {
-        $this->handleCalled = TRUE;
-        Assert::same($page, Mesour\ComponentsTests\HandlesTest::$testArr);
-    }
+	public function handleChangeArray($page = [])
+	{
+		$this->handleCalled = true;
+		Assert::same($page, Mesour\ComponentsTests\HandlesTest::$testArr);
+	}
 
-    public function handleChangeArrayRequired(array $page)
-    {
-        $this->handleCalled = TRUE;
-        Assert::same($page, Mesour\ComponentsTests\HandlesTest::$testArr);
-    }
+	public function handleChangeArrayRequired(array $page)
+	{
+		$this->handleCalled = true;
+		Assert::same($page, Mesour\ComponentsTests\HandlesTest::$testArr);
+	}
 
-    public function assertHandleCalled()
-    {
-        Assert::true($this->handleCalled);
-    }
+	public function assertHandleCalled()
+	{
+		Assert::true($this->handleCalled);
+	}
 
 }

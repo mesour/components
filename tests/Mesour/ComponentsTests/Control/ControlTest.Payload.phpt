@@ -11,29 +11,29 @@ require_once __DIR__ . '/../../../bootstrap.php';
 class ControlTest_Payload extends Mesour\Tests\BaseTestCase
 {
 
-    public function testPayloadSetAndGet()
-    {
-        $span = new Classes\Span;
+	public function testPayloadSetAndGet()
+	{
+		$span = new Classes\Span;
 
-        $payload = new Mesour\Components\Application\Payload;
+		$payload = new Mesour\Components\Application\Payload;
 
-        $span->setPayload($payload);
+		$span->setPayload($payload);
 
-        Assert::same($span->getPayload(), $payload);
-    }
+		Assert::same($span->getPayload(), $payload);
+	}
 
-    public function testPayloadFromParent()
-    {
-        $span = new Classes\Span;
+	public function testPayloadFromParent()
+	{
+		$span = new Classes\Span;
 
-        $payload = new Mesour\Components\Application\Payload;
+		$payload = new Mesour\Components\Application\Payload;
 
-        $span->setPayload($payload);
+		$span->setPayload($payload);
 
-        $span->addComponent(new Classes\Span, 'children');
+		$span->addComponent(new Classes\Span, 'children');
 
-        Assert::same($span->getComponent('children')->getPayload(), $payload);
-    }
+		Assert::same($span->getComponent('children')->getPayload(), $payload);
+	}
 
 }
 

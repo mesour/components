@@ -16,31 +16,31 @@ use Mesour;
  * @author Matouš Němec <matous.nemec@mesour.com>
  *
  * @method Mesour\Components\Control\IControl getParent()
- * @method Mesour\Components\Control\BaseControl getComponent($name, $need = TRUE)
+ * @method Mesour\Components\Control\BaseControl getComponent($name, $need = true)
  */
 class Control extends Mesour\Components\Control\BaseControl implements Mesour\Components\Control\IControl
 {
 
-    const SNIPPET_PREFIX = 'm_snippet-';
+	const SNIPPET_PREFIX = 'm_snippet-';
 
-    private $permission;
+	private $permission;
 
-    public function createLink($handle, $args = [])
-    {
-        return $this->getApplication()->createLink($this, $handle, $args);
-    }
+	public function createLink($handle, $args = [])
+	{
+		return $this->getApplication()->createLink($this, $handle, $args);
+	}
 
-    protected function setPermissionCheck(
-        $resource = Mesour\Components\Security\IAuthorizator::ALL,
-        $privilege = Mesour\Components\Security\IAuthorizator::ALL
-    )
-    {
-        $this->permission = [$this->getUserRole(), $resource, $privilege];
-    }
+	protected function setPermissionCheck(
+		$resource = Mesour\Components\Security\IAuthorizator::ALL,
+		$privilege = Mesour\Components\Security\IAuthorizator::ALL
+	)
+	{
+		$this->permission = [$this->getUserRole(), $resource, $privilege];
+	}
 
-    public function isAllowed()
-    {
-        return !$this->permission || Mesour\Components\Utils\Helpers::invokeArgs([$this->getAuthorizator(), 'isAllowed'], $this->permission);
-    }
+	public function isAllowed()
+	{
+		return !$this->permission || Mesour\Components\Utils\Helpers::invokeArgs([$this->getAuthorizator(), 'isAllowed'], $this->permission);
+	}
 
 }

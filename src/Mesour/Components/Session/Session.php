@@ -18,85 +18,85 @@ use Mesour;
 class Session implements ISession
 {
 
-    /**
-     * @var array
-     */
-    private $sections = [];
+	/**
+	 * @var array
+	 */
+	private $sections = [];
 
-    /**
-     * @var array
-     */
-    private $session = [];
+	/**
+	 * @var array
+	 */
+	private $session = [];
 
-    private $loaded = FALSE;
+	private $loaded = false;
 
-    public function __construct()
-    {
-        self::sessionStart();
-        $this->loadState();
-    }
+	public function __construct()
+	{
+		self::sessionStart();
+		$this->loadState();
+	}
 
-    /**
-     * @param $section
-     * @return ISessionSection
-     * @throws Mesour\InvalidArgumentException
-     */
-    public function getSection($section)
-    {
-        if (!$this->hasSection($section)) {
-            $this->sections[$section] = $session_section = new SessionSection($section);
-            $session_section->loadState(isset($this->session[$section]) ? $this->session[$section] : []);
-        }
-        return $this->sections[$section];
-    }
+	/**
+	 * @param $section
+	 * @return ISessionSection
+	 * @throws Mesour\InvalidArgumentException
+	 */
+	public function getSection($section)
+	{
+		if (!$this->hasSection($section)) {
+			$this->sections[$section] = $session_section = new SessionSection($section);
+			$session_section->loadState(isset($this->session[$section]) ? $this->session[$section] : []);
+		}
+		return $this->sections[$section];
+	}
 
-    public function hasSection($section)
-    {
-        if (!Mesour\Components\Utils\Helpers::validateKeyName($section)) {
-            throw new Mesour\InvalidArgumentException(
-                sprintf('SessionSection name must be integer or string, %s given.', gettype($section))
-            );
-        }
-        return isset($this->sections[$section]);
-    }
+	public function hasSection($section)
+	{
+		if (!Mesour\Components\Utils\Helpers::validateKeyName($section)) {
+			throw new Mesour\InvalidArgumentException(
+				sprintf('SessionSection name must be integer or string, %s given.', gettype($section))
+			);
+		}
+		return isset($this->sections[$section]);
+	}
 
-    public function destroy()
-    {
-        unset($_SESSION[__NAMESPACE__]);
-        return $this;
-    }
+	public function destroy()
+	{
+		unset($_SESSION[__NAMESPACE__]);
+		return $this;
+	}
 
-    public function loadState()
-    {
-        if (!$this->loaded) {
-            $this->loaded = TRUE;
-            $this->session = $this->getFromSession();
-        }
-        return $this;
-    }
+	public function loadState()
+	{
+		if (!$this->loaded) {
+			$this->loaded = true;
+			$this->session = $this->getFromSession();
+		}
+		return $this;
+	}
 
-    private function getFromSession($default = [])
-    {
-        return isset($_SESSION[__NAMESPACE__]) ? $_SESSION[__NAMESPACE__] : $default;
-    }
+	private function getFromSession($default = [])
+	{
+		return isset($_SESSION[__NAMESPACE__]) ? $_SESSION[__NAMESPACE__] : $default;
+	}
 
-    public function saveState()
-    {
-        $this->session = $this->getFromSession();
-        foreach ($this->sections as $name => $section) {
-            /** @var ISessionSection $section */
-            $data = $section->get();
-            $this->session[$name] = $data;
-        }
-        $_SESSION[__NAMESPACE__] = $this->session;
-        return $this;
-    }
+	public function saveState()
+	{
+		$this->session = $this->getFromSession();
+		foreach ($this->sections as $name => $section) {
+			/** @var ISessionSection $section */
+			$data = $section->get();
+			$this->session[$name] = $data;
+		}
+		$_SESSION[__NAMESPACE__] = $this->session;
+		return $this;
+	}
 
-    static private function sessionStart()
-    {
-        if (session_id() == '') {
-            session_start();
-        }
-    }
+	static private function sessionStart()
+	{
+		if (session_id() == '') {
+			session_start();
+		}
+	}
 
 }

@@ -16,15 +16,15 @@ namespace Mesour\Components\Localization;
 class NullTranslator implements ITranslator
 {
 
-    /**
-     * Translates the given string.
-     * @param string $message
-     * @param int $count
-     * @return string
-     */
-    public function translate($message, $count = NULL)
-    {
-        return $message;
-    }
+	/**
+	 * Translates the given string.
+	 * @param string $message
+	 * @param int $count
+	 * @return string
+	 */
+	public function translate($message, $count = null)
+	{
+		return $message;
+	}
 
 }

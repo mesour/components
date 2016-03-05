@@ -8,14 +8,14 @@ use Nette\Application\Routers\Route;
 class TestNetteRouter
 {
 
-    /** @return \Nette\Application\IRouter */
-    static public function createRouter()
-    {
-        $router = new RouteList;
+	/** @return \Nette\Application\IRouter */
+	static public function createRouter()
+	{
+		$router = new RouteList;
 
-        $router[] = new Route("<module>/<presenter>/<action>[/<id>]/");
+		$router[] = new Route("<module>/<presenter>/<action>[/<id>]/");
 
-        return $router;
-    }
+		return $router;
+	}
 
 }

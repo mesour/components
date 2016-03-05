@@ -16,38 +16,38 @@ namespace Mesour\Components\ComponentModel;
 interface IComponent
 {
 
-    /**
-     * @param string|null $name
-     * @param IContainer $parent
-     */
-    public function __construct($name = NULL, IContainer $parent = NULL);
+	/**
+	 * @param string|null $name
+	 * @param IContainer $parent
+	 */
+	public function __construct($name = null, IContainer $parent = null);
 
-    /**
-     * @param IContainer $parent
-     */
-    public function attached(IContainer $parent);
+	/**
+	 * @param IContainer $parent
+	 */
+	public function attached(IContainer $parent);
 
-    /**
-     * @param IContainer $parent
-     */
-    public function detached(IContainer $parent);
+	/**
+	 * @param IContainer $parent
+	 */
+	public function detached(IContainer $parent);
 
-    /**
-     * @param $name
-     * @return mixed
-     */
-    public function setName($name);
+	/**
+	 * @param $name
+	 * @return mixed
+	 */
+	public function setName($name);
 
-    /**
-     * @return string|null
-     */
-    public function getName();
+	/**
+	 * @return string|null
+	 */
+	public function getName();
 
-    /**
-     * @return Component|null
-     */
-    public function getParent();
+	/**
+	 * @return Component|null
+	 */
+	public function getParent();
 
-    public function render();
+	public function render();
 
 }

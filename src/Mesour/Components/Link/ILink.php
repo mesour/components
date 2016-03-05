@@ -10,18 +10,17 @@
 namespace Mesour\Components\Link;
 
 
-
 /**
  * @author Matouš Němec <matous.nemec@mesour.com>
  */
 interface ILink
 {
 
-    /**
-     * @param $destination
-     * @param array $args
-     * @return Url
-     */
-    public function create($destination, $args = []);
+	/**
+	 * @param $destination
+	 * @param array $args
+	 * @return Url
+	 */
+	public function create($destination, $args = []);
 
 }

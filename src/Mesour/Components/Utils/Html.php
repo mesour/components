@@ -35,15 +35,15 @@ use Nette;
  * @property string|null $type
  * @property string|null $placeholder
  *
- * @method $this style() style($style, $append = FALSE) Add style
- * @method $this class() class($src, $append = FALSE) Add src
+ * @method $this style() style($style, $append = false) Add style
+ * @method $this class() class($src, $append = false) Add src
  * @method $this src() src($src) Add src
  * @method $this id($src) Set ID attribute
  * @method $this target($src) Set target attribute
  * @method $this type($src) Set type attribute
  * @method $this placeholder($src) Set placeholder attribute
  *
- * @method static Html el($name = NULL, $attrs = NULL)
+ * @method static Html el($name = null, $attrs = null)
  */
 class Html extends Nette\Utils\Html implements IString
 {
@@ -56,14 +56,14 @@ class Html extends Nette\Utils\Html implements IString
      * @return self
      * @throws Nette\InvalidArgumentException
      */
-    public function insert($index, $child, $replace = FALSE)
+    public function insert($index, $child, $replace = false)
     {
         if ($child instanceof self || is_scalar($child) || $child instanceof IString) {
-            if ($index === NULL) { // append
+            if ($index === null) { // append
                 $this->children[] = $child;
 
             } else { // insert or replace
-                array_splice($this->children, (int) $index, $replace ? 1 : 0, array($child));
+                array_splice($this->children, (int)$index, $replace ? 1 : 0, [$child]);
             }
 
         } else {

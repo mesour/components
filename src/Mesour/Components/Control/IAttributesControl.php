@@ -18,19 +18,19 @@ use Mesour;
 interface IAttributesControl extends IOptionsControl
 {
 
-    public function setAttributes(array $attributes);
+	public function setAttributes(array $attributes);
 
-    public function setAttribute($key, $value, $append = FALSE, $translated = FALSE);
+	public function setAttribute($key, $value, $append = false, $translated = false);
 
-    /**
-     * @param bool|FALSE $isDisabled
-     * @return array
-     * @throws Mesour\InvalidArgumentException
-     */
-    public function getAttributes($isDisabled = FALSE);
+	/**
+	 * @param bool|FALSE $isDisabled
+	 * @return array
+	 * @throws Mesour\InvalidArgumentException
+	 */
+	public function getAttributes($isDisabled = false);
 
-    public function getAttribute($key, $need = TRUE);
+	public function getAttribute($key, $need = true);
 
-    public function removeAttribute($key);
+	public function removeAttribute($key);
 
 }

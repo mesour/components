@@ -11,29 +11,29 @@ require_once __DIR__ . '/../../../bootstrap.php';
 class ControlTest_Session extends Mesour\Tests\BaseTestCase
 {
 
-    public function testSessionSetAndGet()
-    {
-        $span = new Classes\Span;
+	public function testSessionSetAndGet()
+	{
+		$span = new Classes\Span;
 
-        $session = new Mesour\Components\Session\Session;
+		$session = new Mesour\Components\Session\Session;
 
-        $span->setSession($session);
+		$span->setSession($session);
 
-        Assert::same($span->getSession(), $session);
-    }
+		Assert::same($span->getSession(), $session);
+	}
 
-    public function testSessionFromParent()
-    {
-        $span = new Classes\Span;
+	public function testSessionFromParent()
+	{
+		$span = new Classes\Span;
 
-        $session = new Mesour\Components\Session\Session;
+		$session = new Mesour\Components\Session\Session;
 
-        $span->setSession($session);
+		$span->setSession($session);
 
-        $span->addComponent(new Classes\Span, 'children');
+		$span->addComponent(new Classes\Span, 'children');
 
-        Assert::same($span->getComponent('children')->getSession(), $session);
-    }
+		Assert::same($span->getComponent('children')->getSession(), $session);
+	}
 
 }
 

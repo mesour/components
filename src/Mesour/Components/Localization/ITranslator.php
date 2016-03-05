@@ -16,12 +16,12 @@ namespace Mesour\Components\Localization;
 interface ITranslator
 {
 
-    /**
-     * Translates the given string.
-     * @param string $message
-     * @param int $count
-     * @return string
-     */
-    public function translate($message, $count = NULL);
+	/**
+	 * Translates the given string.
+	 * @param string $message
+	 * @param int $count
+	 * @return string
+	 */
+	public function translate($message, $count = null);
 
 }

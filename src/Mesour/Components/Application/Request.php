@@ -16,41 +16,41 @@ namespace Mesour\Components\Application;
 class Request
 {
 
-    private $request;
+	private $request;
 
-    private $headers = [];
+	private $headers = [];
 
-    public function __construct(array $request)
-    {
-        $this->headers = $this->getAllHeaders();
-        $this->request = $request;
-    }
+	public function __construct(array $request)
+	{
+		$this->headers = $this->getAllHeaders();
+		$this->request = $request;
+	}
 
-    public function getHeader($name, $default = NULL)
-    {
-        return isset($this->headers[$name]) ? $this->headers[$name] : $default;
-    }
+	public function getHeader($name, $default = null)
+	{
+		return isset($this->headers[$name]) ? $this->headers[$name] : $default;
+	}
 
-    public function get($key = NULL, $default = NULL)
-    {
-        if (is_null($key)) {
-            return $this->request;
-        }
-        return isset($this->request[$key]) ? $this->request[$key] : $default;
-    }
+	public function get($key = null, $default = null)
+	{
+		if (is_null($key)) {
+			return $this->request;
+		}
+		return isset($this->request[$key]) ? $this->request[$key] : $default;
+	}
 
-    protected function getAllHeaders()
-    {
-        if (!function_exists('getallheaders')) {
-            $headers = '';
-            foreach ($_SERVER as $name => $value) {
-                if (substr($name, 0, 5) == 'HTTP_') {
-                    $headers[str_replace(' ', '-', ucwords(strtolower(str_replace('_', ' ', substr($name, 5)))))] = $value;
-                }
-            }
-            return $headers;
-        }
-        return getallheaders();
-    }
+	protected function getAllHeaders()
+	{
+		if (!function_exists('getallheaders')) {
+			$headers = '';
+			foreach ($_SERVER as $name => $value) {
+				if (substr($name, 0, 5) == 'HTTP_') {
+					$headers[str_replace(' ', '-', ucwords(strtolower(str_replace('_', ' ', substr($name, 5)))))] = $value;
+				}
+			}
+			return $headers;
+		}
+		return getallheaders();
+	}
 
 }

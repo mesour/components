@@ -18,32 +18,32 @@ use Mesour;
 interface IUrl extends Mesour\Components\Utils\IString
 {
 
-    /**
-     * @param ILink $link
-     * @param string $destination
-     * @param array $args
-     */
-    public function __construct(ILink $link, $destination, $args = []);
+	/**
+	 * @param ILink $link
+	 * @param string $destination
+	 * @param array $args
+	 */
+	public function __construct(ILink $link, $destination, $args = []);
 
-    /**
-     * @param array $data
-     * @return string
-     */
-    public function create($data = []);
+	/**
+	 * @param array $data
+	 * @return string
+	 */
+	public function create($data = []);
 
-    /**
-     * @return ILink
-     */
-    public function getLink();
+	/**
+	 * @return ILink
+	 */
+	public function getLink();
 
-    /**
-     * @return string
-     */
-    public function getDestination();
+	/**
+	 * @return string
+	 */
+	public function getDestination();
 
-    /**
-     * @return array
-     */
-    public function getArguments();
+	/**
+	 * @return array
+	 */
+	public function getArguments();
 
 }

@@ -18,58 +18,58 @@ use Mesour;
 class Payload implements IPayload
 {
 
-    private $data = [];
+	private $data = [];
 
-    public function sendPayload()
-    {
-        ob_clean();
-        header('Content-type: application/json');
-        echo json_encode($this->data);
-        exit(0);
-    }
+	public function sendPayload()
+	{
+		ob_clean();
+		header('Content-type: application/json');
+		echo json_encode($this->data);
+		exit(0);
+	}
 
-    public function __set($key, $value)
-    {
-        $this->set($key, $value);
-    }
+	public function __set($key, $value)
+	{
+		$this->set($key, $value);
+	}
 
-    public function __get($key)
-    {
-        return $this->get($key);
-    }
+	public function __get($key)
+	{
+		return $this->get($key);
+	}
 
-    public function __isset($key)
-    {
-        return isset($this->data[$key]);
-    }
+	public function __isset($key)
+	{
+		return isset($this->data[$key]);
+	}
 
-    public function __unset($key)
-    {
-        unset($this->data[$key]);
-    }
+	public function __unset($key)
+	{
+		unset($this->data[$key]);
+	}
 
-    public function set($key, $value)
-    {
-        if (!is_string($key)) {
-            throw new Mesour\InvalidArgumentException(
-                sprintf('Key must be string. "%s" given.', gettype($key))
-            );
-        }
-        $this->data[$key] = $value;
-        return $this;
-    }
+	public function set($key, $value)
+	{
+		if (!is_string($key)) {
+			throw new Mesour\InvalidArgumentException(
+				sprintf('Key must be string. "%s" given.', gettype($key))
+			);
+		}
+		$this->data[$key] = $value;
+		return $this;
+	}
 
-    public function get($key = NULL, $default = NULL)
-    {
-        if (is_null($key)) {
-            return $this->data;
-        }
-        if (!is_string($key)) {
-            throw new Mesour\InvalidArgumentException(
-                sprintf('Key must be string. "%s" given.', gettype($key))
-            );
-        }
-        return isset($this->data[$key]) ? $this->data[$key] : $default;
-    }
+	public function get($key = null, $default = null)
+	{
+		if (is_null($key)) {
+			return $this->data;
+		}
+		if (!is_string($key)) {
+			throw new Mesour\InvalidArgumentException(
+				sprintf('Key must be string. "%s" given.', gettype($key))
+			);
+		}
+		return isset($this->data[$key]) ? $this->data[$key] : $default;
+	}
 
 }

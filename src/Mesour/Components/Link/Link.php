@@ -18,20 +18,20 @@ use Mesour;
 class Link implements ILink
 {
 
-    /**
-     * @param $destination
-     * @param array $args
-     * @return Url
-     * @throws Mesour\InvalidArgumentException
-     */
-    public function create($destination, $args = [])
-    {
-        if (!is_string($destination)) {
-            throw new Mesour\InvalidArgumentException(
-                sprintf('Destination must be string. %s given.', gettype($destination))
-            );
-        }
-        return new Url($this, $destination, $args);
-    }
+	/**
+	 * @param $destination
+	 * @param array $args
+	 * @return Url
+	 * @throws Mesour\InvalidArgumentException
+	 */
+	public function create($destination, $args = [])
+	{
+		if (!is_string($destination)) {
+			throw new Mesour\InvalidArgumentException(
+				sprintf('Destination must be string. %s given.', gettype($destination))
+			);
+		}
+		return new Url($this, $destination, $args);
+	}
 
 }

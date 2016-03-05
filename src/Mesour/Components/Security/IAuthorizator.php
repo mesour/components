@@ -10,29 +10,28 @@
 namespace Mesour\Components\Security;
 
 
-
 /**
  * @author Matouš Němec <matous.nemec@mesour.com>
  */
 interface IAuthorizator
 {
 
-    /** Set type: all */
-    const ALL = NULL;
+	/** Set type: all */
+	const ALL = null;
 
-    /** Permission type: allow */
-    const ALLOW = TRUE;
+	/** Permission type: allow */
+	const ALLOW = true;
 
-    /** Permission type: deny */
-    const DENY = FALSE;
+	/** Permission type: deny */
+	const DENY = false;
 
-    /**
-     * Performs a role-based authorization.
-     * @param string|array|IAuthorizator::ALL|IAuthorizator::ALLOW|IAuthorizator::DENY $role
-     * @param string|array|IAuthorizator::ALL|IAuthorizator::ALLOW|IAuthorizator::DENY $resource
-     * @param string|array|IAuthorizator::ALL|IAuthorizator::ALLOW|IAuthorizator::DENY $privilege
-     * @return bool
-     */
-    public function isAllowed($role, $resource, $privilege);
+	/**
+	 * Performs a role-based authorization.
+	 * @param string|array|IAuthorizator::ALL|IAuthorizator::ALLOW|IAuthorizator::DENY $role
+	 * @param string|array|IAuthorizator::ALL|IAuthorizator::ALLOW|IAuthorizator::DENY $resource
+	 * @param string|array|IAuthorizator::ALL|IAuthorizator::ALLOW|IAuthorizator::DENY $privilege
+	 * @return bool
+	 */
+	public function isAllowed($role, $resource, $privilege);
 
 }

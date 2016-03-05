@@ -19,86 +19,86 @@ use Mesour\Components\ComponentModel;
 interface IControl extends ComponentModel\IContainer, ComponentModel\IComponent, Mesour\Components\Utils\IString
 {
 
-    public function createLink($handle, $args = []);
+	public function createLink($handle, $args = []);
 
-    public function beforeRender();
+	public function beforeRender();
 
-    public function createLinkName();
+	public function createLinkName();
 
-    public function setLink(Mesour\Components\Link\ILink $link);
+	public function setLink(Mesour\Components\Link\ILink $link);
 
-    /**
-     * @param $destination
-     * @param array $args
-     * @return Mesour\Components\Link\IUrl
-     */
-    public function link($destination, $args = []);
+	/**
+	 * @param $destination
+	 * @param array $args
+	 * @return Mesour\Components\Link\IUrl
+	 */
+	public function link($destination, $args = []);
 
-    /**
-     * @return Mesour\Components\Link\ILink
-     */
-    public function getLink();
+	/**
+	 * @return Mesour\Components\Link\ILink
+	 */
+	public function getLink();
 
-    public function setPayload(Mesour\Components\Application\IPayload $payload);
+	public function setPayload(Mesour\Components\Application\IPayload $payload);
 
-    /**
-     * @return Mesour\Components\Application\IPayload
-     */
-    public function getPayload();
+	/**
+	 * @return Mesour\Components\Application\IPayload
+	 */
+	public function getPayload();
 
-    public function setSession(Mesour\Components\Session\ISession $session);
+	public function setSession(Mesour\Components\Session\ISession $session);
 
-    /**
-     * @return Mesour\Components\Session\ISession
-     */
-    public function getSession();
+	/**
+	 * @return Mesour\Components\Session\ISession
+	 */
+	public function getSession();
 
-    /**
-     * @param bool $need
-     * @return Mesour\Components\Application\IApplication|null
-     * @throws Mesour\InvalidStateException
-     */
-    public function getApplication($need = TRUE);
+	/**
+	 * @param bool $need
+	 * @return Mesour\Components\Application\IApplication|null
+	 * @throws Mesour\InvalidStateException
+	 */
+	public function getApplication($need = true);
 
-    public function setTranslator(Mesour\Components\Localization\ITranslator $translator);
+	public function setTranslator(Mesour\Components\Localization\ITranslator $translator);
 
-    /**
-     * @param bool $fromChildren
-     * @return Mesour\Components\Localization\ITranslator
-     */
-    public function getTranslator($fromChildren = FALSE);
+	/**
+	 * @param bool $fromChildren
+	 * @return Mesour\Components\Localization\ITranslator
+	 */
+	public function getTranslator($fromChildren = false);
 
-    public function setDisableTranslate($disabled = TRUE);
+	public function setDisableTranslate($disabled = true);
 
-    public function setAuthorizator(Mesour\Components\Security\IAuthorizator $auth);
+	public function setAuthorizator(Mesour\Components\Security\IAuthorizator $auth);
 
-    /**
-     * @return Mesour\Components\Security\IAuthorizator
-     */
-    public function getAuthorizator();
+	/**
+	 * @return Mesour\Components\Security\IAuthorizator
+	 */
+	public function getAuthorizator();
 
-    public function isAllowed();
+	public function isAllowed();
 
-    public function getUserRole();
+	public function getUserRole();
 
-    public function setUserRole($userRole);
+	public function setUserRole($userRole);
 
-    /**
-     * @return Mesour\Components\Utils\Html
-     */
-    public function createSnippet();
+	/**
+	 * @return Mesour\Components\Utils\Html
+	 */
+	public function createSnippet();
 
-    public function create();
+	public function create();
 
-    /**
-     * @param Mesour\Components\Filter\Rules\RulesContainer|null $rulesContainer
-     * @return Mesour\Components\Filter\FilterIterator
-     * @internal
-     */
-    public function createFilterIterator(Mesour\Components\Filter\Rules\RulesContainer $rulesContainer = NULL);
+	/**
+	 * @param Mesour\Components\Filter\Rules\RulesContainer|null $rulesContainer
+	 * @return Mesour\Components\Filter\FilterIterator
+	 * @internal
+	 */
+	public function createFilterIterator(Mesour\Components\Filter\Rules\RulesContainer $rulesContainer = null);
 
-    public function setIconClass($iconClass);
+	public function setIconClass($iconClass);
 
-    public function getIconClass();
+	public function getIconClass();
 
 }

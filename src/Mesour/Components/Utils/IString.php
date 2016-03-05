@@ -18,6 +18,6 @@ use Nette\Utils\IHtmlString;
 interface IString extends IHtmlString
 {
 
-    public function __toString();
+	public function __toString();
 
 }

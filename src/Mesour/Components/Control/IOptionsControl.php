@@ -18,10 +18,10 @@ use Mesour;
 interface IOptionsControl extends IControl
 {
 
-    public function setOption($key, $value, $subKey = NULL);
+	public function setOption($key, $value, $subKey = null);
 
-    public function getOption($key, $subKey = NULL);
+	public function getOption($key, $subKey = null);
 
-    public function hasOption($key);
+	public function hasOption($key);
 
 }

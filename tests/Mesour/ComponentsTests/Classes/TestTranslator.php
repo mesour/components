@@ -17,16 +17,16 @@ use Mesour;
 class TestTranslator implements Mesour\Components\Localization\ITranslator
 {
 
-    private $translates = [
-        'translated' => 'new_string'
-    ];
+	private $translates = [
+		'translated' => 'new_string',
+	];
 
-    public function translate($message, $count = NULL)
-    {
-        if (isset($this->translates[$message])) {
-            return $this->translates[$message];
-        }
-        return $message;
-    }
+	public function translate($message, $count = null)
+	{
+		if (isset($this->translates[$message])) {
+			return $this->translates[$message];
+		}
+		return $message;
+	}
 
 }

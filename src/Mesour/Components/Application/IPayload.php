@@ -16,20 +16,20 @@ namespace Mesour\Components\Application;
 interface IPayload
 {
 
-    /**
-     * @param string $key
-     * @param $value
-     * @return mixed
-     */
-    public function set($key, $value);
+	/**
+	 * @param string $key
+	 * @param $value
+	 * @return mixed
+	 */
+	public function set($key, $value);
 
-    /**
-     * @param string $key
-     * @param mixed $default
-     * @return mixed
-     */
-    public function get($key = NULL, $default = NULL);
+	/**
+	 * @param string $key
+	 * @param mixed $default
+	 * @return mixed
+	 */
+	public function get($key = null, $default = null);
 
-    public function sendPayload();
+	public function sendPayload();
 
 }

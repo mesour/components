@@ -18,34 +18,34 @@ use Mesour;
 interface IApplication extends Mesour\Components\ComponentModel\IContainer
 {
 
-    /**
-     * @return Request
-     */
-    public function getRequest();
+	/**
+	 * @return Request
+	 */
+	public function getRequest();
 
-    public function setRequest(array $request);
+	public function setRequest(array $request);
 
-    public function getUserRole();
+	public function getUserRole();
 
-    public function setUserRole($userRole);
+	public function setUserRole($userRole);
 
-    /**
-     * @return Url
-     */
-    public function getUrl();
+	/**
+	 * @return Url
+	 */
+	public function getUrl();
 
-    public function setUrl(Url $url);
+	public function setUrl(Url $url);
 
-    public function isAjax();
+	public function isAjax();
 
-    public function isPost();
+	public function isPost();
 
-    public function createLink(Mesour\UI\Control $control, $handle, $args = []);
+	public function createLink(Mesour\UI\Control $control, $handle, $args = []);
 
-    public function run();
+	public function run();
 
-    public function setIconClass($iconClass);
+	public function setIconClass($iconClass);
 
-    public function getIconClass();
+	public function getIconClass();
 
 }

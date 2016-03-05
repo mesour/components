@@ -18,111 +18,111 @@ use Mesour;
 abstract class Component extends Mesour\Object implements IComponent
 {
 
-    private $name;
+	private $name;
 
-    /**
-     * @var Component
-     */
-    private $parent;
+	/**
+	 * @var Component
+	 */
+	private $parent;
 
-    /**
-     * @param string|null $name
-     * @param IContainer $parent
-     * @throws Mesour\InvalidArgumentException
-     */
-    public function __construct($name = NULL, IContainer $parent = NULL)
-    {
-        if (is_null($name) || Mesour\Components\Utils\Helpers::validateComponentName($name, FALSE)) {
-            $this->name = $name;
-        } else {
-            throw new Mesour\InvalidArgumentException('Component name must be integer, string or null.');
-        }
+	/**
+	 * @param string|null $name
+	 * @param IContainer $parent
+	 * @throws Mesour\InvalidArgumentException
+	 */
+	public function __construct($name = null, IContainer $parent = null)
+	{
+		if (is_null($name) || Mesour\Components\Utils\Helpers::validateComponentName($name, false)) {
+			$this->name = $name;
+		} else {
+			throw new Mesour\InvalidArgumentException('Component name must be integer, string or null.');
+		}
 
-        if (!is_null($parent)) {
-            $parent->addComponent($this, $name);
-        }
-    }
+		if (!is_null($parent)) {
+			$parent->addComponent($this, $name);
+		}
+	}
 
-    /**
-     * @return Component|null
-     */
-    public function getParent()
-    {
-        return $this->parent;
-    }
+	/**
+	 * @return Component|null
+	 */
+	public function getParent()
+	{
+		return $this->parent;
+	}
 
-    /**
-     * @param $name
-     * @return $this
-     */
-    public function setName($name)
-    {
-        Mesour\Components\Utils\Helpers::validateComponentName($name);
-        $this->name = $name;
-        return $this;
-    }
+	/**
+	 * @param $name
+	 * @return $this
+	 */
+	public function setName($name)
+	{
+		Mesour\Components\Utils\Helpers::validateComponentName($name);
+		$this->name = $name;
+		return $this;
+	}
 
-    /**
-     * @return string|null
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
+	/**
+	 * @return string|null
+	 */
+	public function getName()
+	{
+		return $this->name;
+	}
 
-    public function getFullName()
-    {
-        return $this->parent ? ($this->parent->getFullName() . '-' . $this->getName()) : $this->getName();
-    }
+	public function getFullName()
+	{
+		return $this->parent ? ($this->parent->getFullName() . '-' . $this->getName()) : $this->getName();
+	}
 
-    public function render()
-    {
-    }
+	public function render()
+	{
+	}
 
-    /**
-     * @param IContainer $parent
-     */
-    public function attached(IContainer $parent)
-    {
-        $this->parent = $parent;
-        if ($this instanceof IContainer) {
-            foreach ($this->getComponents() as $component) {
-                $component->attached($this);
-            }
-        }
-    }
+	/**
+	 * @param IContainer $parent
+	 */
+	public function attached(IContainer $parent)
+	{
+		$this->parent = $parent;
+		if ($this instanceof IContainer) {
+			foreach ($this->getComponents() as $component) {
+				$component->attached($this);
+			}
+		}
+	}
 
-    /**
-     * @param IContainer $parent
-     */
-    public function detached(IContainer $parent)
-    {
-        $this->parent = NULL;
-    }
+	/**
+	 * @param IContainer $parent
+	 */
+	public function detached(IContainer $parent)
+	{
+		$this->parent = null;
+	}
 
-    public function __clone()
-    {
-        if ($this->parent === NULL) {
-            return;
-        } elseif ($this->parent instanceof Container && $this->parent->_isCloning()) {
-            $this->attached($this->parent->_isCloning());
-        } else {
-            $this->parent = NULL;
-        }
-    }
+	public function __clone()
+	{
+		if ($this->parent === null) {
+			return;
+		} elseif ($this->parent instanceof Container && $this->parent->_isCloning()) {
+			$this->attached($this->parent->_isCloning());
+		} else {
+			$this->parent = null;
+		}
+	}
 
-    public function __wakeup()
-    {
-        throw new Mesour\NotSupportedException(
-            sprintf('Object unserialization is not supported by class ', get_class($this))
-        );
-    }
+	public function __wakeup()
+	{
+		throw new Mesour\NotSupportedException(
+			sprintf('Object unserialization is not supported by class ', get_class($this))
+		);
+	}
 
-    public function __sleep()
-    {
-        throw new Mesour\NotSupportedException(
-            sprintf('Object serialization is not supported by class ', get_class($this))
-        );
-    }
+	public function __sleep()
+	{
+		throw new Mesour\NotSupportedException(
+			sprintf('Object serialization is not supported by class ', get_class($this))
+		);
+	}
 
 }
