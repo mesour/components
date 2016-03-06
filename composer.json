@@ -3,7 +3,7 @@
   "description": "Mesour components.",
   "license": ["BSD-3-Clause","GPL-2.0","GPL-3.0"],
   "keywords": ["components"],
-  "homepage": "http://mesour.com",
+  "homepage": "http://components.mesour.com",
   "authors": [{
       "name": "Matouš Němec",
       "homepage": "http://mesour.com"
