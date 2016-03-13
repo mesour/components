@@ -107,6 +107,14 @@ if (!Array.prototype.indexOf) {
 
             var args = {};
             args['m_do'] = link + '-' + handle;
+            if(mesour.parameters.params) {
+                for(var i in mesour.parameters.params) {
+                    if(!mesour.parameters.params.hasOwnProperty(i)) {
+                        continue;
+                    }
+                    args[i] = mesour.parameters.params[i];
+                }
+            }
             if (!post) {
                 args = $.extend(args, this.getQuery(), new_args);
                 var serialized = this.serialize(args);
@@ -145,6 +153,16 @@ if (!Array.prototype.indexOf) {
         };
     };
     mesour.core = mesour.core ? mesour.core : new mesour._core();
+
+    mesour.core.createWidget('parameters', new function() {
+
+	    this.params = {};
+
+        this.set = function(key, value) {
+			this.params[key] = value;
+        };
+
+    });
 
     mesour.on = mesour.on ? mesour.on : {
         live: function (name, callback) {
