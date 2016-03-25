@@ -3,7 +3,7 @@
  * Mesour Components
  *
  * @license       LGPL-3.0 and BSD-3-Clause
- * @copyright (c) 2015 Matous Nemec <matous.nemec@mesour.com>
+ * @Copyright (c) 2015-2016 Matous Nemec <http://mesour.com>
  */
 
 namespace Mesour\ComponentsTests\Classes;
@@ -12,7 +12,7 @@ use Mesour;
 use Tester\Assert;
 
 /**
- * @author  mesour <matous.nemec@mesour.com>
+ * @author  mesour <http://mesour.com>
  * @package Mesour Components
  */
 class TestComponent extends Mesour\Components\ComponentModel\Container
@@ -58,6 +58,7 @@ class TestComponent extends Mesour\Components\ComponentModel\Container
 	{
 		parent::attached($parent);
 		$this->attachedContains = $parent;
+		$this->onPrivate = $this->onPrivate;
 	}
 
 	/**

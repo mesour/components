@@ -2,7 +2,7 @@
 /**
  * This file is part of the Mesour components (http://components.mesour.com)
  *
- * Copyright (c) 2015 Matouš Němec (http://mesour.com)
+ * Copyright (c) 2015-2016 Matouš Němec (http://mesour.com)
  *
  * For full licence and copyright please view the file licence.md in root of this project
  */
@@ -11,9 +11,8 @@ namespace Mesour\Components\Control;
 
 use Mesour;
 
-
 /**
- * @author Matouš Němec <matous.nemec@mesour.com>
+ * @author Matouš Němec <http://mesour.com>
  *
  * @method Mesour\Components\Control\BaseControl getParent()
  */
@@ -77,7 +76,7 @@ abstract class BaseControl extends Mesour\Components\ComponentModel\Container im
 	}
 
 	/**
-	 * @param $destination
+	 * @param string $destination
 	 * @param array $args
 	 * @param null|mixed $optional
 	 * @return Mesour\Components\Link\IUrl
@@ -154,6 +153,7 @@ abstract class BaseControl extends Mesour\Components\ComponentModel\Container im
 	}
 
 	/**
+	 * @param bool $need
 	 * @return Mesour\Components\Session\ISession|null
 	 */
 	public function getSession($need = true)
@@ -227,7 +227,7 @@ abstract class BaseControl extends Mesour\Components\ComponentModel\Container im
 
 	public function setDisableTranslate($disabled = true)
 	{
-		$this->disabledTranslate = (bool)$disabled;
+		$this->disabledTranslate = (bool) $disabled;
 		return $this;
 	}
 
@@ -309,7 +309,7 @@ abstract class BaseControl extends Mesour\Components\ComponentModel\Container im
 	}
 
 	/**
-	 * @param $type
+	 * @param string $type
 	 * @return Mesour\Icon\IIcon
 	 */
 	protected function createNewIcon($type)
@@ -329,10 +329,12 @@ abstract class BaseControl extends Mesour\Components\ComponentModel\Container im
 				return $parent->getIconClass();
 			} else {
 				if (!class_exists(Mesour\UI\Icon::class)) {
-					throw new Mesour\InvalidArgumentException(sprintf(
-						'For using icons, install mesour/icon package. Class "%s" does not exists.',
-						Mesour\UI\Icon::class
-					));
+					throw new Mesour\InvalidArgumentException(
+						sprintf(
+							'For using icons, install mesour/icon package. Class "%s" does not exists.',
+							Mesour\UI\Icon::class
+						)
+					);
 				}
 				return $this->iconClass = Mesour\UI\Icon::class;
 			}
@@ -355,13 +357,15 @@ abstract class BaseControl extends Mesour\Components\ComponentModel\Container im
 	 */
 	protected function getCurrentHandler()
 	{
-		if ($app = $this->getApplication(false)) {
+		$app = $this->getApplication(false);
+		if ($app) {
 			/** @var Mesour\UI\Application $app */
 			$do = str_replace('m_', '', $app->getRequest()->get('m_do'));
 			if (strlen($do) > 0) {
 				$exploded = explode('-', $do);
 
-				if (($appKey = array_search($app->getName(), $exploded)) !== false) {
+				$appKey = array_search($app->getName(), $exploded);
+				if ($appKey !== false) {
 					unset($exploded[$appKey]);
 					$exploded = array_values($exploded);
 				} else {
@@ -394,7 +398,7 @@ abstract class BaseControl extends Mesour\Components\ComponentModel\Container im
 
 	/**
 	 * Called only if called component === $this and handler exists
-	 * @param $methodName
+	 * @param string $methodName
 	 */
 	private function callHandler($methodName)
 	{
@@ -404,25 +408,26 @@ abstract class BaseControl extends Mesour\Components\ComponentModel\Container im
 		foreach ($parameters as $parameter) {
 			$name = $parameter->getName();
 			if ($parameter->isDefaultValueAvailable()) {
-				$default_value = $parameter->getDefaultValue();
+				$defaultValue = $parameter->getDefaultValue();
 			}
-			$parsed_name = $this->createLinkName() . '-' . $name;
-			if (!is_null($_value = $this->getApplication()->getRequest()->get('m_' . $parsed_name))) {
+			$parsedName = $this->createLinkName() . '-' . $name;
+			$currentValue = $this->getApplication()->getRequest()->get('m_' . $parsedName);
+			if (!is_null($currentValue)) {
 				if (
-					($parameter->isArray() || (isset($default_value) && is_array($default_value)))
-					&& !is_array($_value)
+					($parameter->isArray() || (isset($defaultValue) && is_array($defaultValue)))
+					&& !is_array($currentValue)
 				) {
 					throw new Mesour\UnexpectedValueException(
-						sprintf('Invalid request. Argument must be an array. "%s" given.', gettype($_value))
+						sprintf('Invalid request. Argument must be an array. "%s" given.', gettype($currentValue))
 					);
 				}
-				$value = $_value;
+				$value = $currentValue;
 			} else {
-				if (isset($default_value)) {
-					$value = $default_value;
+				if (isset($defaultValue)) {
+					$value = $defaultValue;
 				} else {
 					throw new Mesour\InvalidArgumentException(
-						"Invalid request. Required parameter \"$parsed_name\" doest not exists."
+						sprintf('Invalid request. Required parameter "%s" doest not exists.', $parsedName)
 					);
 				}
 			}

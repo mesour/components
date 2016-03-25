@@ -2,13 +2,12 @@
 
 namespace Mesour\ComponentsTests;
 
-use Tester\Assert;
 use Mesour;
-use Mesour\ComponentsTests\Classes;
+use Tester\Assert;
 
 require_once __DIR__ . '/../../../bootstrap.php';
 
-class ControlTest_Translator extends Mesour\Tests\BaseTestCase
+class ControlTestTranslator extends Mesour\Tests\BaseTestCase
 {
 
 	public function testTranslatorSetAndGet()
@@ -37,5 +36,5 @@ class ControlTest_Translator extends Mesour\Tests\BaseTestCase
 
 }
 
-$test = new ControlTest_Translator();
+$test = new ControlTestTranslator();
 $test->run();

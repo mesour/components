@@ -18,7 +18,9 @@
     "nette/di": "~2.3",
     "nette/bootstrap": "~2.3",
     "nette/application": "~2.3",
-    "tracy/tracy": "~2.3"
+    "tracy/tracy": "~2.3",
+    "slevomat/coding-standard": "^1.0",
+    "consistence/coding-standard": "^0.10"
   },
   "autoload": {
     "classmap": ["src/"]

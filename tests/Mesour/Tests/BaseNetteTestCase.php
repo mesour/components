@@ -3,17 +3,20 @@
 namespace Mesour\Tests;
 
 use Nette\Application\UI\Presenter;
-use Tester\Assert;
 use Nette\DI\Container;
+use Tester\Assert;
 
 abstract class BaseNetteTestCase extends BaseTestCase
 {
 
-	/** @var Container */
+	/**
+	 * @var Container
+	 */
 	private $container;
 
-	/** @var \Nette\Http\Session */
-
+	/**
+	 * @var \Nette\Http\Session
+	 */
 	private $session;
 
 	public function __construct(Container $container)
@@ -24,7 +27,7 @@ abstract class BaseNetteTestCase extends BaseTestCase
 	}
 
 	/**
-	 * @param $name
+	 * @param string $name
 	 * @return Presenter
 	 */
 	public function getPresenter($name)
@@ -76,4 +79,5 @@ abstract class BaseNetteTestCase extends BaseTestCase
 		Assert::type('Nette\Http\Session', $this->session);
 		return $this->session;
 	}
+
 }

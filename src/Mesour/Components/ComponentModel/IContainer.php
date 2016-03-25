@@ -2,7 +2,7 @@
 /**
  * This file is part of the Mesour components (http://components.mesour.com)
  *
- * Copyright (c) 2015 Matouš Němec (http://mesour.com)
+ * Copyright (c) 2015-2016 Matouš Němec (http://mesour.com)
  *
  * For full licence and copyright please view the file licence.md in root of this project
  */
@@ -11,9 +11,8 @@ namespace Mesour\Components\ComponentModel;
 
 use Mesour;
 
-
 /**
- * @author Matouš Němec <matous.nemec@mesour.com>
+ * @author Matouš Němec <http://mesour.com>
  */
 interface IContainer extends \Iterator, \ArrayAccess, \Countable
 {
@@ -26,13 +25,13 @@ interface IContainer extends \Iterator, \ArrayAccess, \Countable
 	public function addComponent(IComponent $component, $name = null);
 
 	/**
-	 * @param $name
+	 * @param string $name
 	 * @return mixed
 	 */
 	public function removeComponent($name);
 
 	/**
-	 * @param $name
+	 * @param string $name
 	 * @param bool $need
 	 * @return IComponent|null
 	 */
@@ -44,7 +43,7 @@ interface IContainer extends \Iterator, \ArrayAccess, \Countable
 	public function getComponents();
 
 	/**
-	 * @param $className
+	 * @param string $className
 	 * @param bool $need
 	 * @param bool $reverse
 	 * @return IComponent|null

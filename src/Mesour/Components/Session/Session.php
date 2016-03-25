@@ -2,7 +2,7 @@
 /**
  * This file is part of the Mesour components (http://components.mesour.com)
  *
- * Copyright (c) 2015 Matouš Němec (http://mesour.com)
+ * Copyright (c) 2015-2016 Matouš Němec (http://mesour.com)
  *
  * For full licence and copyright please view the file licence.md in root of this project
  */
@@ -11,9 +11,8 @@ namespace Mesour\Components\Session;
 
 use Mesour;
 
-
 /**
- * @author Matouš Němec <matous.nemec@mesour.com>
+ * @author Matouš Němec <http://mesour.com>
  */
 class Session implements ISession
 {
@@ -37,15 +36,15 @@ class Session implements ISession
 	}
 
 	/**
-	 * @param $section
+	 * @param string $section
 	 * @return ISessionSection
 	 * @throws Mesour\InvalidArgumentException
 	 */
 	public function getSection($section)
 	{
 		if (!$this->hasSection($section)) {
-			$this->sections[$section] = $session_section = new SessionSection($section);
-			$session_section->loadState(isset($this->session[$section]) ? $this->session[$section] : []);
+			$this->sections[$section] = $sessionSection = new SessionSection($section);
+			$sessionSection->loadState(isset($this->session[$section]) ? $this->session[$section] : []);
 		}
 		return $this->sections[$section];
 	}
@@ -92,7 +91,7 @@ class Session implements ISession
 		return $this;
 	}
 
-	static private function sessionStart()
+	private static function sessionStart()
 	{
 		if (session_id() == '') {
 			session_start();

@@ -1,7 +1,7 @@
 .idea
 /vendor
 /composer.lock
-/tests/tmp
+/tmp
 /tests/log
 /tests/Mesour/ComponentsTests/Component/output
 /tests/Mesour/ComponentsTests/Application/output

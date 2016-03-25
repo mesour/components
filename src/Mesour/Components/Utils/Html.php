@@ -3,7 +3,7 @@
 /**
  * This file is part of the Mesour components (http://components.mesour.com)
  *
- * Copyright (c) 2015 Matouš Němec (http://mesour.com)
+ * Copyright (c) 2015-2016 Matouš Němec (http://mesour.com)
  *
  * For full licence and copyright please view the file licence.md in root of this project
  */
@@ -12,7 +12,6 @@ namespace Mesour\Components\Utils;
 
 use Mesour;
 use Nette;
-
 
 /**
  * HTML helper.
@@ -25,7 +24,7 @@ use Nette;
  * echo $el->startTag(), $el->endTag();
  * </code>
  *
- * @author Matouš Němec <matous.nemec@mesour.com>
+ * @author Matouš Němec <http://mesour.com>
  *
  * @property string|null $style
  * @property string|null $class
@@ -34,14 +33,16 @@ use Nette;
  * @property string|null $target
  * @property string|null $type
  * @property string|null $placeholder
+ * @property string|null $href
  *
- * @method $this style() style($style, $append = false) Add style
- * @method $this class() class($src, $append = false) Add src
- * @method $this src() src($src) Add src
- * @method $this id($src) Set ID attribute
- * @method $this target($src) Set target attribute
- * @method $this type($src) Set type attribute
- * @method $this placeholder($src) Set placeholder attribute
+ * @method $this style($style, $append = false) Add style
+ * @method $this class($class, $append = false) Add src
+ * @method $this src($src) Add src
+ * @method $this id($id) Set ID attribute
+ * @method $this target($target) Set target attribute
+ * @method $this type($type) Set type attribute
+ * @method $this placeholder($placeholder) Set placeholder attribute
+ * @method $this href($href) Set placeholder attribute
  *
  * @method static Html el($name = null, $attrs = null)
  */
@@ -50,9 +51,9 @@ class Html extends Nette\Utils\Html implements IString
 
 	/**
 	 * Inserts child node.
-	 * @param  int|NULL position of NULL for appending
-	 * @param  Html|string Html node or raw HTML string
-	 * @param  bool
+	 * @param int|NULL $index position of NULL for appending
+	 * @param Html|string $child Html node or raw HTML string
+	 * @param bool $replace
 	 * @return self
 	 * @throws Nette\InvalidArgumentException
 	 */
@@ -63,7 +64,7 @@ class Html extends Nette\Utils\Html implements IString
 				$this->children[] = $child;
 
 			} else { // insert or replace
-				array_splice($this->children, (int)$index, $replace ? 1 : 0, [$child]);
+				array_splice($this->children, (int) $index, $replace ? 1 : 0, [$child]);
 			}
 
 		} else {

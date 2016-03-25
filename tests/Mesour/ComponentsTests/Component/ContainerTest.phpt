@@ -2,16 +2,13 @@
 
 namespace Mesour\ComponentsTests;
 
-use Tester\Assert;
 use Mesour;
-use Mesour\ComponentsTests\Classes;
+use Tester\Assert;
 
 require_once __DIR__ . '/../../../bootstrap.php';
 
 class ContainerTest extends Mesour\Tests\BaseTestCase
 {
-
-	/* NORMAL */
 
 	public function testOnComponent()
 	{
@@ -42,15 +39,16 @@ class ContainerTest extends Mesour\Tests\BaseTestCase
 
 	public function testException()
 	{
-		Assert::exception(function () {
-			$master = new Classes\TestComponent();
-			new Classes\Span('test_name', $master);
+		Assert::exception(
+			function () {
+				$master = new Classes\TestComponent();
+				new Classes\Span('test_name', $master);
 
-			$master->lookup('NotExist\ClassName');
-		}, Mesour\Components\NotFoundException::class);
+				$master->lookup('NotExist\ClassName');
+			},
+			Mesour\Components\NotFoundException::class
+		);
 	}
-
-	/* REVERSE */
 
 	public function testReversedOnComponent()
 	{
@@ -90,12 +88,15 @@ class ContainerTest extends Mesour\Tests\BaseTestCase
 
 	public function testReversedException()
 	{
-		Assert::exception(function () {
-			$master = new Classes\Span();
-			$children = new Classes\TestComponent('test_name', $master);
+		Assert::exception(
+			function () {
+				$master = new Classes\Span();
+				$children = new Classes\TestComponent('test_name', $master);
 
-			$children->lookup('NotExist\ClassName');
-		}, Mesour\Components\NotFoundException::class);
+				$children->lookup('NotExist\ClassName');
+			},
+			Mesour\Components\NotFoundException::class
+		);
 	}
 
 }

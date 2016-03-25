@@ -2,8 +2,8 @@
 
 namespace Mesour\ComponentsTests;
 
-use Mesour\Tests\BaseTestCase;
 use Mesour;
+use Mesour\Tests\BaseTestCase;
 use Tester\Assert;
 
 require_once __DIR__ . '/../../../bootstrap.php';
@@ -36,17 +36,23 @@ class SessionTest extends BaseTestCase
 
 	public function testExceptions()
 	{
-		Assert::exception(function () {
-			$session = new Mesour\Components\Session\Session;
-			$session->getSection([]);
-		}, Mesour\InvalidArgumentException::class);
+		Assert::exception(
+			function () {
+				$session = new Mesour\Components\Session\Session;
+				$session->getSection([]);
+			},
+			Mesour\InvalidArgumentException::class
+		);
 
-		Assert::exception(function () {
-			$session = new Mesour\Components\Session\Session;
-			$test = $session->getSection('test');
+		Assert::exception(
+			function () {
+				$session = new Mesour\Components\Session\Session;
+				$test = $session->getSection('test');
 
-			$test->set([], true);
-		}, Mesour\InvalidArgumentException::class);
+				$test->set([], true);
+			},
+			Mesour\InvalidArgumentException::class
+		);
 	}
 
 }

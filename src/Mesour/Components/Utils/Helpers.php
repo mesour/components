@@ -2,7 +2,7 @@
 /**
  * This file is part of the Mesour components (http://components.mesour.com)
  *
- * Copyright (c) 2015 Matouš Němec (http://mesour.com)
+ * Copyright (c) 2015-2016 Matouš Němec (http://mesour.com)
  *
  * For full licence and copyright please view the file licence.md in root of this project
  */
@@ -12,9 +12,8 @@ namespace Mesour\Components\Utils;
 use Mesour;
 use Nette;
 
-
 /**
- * @author Matouš Němec <matous.nemec@mesour.com>
+ * @author Matouš Němec <http://mesour.com>
  */
 class Helpers
 {
@@ -28,21 +27,21 @@ class Helpers
 	}
 
 	/**
-	 * @param $name
+	 * @param string $name
 	 * @return bool
 	 */
-	static public function validateKeyName($name)
+	public static function validateKeyName($name)
 	{
 		return is_string($name) || is_int($name);
 	}
 
 	/**
-	 * @param $name
+	 * @param string $name
 	 * @param bool $need
 	 * @return bool
 	 * @throws Mesour\InvalidArgumentException
 	 */
-	static public function validateComponentName($name, $need = true)
+	public static function validateComponentName($name, $need = true)
 	{
 		$valid = true;
 
@@ -81,36 +80,40 @@ class Helpers
 		return Nette\Utils\Strings::webalize($s, $charList, $lower);
 	}
 
-	static public function matchAll($subject, $pattern, $flags = 0, $offset = 0)
+	public static function matchAll($subject, $pattern, $flags = 0, $offset = 0)
 	{
 		return Nette\Utils\Strings::matchAll($subject, $pattern, $flags, $offset);
 	}
 
-	static public function parseValue($value, $data)
+	public static function parseValue($value, $data)
 	{
 		if (
 			(is_array($data) || $data instanceof \ArrayAccess || is_object($data))
 			&& strpos($value, '{') !== false
 			&& strpos($value, '}') !== false
 		) {
-			return preg_replace_callback('/(\{[^\{]+\})/', function ($matches) use ($value, $data) {
-				$matches = array_unique($matches);
-				$match = reset($matches);
-				$key = substr($match, 1, strlen($match) - 2);
-				if (is_object($data)) {
-					$currentValue = isset($data->{$key}) ? $data->{$key} : '__UNDEFINED_KEY-' . $key . '__';
-				} else {
-					$currentValue = isset($data[$key]) ? $data[$key] : '__UNDEFINED_KEY-' . $key . '__';
-				}
+			return preg_replace_callback(
+				'/(\{[^\{]+\})/',
+				function ($matches) use ($value, $data) {
+					$matches = array_unique($matches);
+					$match = reset($matches);
+					$key = substr($match, 1, strlen($match) - 2);
+					if (is_object($data)) {
+						$currentValue = isset($data->{$key}) ? $data->{$key} : '__UNDEFINED_KEY-' . $key . '__';
+					} else {
+						$currentValue = isset($data[$key]) ? $data[$key] : '__UNDEFINED_KEY-' . $key . '__';
+					}
 
-				return $currentValue;
-			}, $value);
+					return $currentValue;
+				},
+				$value
+			);
 		} else {
 			return $value;
 		}
 	}
 
-	static public function createAttribute(array & $attributes, $key, $value, $append = false)
+	public static function createAttribute(array & $attributes, $key, $value, $append = false)
 	{
 		if ($append && isset($attributes[$key])) {
 			$attributes[$key] = $attributes[$key] . ' ' . $value;
@@ -121,63 +124,69 @@ class Helpers
 	}
 
 	/**
-	 * @param $callable
+	 * @param callable $callable
 	 * @param bool|FALSE $syntax
 	 * @return callable
 	 */
-	static public function checkCallback($callable, $syntax = false)
+	public static function checkCallback($callable, $syntax = false)
 	{
 		return Nette\Utils\Callback::check($callable, $syntax);
 	}
 
-	static public function invokeArgs($callable, array $args = [])
+	public static function invokeArgs($callable, array $args = [])
 	{
 		return Nette\Utils\Callback::invokeArgs($callable, $args);
 	}
 
-	static public function setOpt(&$array_ptr, $key, $value, $separator = '.')
+	public static function setOpt(&$arrayPtr, $key, $value, $separator = '.')
 	{
 		$keys = explode($separator, $key);
-		$last_key = array_pop($keys);
+		$lastKey = array_pop($keys);
 
-		while ($arr_key = array_shift($keys)) {
-			if (!array_key_exists($arr_key, $array_ptr)) {
-				$array_ptr[$arr_key] = [];
+		while ($arrKey = array_shift($keys)) {
+			if (!array_key_exists($arrKey, $arrayPtr)) {
+				$arrayPtr[$arrKey] = [];
 			}
-			$array_ptr = &$array_ptr[$arr_key];
+			$arrayPtr = &$arrayPtr[$arrKey];
 		}
-		$array_ptr[$last_key] = $value;
+		$arrayPtr[$lastKey] = $value;
 	}
 
-	static public function containsStringFromArray($str, array $arr)
+	public static function containsStringFromArray($str, array $arr)
 	{
 		foreach ($arr as $a) {
-			if (stripos($str, $a) !== false) return true;
+			if (stripos($str, $a) !== false) {
+				return true;
+			}
 		}
 		return false;
 	}
 
 	/**
-	 * @param $phpFormat
+	 * @param string $phpFormat
 	 * @return bool
 	 * @deprecated
 	 */
-	static public function isDateHasTime($phpFormat)
+	public static function isDateHasTime($phpFormat)
 	{
 		return self::isDateAlsoContainsTime($phpFormat);
 	}
 
 	/**
-	 * @param $phpFormat
+	 * @param string $phpFormat
 	 * @return bool
 	 * @deprecated
 	 */
-	static public function isDateAlsoContainsTime($phpFormat)
+	public static function isDateAlsoContainsTime($phpFormat)
 	{
 		return self::containsStringFromArray($phpFormat, ['a', 'A', 'B', 'g', 'G', 'h', 'H', 'i', 's', 'u']);
 	}
 
-	static public function convertDateToJsFormat($php_format)
+	/**
+	 * @param string $phpFormat
+	 * @return string
+	 */
+	public static function convertDateToJsFormat($phpFormat)
 	{
 		$symbols = [
 			// Day
@@ -214,28 +223,31 @@ class Helpers
 			's' => 'ss',
 			'u' => '',
 		];
-		$js_format = "";
+		$jsFormat = '';
 		$escaping = false;
-		for ($i = 0; $i < strlen($php_format); $i++) {
-			$char = $php_format[$i];
-			if ($char === '\\') // PHP date format escaping character
-			{
+		for ($i = 0; $i < strlen($phpFormat); $i++) {
+			$char = $phpFormat[$i];
+			if ($char === '\\') { // PHP date format escaping character
 				$i++;
-				if ($escaping) $js_format .= $php_format[$i];
-				else $js_format .= '\'' . $php_format[$i];
+				if ($escaping) {
+					$jsFormat .= $phpFormat[$i];
+				} else {
+					$jsFormat .= '\'' . $phpFormat[$i];
+				}
 				$escaping = true;
 			} else {
 				if ($escaping) {
-					$js_format .= "'";
+					$jsFormat .= "'";
 					$escaping = false;
 				}
-				if (isset($symbols[$char]))
-					$js_format .= $symbols[$char];
-				else
-					$js_format .= $char;
+				if (isset($symbols[$char])) {
+					$jsFormat .= $symbols[$char];
+				} else {
+					$jsFormat .= $char;
+				}
 			}
 		}
-		return $js_format;
+		return $jsFormat;
 	}
 
 }

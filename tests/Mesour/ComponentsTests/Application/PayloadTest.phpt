@@ -2,9 +2,8 @@
 
 namespace Mesour\ComponentsTests;
 
-use Tester\Assert;
 use Mesour;
-use Mesour\ComponentsTests\Classes;
+use Tester\Assert;
 
 require_once __DIR__ . '/../../../bootstrap.php';
 
@@ -32,16 +31,22 @@ class PayloadTest extends Mesour\Tests\BaseTestCase
 
 	public function testExceptions()
 	{
-		Assert::exception(function () {
-			$session = new Mesour\Components\Session\Session;
-			$session->getSection([]);
-		}, Mesour\InvalidArgumentException::class);
+		Assert::exception(
+			function () {
+				$session = new Mesour\Components\Session\Session;
+				$session->getSection([]);
+			},
+			Mesour\InvalidArgumentException::class
+		);
 
-		Assert::exception(function () {
-			$payload = new Mesour\Components\Application\Payload;
+		Assert::exception(
+			function () {
+				$payload = new Mesour\Components\Application\Payload;
 
-			$payload->set([], true);
-		}, Mesour\InvalidArgumentException::class);
+				$payload->set([], true);
+			},
+			Mesour\InvalidArgumentException::class
+		);
 	}
 
 }

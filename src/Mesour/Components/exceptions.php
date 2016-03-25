@@ -2,14 +2,12 @@
 /**
  * This file is part of the Mesour components (http://components.mesour.com)
  *
- * Copyright (c) 2015 Matouš Němec (http://mesour.com)
+ * Copyright (c) 2015-2016 Matouš Němec (http://mesour.com)
  *
  * For full licence and copyright please view the file licence.md in root of this project
  */
 
 namespace Mesour;
-
-use Mesour\Components;
 
 /**
  * The exception that is thrown when the value of an argument is
@@ -17,6 +15,7 @@ use Mesour\Components;
  */
 class ArgumentOutOfRangeException extends \InvalidArgumentException
 {
+
 }
 
 /**
@@ -25,6 +24,7 @@ class ArgumentOutOfRangeException extends \InvalidArgumentException
  */
 class InvalidStateException extends \RuntimeException
 {
+
 }
 
 /**
@@ -32,6 +32,7 @@ class InvalidStateException extends \RuntimeException
  */
 class NotImplementedException extends \LogicException
 {
+
 }
 
 /**
@@ -40,6 +41,7 @@ class NotImplementedException extends \LogicException
  */
 class NotSupportedException extends \LogicException
 {
+
 }
 
 /**
@@ -47,6 +49,7 @@ class NotSupportedException extends \LogicException
  */
 class DeprecatedException extends NotSupportedException
 {
+
 }
 
 /**
@@ -54,6 +57,7 @@ class DeprecatedException extends NotSupportedException
  */
 class MemberAccessException extends \LogicException
 {
+
 }
 
 /**
@@ -62,6 +66,7 @@ class MemberAccessException extends \LogicException
  */
 class MethodCallException extends \BadMethodCallException
 {
+
 }
 
 /**
@@ -69,6 +74,7 @@ class MethodCallException extends \BadMethodCallException
  */
 class IOException extends \RuntimeException
 {
+
 }
 
 /**
@@ -76,6 +82,7 @@ class IOException extends \RuntimeException
  */
 class FileNotFoundException extends IOException
 {
+
 }
 
 /**
@@ -83,6 +90,7 @@ class FileNotFoundException extends IOException
  */
 class DirectoryNotFoundException extends IOException
 {
+
 }
 
 /**
@@ -90,6 +98,7 @@ class DirectoryNotFoundException extends IOException
  */
 class InvalidArgumentException extends \InvalidArgumentException
 {
+
 }
 
 /**
@@ -97,6 +106,7 @@ class InvalidArgumentException extends \InvalidArgumentException
  */
 class OutOfRangeException extends \OutOfRangeException
 {
+
 }
 
 /**
@@ -104,6 +114,7 @@ class OutOfRangeException extends \OutOfRangeException
  */
 class UnexpectedValueException extends \UnexpectedValueException
 {
+
 }
 
 /**
@@ -111,6 +122,7 @@ class UnexpectedValueException extends \UnexpectedValueException
  */
 class StaticClassException extends \LogicException
 {
+
 }
 
 namespace Mesour\Components;
@@ -121,12 +133,15 @@ namespace Mesour\Components;
  */
 class MethodCallException extends \Mesour\MethodCallException
 {
+
 }
 
 class BadRequestException extends \Exception
 {
+
 }
 
 class NotFoundException extends \Exception
 {
+
 }

@@ -2,7 +2,7 @@
 /**
  * This file is part of the Mesour components (http://components.mesour.com)
  *
- * Copyright (c) 2015 Matouš Němec (http://mesour.com)
+ * Copyright (c) 2015-2016 Matouš Němec (http://mesour.com)
  *
  * For full licence and copyright please view the file licence.md in root of this project
  */
@@ -12,7 +12,7 @@ namespace Mesour\Components\Control;
 use Mesour;
 
 /**
- * @author Matouš Němec <matous.nemec@mesour.com>
+ * @author Matouš Němec <http://mesour.com>
  */
 abstract class AttributesControl extends OptionsControl implements IAttributesControl
 {
@@ -103,7 +103,9 @@ abstract class AttributesControl extends OptionsControl implements IAttributesCo
 	{
 		if (!$this->hasAttribute($key)) {
 			if ($need) {
-				throw new Mesour\OutOfRangeException("Attribute $key does not exist.");
+				throw new Mesour\OutOfRangeException(
+					sprintf('Attribute %s does not exist.', $key)
+				);
 			}
 			return null;
 		}

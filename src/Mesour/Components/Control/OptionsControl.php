@@ -2,7 +2,7 @@
 /**
  * This file is part of the Mesour components (http://components.mesour.com)
  *
- * Copyright (c) 2015 Matouš Němec (http://mesour.com)
+ * Copyright (c) 2015-2016 Matouš Němec (http://mesour.com)
  *
  * For full licence and copyright please view the file licence.md in root of this project
  */
@@ -11,9 +11,8 @@ namespace Mesour\Components\Control;
 
 use Mesour;
 
-
 /**
- * @author Matouš Němec <matous.nemec@mesour.com>
+ * @author Matouš Němec <http://mesour.com>
  */
 abstract class OptionsControl extends Mesour\UI\Control implements IOptionsControl
 {
@@ -52,13 +51,19 @@ abstract class OptionsControl extends Mesour\UI\Control implements IOptionsContr
 	public function getOption($key, $subKey = null)
 	{
 		if (!$this->hasOption($key)) {
-			throw new Mesour\OutOfRangeException("Option with key $key does not exists.");
+			throw new Mesour\OutOfRangeException(
+				sprintf('Option with key %s does not exists.', $key)
+			);
 		} elseif (!is_null($subKey)) {
 			if (!is_array($this->options[$key])) {
-				throw new Mesour\UnexpectedValueException("Option with key $key must be array.");
+				throw new Mesour\UnexpectedValueException(
+					sprintf('Option with key %s must be array.', $key)
+				);
 			}
 			if (!isset($this->options[$key][$subKey])) {
-				throw new Mesour\OutOfRangeException("Key $subKey does not exists on option with key $key.");
+				throw new Mesour\OutOfRangeException(
+					sprintf('Key %s does not exists on option with key %s.', $subKey, $key)
+				);
 			}
 			return $this->options[$key][$subKey];
 		}

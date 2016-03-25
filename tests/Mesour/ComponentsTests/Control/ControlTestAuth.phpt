@@ -2,13 +2,12 @@
 
 namespace Mesour\ComponentsTests;
 
-use Tester\Assert;
 use Mesour;
-use Mesour\ComponentsTests\Classes;
+use Tester\Assert;
 
 require_once __DIR__ . '/../../../bootstrap.php';
 
-class ControlTest_Auth extends Mesour\Tests\BaseTestCase
+class ControlTestAuth extends Mesour\Tests\BaseTestCase
 {
 
 	public function testAuthSetAndGet()
@@ -42,5 +41,5 @@ class ControlTest_Auth extends Mesour\Tests\BaseTestCase
 
 }
 
-$test = new ControlTest_Auth();
+$test = new ControlTestAuth();
 $test->run();

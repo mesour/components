@@ -2,9 +2,8 @@
 
 namespace Mesour\ComponentsTests;
 
-use Tester\Assert;
 use Mesour;
-use Mesour\ComponentsTests\Classes;
+use Tester\Assert;
 
 require_once __DIR__ . '/../../../bootstrap.php';
 
@@ -28,29 +27,38 @@ class EventsTest extends Mesour\Tests\BaseTestCase
 
 	public function testNotArrayPropertyException()
 	{
-		Assert::exception(function () {
-			$test = new Classes\TestComponent();
+		Assert::exception(
+			function () {
+				$test = new Classes\TestComponent();
 
-			$test->triggerNotArray();
-		}, Mesour\UnexpectedValueException::class);
+				$test->triggerNotArray();
+			},
+			Mesour\UnexpectedValueException::class
+		);
 	}
 
 	public function testPrivatePropertyException()
 	{
-		Assert::exception(function () {
-			$test = new Classes\TestComponent();
+		Assert::exception(
+			function () {
+				$test = new Classes\TestComponent();
 
-			$test->triggerPrivateProperty();
-		}, Mesour\InvalidStateException::class);
+				$test->triggerPrivateProperty();
+			},
+			Mesour\InvalidStateException::class
+		);
 	}
 
 	public function testNotDefinedPropertyException()
 	{
-		Assert::exception(function () {
-			$test = new Classes\TestComponent();
+		Assert::exception(
+			function () {
+				$test = new Classes\TestComponent();
 
-			$test->triggerNotDefined();
-		}, Mesour\MethodCallException::class);
+				$test->triggerNotDefined();
+			},
+			Mesour\MethodCallException::class
+		);
 	}
 
 }

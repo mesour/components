@@ -2,13 +2,12 @@
 
 namespace Mesour\ComponentsTests;
 
-use Tester\Assert;
 use Mesour;
-use Mesour\ComponentsTests\Classes;
+use Tester\Assert;
 
 require_once __DIR__ . '/../../../bootstrap.php';
 
-class ControlTest_Link extends Mesour\Tests\BaseTestCase
+class ControlTestLink extends Mesour\Tests\BaseTestCase
 {
 
 	public function testDefaultLink()
@@ -31,14 +30,14 @@ class ControlTest_Link extends Mesour\Tests\BaseTestCase
 
 		$address = 'http://mesour.com';
 		$args = ['key' => 'val[]'];
-		$complete_address = 'http://mesour.com?key=val%5B%5D';
+		$completeAddress = 'http://mesour.com?key=val%5B%5D';
 
 		Assert::same($span->getLink(), $link);
 
 		$url = $span->link($address, $args);
 
 		Assert::type(Mesour\Components\Link\IUrl::class, $url);
-		Assert::same($url->create(), $complete_address);
+		Assert::same($url->create(), $completeAddress);
 	}
 
 	public function testLinkSetAndGet()
@@ -67,5 +66,5 @@ class ControlTest_Link extends Mesour\Tests\BaseTestCase
 
 }
 
-$test = new ControlTest_Link();
+$test = new ControlTestLink();
 $test->run();

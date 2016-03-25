@@ -2,7 +2,7 @@
 /**
  * This file is part of the Mesour components (http://components.mesour.com)
  *
- * Copyright (c) 2015 Matouš Němec (http://mesour.com)
+ * Copyright (c) 2015-2016 Matouš Němec (http://mesour.com)
  *
  * For full licence and copyright please view the file licence.md in root of this project
  */
@@ -11,9 +11,8 @@ namespace Mesour;
 
 use Mesour;
 
-
 /**
- * @author Matouš Němec <matous.nemec@mesour.com>
+ * @author Matouš Němec <http://mesour.com>
  */
 abstract class Object
 {
@@ -36,17 +35,23 @@ abstract class Object
 
 	public function __get($name)
 	{
-		throw new Mesour\MemberAccessException("Trying to get undefined property $name.");
+		throw new Mesour\MemberAccessException(
+			sprintf('Trying to get undefined property %s.', $name)
+		);
 	}
 
 	public function __set($name, $value)
 	{
-		throw new Mesour\MemberAccessException(sprintf("Cannot write to an undeclared property %s::\$$name", static::class));
+		throw new Mesour\MemberAccessException(
+			sprintf('Cannot write to an undeclared property %s::$%s.', $name, static::class)
+		);
 	}
 
 	public function __unset($name)
 	{
-		throw new Mesour\MemberAccessException(sprintf("Cannot unset the property %s::\$$name.", static::class));
+		throw new Mesour\MemberAccessException(
+			sprintf('Cannot unset the property %s::$%s.', $name, static::class)
+		);
 	}
 
 	public function __call($name, $args)
@@ -68,7 +73,9 @@ abstract class Object
 				throw new Mesour\Components\MethodCallException;
 			}
 		} catch (Mesour\Components\MethodCallException $e) {
-			throw new Mesour\MethodCallException(sprintf("Cannot call undefined method %s::\$$name.", static::class));
+			throw new Mesour\MethodCallException(
+				sprintf('Cannot call undefined method %s::$%s.', $name, static::class)
+			);
 		}
 	}
 

@@ -2,7 +2,7 @@
 /**
  * This file is part of the Mesour components (http://components.mesour.com)
  *
- * Copyright (c) 2015 Matouš Němec (http://mesour.com)
+ * Copyright (c) 2015-2016 Matouš Němec (http://mesour.com)
  *
  * For full licence and copyright please view the file licence.md in root of this project
  */
@@ -11,9 +11,8 @@ namespace Mesour\Components\Session;
 
 use Mesour;
 
-
 /**
- * @author Matouš Němec <matous.nemec@mesour.com>
+ * @author Matouš Němec <http://mesour.com>
  */
 class SessionSection implements ISessionSection
 {
@@ -36,6 +35,11 @@ class SessionSection implements ISessionSection
 			);
 		}
 		$this->name = $section;
+	}
+
+	public function getName()
+	{
+		return $this->name;
 	}
 
 	public function loadState($data)

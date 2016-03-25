@@ -2,9 +2,8 @@
 
 namespace Mesour\ComponentsTests;
 
-use Tester\Assert;
 use Mesour;
-use Mesour\ComponentsTests\Classes;
+use Tester\Assert;
 
 require_once __DIR__ . '/../../../bootstrap.php';
 
@@ -33,11 +32,14 @@ class LinkTest extends Mesour\Tests\BaseTestCase
 
 	public function testBadDestinationException()
 	{
-		Assert::exception(function () {
-			$link = new Mesour\Components\Link\Link;
+		Assert::exception(
+			function () {
+				$link = new Mesour\Components\Link\Link;
 
-			$link->create([]);
-		}, Mesour\InvalidArgumentException::class);
+				$link->create([]);
+			},
+			Mesour\InvalidArgumentException::class
+		);
 	}
 
 }

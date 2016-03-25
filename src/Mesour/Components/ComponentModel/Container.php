@@ -2,7 +2,7 @@
 /**
  * This file is part of the Mesour components (http://components.mesour.com)
  *
- * Copyright (c) 2015 Matouš Němec (http://mesour.com)
+ * Copyright (c) 2015-2016 Matouš Němec (http://mesour.com)
  *
  * For full licence and copyright please view the file licence.md in root of this project
  */
@@ -11,9 +11,8 @@ namespace Mesour\Components\ComponentModel;
 
 use Mesour;
 
-
 /**
- * @author Matouš Němec <matous.nemec@mesour.com>
+ * @author Matouš Němec <http://mesour.com>
  */
 class Container extends Component implements IContainer
 {
@@ -38,7 +37,9 @@ class Container extends Component implements IContainer
 		$name = is_null($name) ? $component->getName() : $name;
 		Mesour\Components\Utils\Helpers::validateComponentName($name);
 		if (isset($this->components[$name])) {
-			throw new Mesour\InvalidStateException("Component with name $name is already exists.");
+			throw new Mesour\InvalidStateException(
+				sprintf('Component with name %s is already exists.', $name)
+			);
 		}
 		$component->setName($name);
 		$this->components[$name] = $component;
@@ -47,7 +48,7 @@ class Container extends Component implements IContainer
 	}
 
 	/**
-	 * @param $name
+	 * @param string $name
 	 * @return $this
 	 */
 	public function removeComponent($name)
@@ -67,7 +68,7 @@ class Container extends Component implements IContainer
 	}
 
 	/**
-	 * @param $name
+	 * @param string $name
 	 * @param bool $need
 	 * @return IComponent|null
 	 * @throws Mesour\InvalidStateException
@@ -77,7 +78,9 @@ class Container extends Component implements IContainer
 		Mesour\Components\Utils\Helpers::validateComponentName($name);
 		if (!isset($this->components[$name])) {
 			if ($need) {
-				throw new Mesour\InvalidStateException("Component with name $name does not exists.");
+				throw new Mesour\InvalidStateException(
+					sprintf('Component with name %s does not exists.', $name)
+				);
 			}
 			return null;
 		}
@@ -85,7 +88,7 @@ class Container extends Component implements IContainer
 	}
 
 	/**
-	 * @param $className
+	 * @param string $className
 	 * @param bool $need
 	 * @param bool $reverse
 	 * @return IComponent|null
@@ -115,7 +118,9 @@ class Container extends Component implements IContainer
 			}
 		}
 		if ($need) {
-			throw new Mesour\Components\NotFoundException("Cannot find component with class name $className.");
+			throw new Mesour\Components\NotFoundException(
+				sprintf('Cannot find component with class name %s.', $className)
+			);
 		} else {
 			return null;
 		}
@@ -136,9 +141,6 @@ class Container extends Component implements IContainer
 		return $filter;
 	}
 
-	/**
-	 * @return IComponent
-	 */
 	public function rewind()
 	{
 		reset($this->components);

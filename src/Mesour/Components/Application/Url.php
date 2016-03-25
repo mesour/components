@@ -2,7 +2,7 @@
 /**
  * This file is part of the Mesour components (http://components.mesour.com)
  *
- * Copyright (c) 2015 Matouš Němec (http://mesour.com)
+ * Copyright (c) 2015-2016 Matouš Němec (http://mesour.com)
  *
  * For full licence and copyright please view the file licence.md in root of this project
  */
@@ -11,9 +11,8 @@ namespace Mesour\Components\Application;
 
 use Mesour;
 
-
 /**
- * @author Matouš Němec <matous.nemec@mesour.com>
+ * @author Matouš Němec <http://mesour.com>
  */
 class Url
 {
@@ -24,11 +23,11 @@ class Url
 
 	protected $users_args = [];
 
-	public function __construct($request_uri)
+	public function __construct($requestUri)
 	{
-		$request_uri = urldecode($request_uri);
-		if (strpos($request_uri, '?') !== false) {
-			$explode = explode('?', $request_uri);
+		$requestUri = urldecode($requestUri);
+		if (strpos($requestUri, '?') !== false) {
+			$explode = explode('?', $requestUri);
 			$this->destination = $explode[0];
 			parse_str($explode[1], $this->args);
 			foreach ($this->args as $key => $arg) {
@@ -37,7 +36,7 @@ class Url
 				}
 			}
 		} else {
-			$this->destination = $request_uri;
+			$this->destination = $requestUri;
 		}
 	}
 
@@ -48,16 +47,16 @@ class Url
 				sprintf('Second parameter handle must be string. %s given.', gettype($handle))
 			);
 		}
-		$link_name = $control->createLinkName();
+		$linkName = $control->createLinkName();
 
-		$new_args = [];
+		$newArgs = [];
 		foreach ($args as $key => $value) {
-			$new_args['m_' . $link_name . '-' . $key] = $value;
+			$newArgs['m_' . $linkName . '-' . $key] = $value;
 		}
 
-		$args = array_merge_recursive($new_args, $this->users_args);
+		$args = array_merge_recursive($newArgs, $this->users_args);
 
-		$args['m_do'] = $link_name . '-' . $handle;
+		$args['m_do'] = $linkName . '-' . $handle;
 		return $this->createUrl($args);
 	}
 

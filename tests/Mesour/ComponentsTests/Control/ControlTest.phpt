@@ -2,9 +2,8 @@
 
 namespace Mesour\ComponentsTests;
 
-use Tester\Assert;
 use Mesour;
-use Mesour\ComponentsTests\Classes;
+use Tester\Assert;
 
 require_once __DIR__ . '/../../../bootstrap.php';
 
@@ -26,7 +25,7 @@ class ControlTest extends Mesour\Tests\BaseTestCase
 
 		$span->setText('Test span text.');
 
-		Assert::same('<span>Test span text.</span>', (string)$span->create());
+		Assert::same('<span>Test span text.</span>', (string) $span->create());
 	}
 
 }

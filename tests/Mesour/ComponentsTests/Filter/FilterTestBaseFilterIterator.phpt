@@ -1,14 +1,14 @@
 <?php
 
-namespace Mesour\ComponentsTests;
+namespace Mesour\ComponentsTests\Filter;
 
-use Tester\Assert;
 use Mesour;
 use Mesour\ComponentsTests\Classes;
+use Tester\Assert;
 
 require_once __DIR__ . '/../../../bootstrap.php';
 
-class FilterTest_BaseFilterIterator extends Mesour\Tests\BaseTestCase
+class FilterTestBaseFilterIterator extends Mesour\Tests\BaseTestCase
 {
 
 	public function testBasicFind()
@@ -55,12 +55,15 @@ class FilterTest_BaseFilterIterator extends Mesour\Tests\BaseTestCase
 		$master->addComponent(new Classes\Span, 'test3');
 
 		$filter = $master->getFilter();
-		Assert::exception(function () use ($filter) {
-			$filter->addRule('ghsgdf', 'test7');
-		}, Mesour\InvalidArgumentException::class);
+		Assert::exception(
+			function () use ($filter) {
+				$filter->addRule('ghsgdf', 'test7');
+			},
+			Mesour\InvalidArgumentException::class
+		);
 	}
 
 }
 
-$test = new FilterTest_BaseFilterIterator();
+$test = new FilterTestBaseFilterIterator();
 $test->run();
