@@ -407,14 +407,11 @@ abstract class BaseControl extends Mesour\Components\ComponentModel\Container im
 		$args = [];
 		foreach ($parameters as $parameter) {
 			$name = $parameter->getName();
-			if ($parameter->isDefaultValueAvailable()) {
-				$defaultValue = $parameter->getDefaultValue();
-			}
 			$parsedName = $this->createLinkName() . '-' . $name;
 			$currentValue = $this->getApplication()->getRequest()->get('m_' . $parsedName);
 			if (!is_null($currentValue)) {
 				if (
-					($parameter->isArray() || (isset($defaultValue) && is_array($defaultValue)))
+					($parameter->isArray() || ($parameter->isDefaultValueAvailable() && is_array($parameter->getDefaultValue())))
 					&& !is_array($currentValue)
 				) {
 					throw new Mesour\UnexpectedValueException(
@@ -423,11 +420,11 @@ abstract class BaseControl extends Mesour\Components\ComponentModel\Container im
 				}
 				$value = $currentValue;
 			} else {
-				if (isset($defaultValue)) {
-					$value = $defaultValue;
+				if ($parameter->isDefaultValueAvailable()) {
+					$value = $parameter->getDefaultValue();
 				} else {
 					throw new Mesour\InvalidArgumentException(
-						sprintf('Invalid request. Required parameter "%s" doest not exists.', $parsedName)
+						sprintf('Invalid request. Required parameter %s doest not exists.', $parsedName)
 					);
 				}
 			}
