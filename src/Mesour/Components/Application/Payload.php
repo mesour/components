@@ -21,7 +21,9 @@ class Payload implements IPayload
 
 	public function sendPayload()
 	{
-		ob_clean();
+		if (ob_get_contents()) {
+			ob_clean();
+		}
 		header('Content-type: application/json');
 		echo json_encode($this->data);
 		exit(0);
