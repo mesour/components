@@ -24,7 +24,7 @@ class ControlTest extends Mesour\Tests\BaseTestCase
 	public function testSetTextMethod()
 	{
 		$application = new Mesour\UI\Application;
-		
+
 		$application->setRequest([]);
 
 		$span = new Classes\Span('testSpan', $application);

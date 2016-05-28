@@ -9,8 +9,8 @@
 namespace Mesour\ComponentsTests\Classes;
 
 use Mesour;
-use Mesour\Components\Security\IAuthorised;
 use Mesour\Components\Localization\ITranslatable;
+use Mesour\Components\Security\IAuthorised;
 use Tester\Assert;
 
 /**

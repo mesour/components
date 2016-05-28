@@ -24,8 +24,8 @@ interface ITranslatable
 	public function getTranslator($fromChildren = false);
 
 	/**
-	 * @param bool $disabled
-	 * @return $this
+	 * @param ITranslator $translator
+	 * @return self
 	 */
 	public function setTranslator(ITranslator $translator);
 

@@ -51,7 +51,7 @@ trait Translatable
 	}
 
 	/**
-	 * @param bool $disabled
+	 * @param ITranslator $translator
 	 * @return self
 	 */
 	public function setTranslator(ITranslator $translator)
