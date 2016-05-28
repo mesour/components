@@ -33,17 +33,23 @@ trait Authorised
 		return $context->getByType(IAuthorizator::class);
 	}
 
-	protected function setPermissionCheck(
-		$resource = IAuthorizator::ALL,
-		$privilege = IAuthorizator::ALL
-	)
-	{
-		$this->permission = [$this->getApplication()->getUser()->getRoles(), $resource, $privilege];
+	protected function setPermissionCheck($resource = IAuthorizator::ALL, $privilege = IAuthorizator::ALL) {
+		$this->permission = [$resource, $privilege];
 	}
 
 	public function isAllowed()
 	{
-		return !$this->permission || Mesour\Components\Utils\Helpers::invokeArgs([$this->getAuthorizator(), 'isAllowed'], $this->permission);
+		if (!$this->permission) {
+			return true;
+		}
+		foreach ($this->getApplication()->getUser()->getRoles() as $role) {
+			$args = array_merge([$role], $this->permission);
+			if (Mesour\Components\Utils\Helpers::invokeArgs([$this->getAuthorizator(), 'isAllowed'], $args)) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 }
