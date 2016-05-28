@@ -9,14 +9,18 @@
 namespace Mesour\ComponentsTests\Classes;
 
 use Mesour;
+use Mesour\Components\Security\IAuthorised;
+use Mesour\Components\Localization\ITranslatable;
 use Tester\Assert;
 
 /**
  * @author  mesour <http://mesour.com>
- * @package Mesour Components
  */
-class Span extends Mesour\UI\Control
+class Span extends Mesour\UI\Control implements IAuthorised, ITranslatable
 {
+
+	use Mesour\Components\Localization\Translatable;
+	use Mesour\Components\Security\Authorised;
 
 	/**
 	 * @var Mesour\Components\Utils\Html

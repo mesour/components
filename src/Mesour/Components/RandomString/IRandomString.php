@@ -7,14 +7,19 @@
  * For full licence and copyright please view the file licence.md in root of this project
  */
 
-namespace Mesour\Components\Application;
+namespace Mesour\Components\RandomString;
 
 use Mesour;
 
 /**
  * @author Matouš Němec <http://mesour.com>
  */
-interface IApplication extends Mesour\Components\ComponentModel\IContainer
+interface IRandomString
 {
+
+	/**
+	 * @return IRandomStringGenerator|CapturingRandomStringGenerator
+	 */
+	public function getRandomStringGenerator();
 
 }

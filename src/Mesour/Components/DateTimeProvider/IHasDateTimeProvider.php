@@ -7,14 +7,19 @@
  * For full licence and copyright please view the file licence.md in root of this project
  */
 
-namespace Mesour\Components\Application;
+namespace Mesour\Components\DateTimeProvider;
 
 use Mesour;
 
 /**
  * @author Matouš Němec <http://mesour.com>
  */
-interface IApplication extends Mesour\Components\ComponentModel\IContainer
+interface IHasDateTimeProvider
 {
+
+	/**
+	 * @return IDateTimeProvider
+	 */
+	public function getDateTimeProvider();
 
 }

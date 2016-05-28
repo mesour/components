@@ -12,26 +12,32 @@ class ControlTestPayload extends Mesour\Tests\BaseTestCase
 
 	public function testPayloadSetAndGet()
 	{
-		$span = new Classes\Span;
+		$application = new Mesour\UI\Application;
+
+		$span = new Classes\Span('testSpan', $application);
 
 		$payload = new Mesour\Components\Application\Payload;
 
-		$span->setPayload($payload);
+		$application->getContext()->setService($payload, Mesour\Components\Application\IPayload::class);
 
-		Assert::same($span->getPayload(), $payload);
+		Assert::same($payload, $span->getPayload());
 	}
 
 	public function testPayloadFromParent()
 	{
-		$span = new Classes\Span;
+		$application = new Mesour\UI\Application;
+
+		$span = new Classes\Span('testSpan', $application);
 
 		$payload = new Mesour\Components\Application\Payload;
 
-		$span->setPayload($payload);
+		$application->getContext()->setService($payload, Mesour\Components\Application\IPayload::class);
 
 		$span->addComponent(new Classes\Span, 'children');
 
-		Assert::same($span->getComponent('children')->getPayload(), $payload);
+		/** @var Mesour\ComponentsTests\Classes\Span $children */
+		$children = $span->getComponent('children');
+		Assert::same($payload, $children->getPayload());
 	}
 
 }

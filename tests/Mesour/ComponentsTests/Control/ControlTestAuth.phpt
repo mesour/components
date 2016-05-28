@@ -12,7 +12,9 @@ class ControlTestAuth extends Mesour\Tests\BaseTestCase
 
 	public function testAuthSetAndGet()
 	{
-		$span = new Classes\Span;
+		$application = new Mesour\UI\Application;
+
+		$span = new Classes\Span('testSpan', $application);
 
 		$auth = new Mesour\Components\Security\Permission;
 
@@ -20,23 +22,27 @@ class ControlTestAuth extends Mesour\Tests\BaseTestCase
 
 		$auth->allow('guest');
 
-		$span->setAuthorizator($auth);
+		$application->getContext()->setService($auth, Mesour\Components\Security\IAuthorizator::class);
 
-		Assert::same($span->getAuthorizator(), $auth);
+		Assert::same($auth, $span->getAuthorizator());
 		Assert::true($span->getAuthorizator()->isAllowed('guest'));
 	}
 
 	public function testAuthFromParent()
 	{
-		$span = new Classes\Span;
+		$application = new Mesour\UI\Application;
+
+		$span = new Classes\Span('testSpan', $application);
 
 		$auth = new Mesour\Components\Security\Permission;
 
-		$span->setAuthorizator($auth);
+		$application->getContext()->setService($auth, Mesour\Components\Security\IAuthorizator::class);
 
 		$span->addComponent(new Classes\Span, 'children');
 
-		Assert::same($span->getComponent('children')->getAuthorizator(), $auth);
+		/** @var Mesour\ComponentsTests\Classes\Span $children */
+		$children = $span->getComponent('children');
+		Assert::same($auth, $children->getAuthorizator());
 	}
 
 }

@@ -9,13 +9,15 @@
 
 namespace Mesour\Components\Application;
 
+use Mesour;
+
 /**
  * @author Matouš Němec <http://mesour.com>
  */
-class Request
+class Request extends Mesour\Object
 {
 
-	private $request;
+	private $request = [];
 
 	private $headers = [];
 

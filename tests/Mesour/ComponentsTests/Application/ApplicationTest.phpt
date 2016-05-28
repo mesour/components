@@ -38,11 +38,11 @@ class ApplicationTest extends Mesour\Tests\BaseTestCase
 		$application = new Mesour\UI\Application;
 
 		$session = new Mesour\Components\Session\Session;
-		$application->setSession($session);
+		$application->getContext()->setService($session, Mesour\Components\Session\ISession::class);
 
 		$span = new Classes\Span('test_name', $application);
 
-		Assert::same($span->getSession(), $session);
+		Assert::same($session, $span->getSession());
 	}
 
 	public function testSetDefaultAuth()
@@ -50,11 +50,11 @@ class ApplicationTest extends Mesour\Tests\BaseTestCase
 		$application = new Mesour\UI\Application;
 
 		$auth = new Mesour\Components\Security\Permission;
-		$application->setAuthorizator($auth);
+		$application->getContext()->setService($auth, Mesour\Components\Security\IAuthorizator::class);
 
 		$span = new Classes\Span('test_name', $application);
 
-		Assert::same($span->getAuthorizator(), $auth);
+		Assert::same($auth, $span->getAuthorizator());
 	}
 
 	public function testSetDefaultLink()
@@ -62,11 +62,11 @@ class ApplicationTest extends Mesour\Tests\BaseTestCase
 		$application = new Mesour\UI\Application;
 
 		$link = new Mesour\Components\Link\Link;
-		$application->setLink($link);
+		$application->getContext()->setService($link, Mesour\Components\Link\ILink::class);
 
 		$span = new Classes\Span('test_name', $application);
 
-		Assert::same($span->getLink(), $link);
+		Assert::same($link, $span->getLink());
 	}
 
 	public function testSetDefaultPayload()
@@ -74,23 +74,23 @@ class ApplicationTest extends Mesour\Tests\BaseTestCase
 		$application = new Mesour\UI\Application;
 
 		$payload = new Mesour\Components\Application\Payload;
-		$application->setPayload($payload);
+		$application->getContext()->setService($payload, Mesour\Components\Application\IPayload::class);
 
 		$span = new Classes\Span('test_name', $application);
 
-		Assert::same($span->getPayload(), $payload);
+		Assert::same($payload, $span->getPayload());
 	}
 
 	public function testSetDefaultTranslator()
 	{
 		$application = new Mesour\UI\Application;
 
-		$translator = new Mesour\Components\Localization\NullTranslator;
-		$application->setTranslator($translator);
+		$translator = new Mesour\ComponentsTests\Classes\TestTranslator;
+		$application->getContext()->setService($translator, Mesour\Components\Localization\ITranslator::class);
 
 		$span = new Classes\Span('test_name', $application);
 
-		Assert::same($span->getTranslator(), $translator);
+		Assert::same($translator, $span->getTranslator());
 	}
 
 }

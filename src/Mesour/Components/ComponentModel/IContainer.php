@@ -50,4 +50,11 @@ interface IContainer extends \Iterator, \ArrayAccess, \Countable
 	 */
 	public function lookup($className, $need = true, $reverse = false);
 
+	/**
+	 * @param Mesour\Components\Filter\Rules\RulesContainer|null $rulesContainer
+	 * @return Mesour\Components\Filter\FilterIterator
+	 * @internal
+	 */
+	public function createFilterIterator(Mesour\Components\Filter\Rules\RulesContainer $rulesContainer = null);
+
 }

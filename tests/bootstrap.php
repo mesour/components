@@ -5,6 +5,10 @@ define("TEMP_DIR", __DIR__ . "/../tmp");
 
 require __DIR__ . "/../vendor/autoload.php";
 
+if (file_exists(__DIR__ . '/environment.php')) {
+	require_once __DIR__ . '/environment.php';
+}
+
 if (!class_exists('Tester\Assert')) {
 	echo "Install Nette Tester using `composer update --dev`\n";
 	exit(1);

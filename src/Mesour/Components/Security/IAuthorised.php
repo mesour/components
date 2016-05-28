@@ -7,14 +7,26 @@
  * For full licence and copyright please view the file licence.md in root of this project
  */
 
-namespace Mesour\Components\Application;
+namespace Mesour\Components\Security;
 
 use Mesour;
 
 /**
  * @author Matouš Němec <http://mesour.com>
+ *
+ * @method Mesour\UI\Application getApplication($need = true)
  */
-interface IApplication extends Mesour\Components\ComponentModel\IContainer
+interface IAuthorised
 {
+
+	/**
+	 * @return IAuthorizator|Permission
+	 */
+	public function getAuthorizator();
+
+	/**
+	 * @return bool
+	 */
+	public function isAllowed();
 
 }

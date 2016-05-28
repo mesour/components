@@ -12,7 +12,9 @@ class ControlTest extends Mesour\Tests\BaseTestCase
 
 	public function testCreateSnippetMethod()
 	{
-		$span = new Classes\Span('test_span');
+		$application = new Mesour\UI\Application;
+
+		$span = new Classes\Span('test_span', $application);
 
 		$div = Mesour\Components\Utils\Html::el('div', ['id' => Mesour\UI\Control::SNIPPET_PREFIX . $span->createLinkName()]);
 
@@ -21,7 +23,11 @@ class ControlTest extends Mesour\Tests\BaseTestCase
 
 	public function testSetTextMethod()
 	{
-		$span = new Classes\Span;
+		$application = new Mesour\UI\Application;
+		
+		$application->setRequest([]);
+
+		$span = new Classes\Span('testSpan', $application);
 
 		$span->setText('Test span text.');
 

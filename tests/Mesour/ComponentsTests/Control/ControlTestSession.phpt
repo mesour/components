@@ -12,26 +12,32 @@ class ControlTestSession extends Mesour\Tests\BaseTestCase
 
 	public function testSessionSetAndGet()
 	{
-		$span = new Classes\Span;
+		$application = new Mesour\UI\Application;
+
+		$span = new Classes\Span('testSpan', $application);
 
 		$session = new Mesour\Components\Session\Session;
 
-		$span->setSession($session);
+		$application->getContext()->setService($session, Mesour\Components\Session\ISession::class);
 
-		Assert::same($span->getSession(), $session);
+		Assert::same($session, $span->getSession());
 	}
 
 	public function testSessionFromParent()
 	{
-		$span = new Classes\Span;
+		$application = new Mesour\UI\Application;
+
+		$span = new Classes\Span('testSpan', $application);
 
 		$session = new Mesour\Components\Session\Session;
 
-		$span->setSession($session);
+		$application->getContext()->setService($session, Mesour\Components\Session\ISession::class);
 
 		$span->addComponent(new Classes\Span, 'children');
 
-		Assert::same($span->getComponent('children')->getSession(), $session);
+		/** @var Mesour\ComponentsTests\Classes\Span $children */
+		$children = $span->getComponent('children');
+		Assert::same($session, $children->getSession());
 	}
 
 }

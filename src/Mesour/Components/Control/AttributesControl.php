@@ -45,7 +45,9 @@ abstract class AttributesControl extends OptionsControl implements IAttributesCo
 			$this->translatedArguments[] = $key;
 			$this->translatedArguments = array_unique($this->translatedArguments);
 
-			$value = $this->getTranslator()->translate($value);
+			if ($this instanceof Mesour\Components\Localization\ITranslatable) {
+				$value = $this->getTranslator()->translate($value);
+			}
 		}
 		Mesour\Components\Utils\Helpers::createAttribute($this->attributes, $key, $value, $append);
 
