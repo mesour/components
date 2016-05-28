@@ -22,7 +22,7 @@ class Context extends Mesour\Object
 	 */
 	private $services = [];
 
-	private $freezed = false;
+	private $freezed = [];
 
 	public function setService($service, $type = null)
 	{
@@ -38,7 +38,7 @@ class Context extends Mesour\Object
 				);
 			}
 		}
-		if ($this->hasService($type) && $this->isFreezed()) {
+		if ($this->hasService($type) && $this->isFreezed($type)) {
 			throw new Mesour\InvalidStateException('Can not set service after is some service used.');
 		}
 		$this->services[$type] = $service;
@@ -48,7 +48,7 @@ class Context extends Mesour\Object
 
 	public function getByType($type)
 	{
-		$this->freeze();
+		$this->freeze($type);
 		if (!$this->hasService($type)) {
 			throw new Mesour\InvalidArgumentException(sprintf('Service of type %s does not exist.', $type));
 		}
@@ -60,9 +60,9 @@ class Context extends Mesour\Object
 		return isset($this->services[$type]);
 	}
 
-	public function isFreezed()
+	public function isFreezed($type)
 	{
-		return $this->freezed;
+		return isset($this->freezed[$type]);
 	}
 
 	private function determineServiceType($service)
@@ -70,9 +70,9 @@ class Context extends Mesour\Object
 		return get_class($service);
 	}
 
-	private function freeze()
+	private function freeze($type)
 	{
-		$this->freezed = true;
+		$this->freezed[$type] = true;
 	}
 
 }
