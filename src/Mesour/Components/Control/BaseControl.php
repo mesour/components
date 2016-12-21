@@ -92,6 +92,9 @@ abstract class BaseControl extends Mesour\Components\ComponentModel\Container im
 	 */
 	public function getSession($need = true)
 	{
+		if (!$this->getApplication(false) && !$need) {
+			return null;
+		}
 		$context = $this->getApplication()->getContext();
 		if (!$context->hasService(ISession::class) && $need) {
 			$context->setService(new Mesour\Components\Session\Session(), ISession::class);
