@@ -51,7 +51,7 @@ class Html extends Nette\Utils\Html implements IString
 
 	/**
 	 * Adds new element's child.
-	 * @param  Html|string Html node or raw HTML string
+	 * @param Html|string $child  Html node or raw HTML string
 	 * @return static
 	 */
 	public function add($child)
