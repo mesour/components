@@ -10,14 +10,14 @@
   }],
   "require": {
     "php": ">=5.5.0",
-    "nette/utils": "~2.3.7"
+    "nette/utils": "~2.4.0"
   },
   "require-dev": {
     "nette/tester": "~1.4",
-    "nette/robot-loader": "~2.3",
-    "nette/di": "~2.3",
-    "nette/bootstrap": "~2.3",
-    "nette/application": "~2.3",
+    "nette/robot-loader": "~2.4",
+    "nette/di": "~2.4",
+    "nette/bootstrap": "~2.4",
+    "nette/application": "~2.4",
     "tracy/tracy": "~2.3",
     "slevomat/coding-standard": "^1.0",
     "consistence/coding-standard": "^0.10"
