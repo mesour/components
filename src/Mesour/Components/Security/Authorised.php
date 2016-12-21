@@ -33,7 +33,8 @@ trait Authorised
 		return $context->getByType(IAuthorizator::class);
 	}
 
-	protected function setPermissionCheck($resource = IAuthorizator::ALL, $privilege = IAuthorizator::ALL) {
+	protected function setPermissionCheck($resource = IAuthorizator::ALL, $privilege = IAuthorizator::ALL)
+	{
 		$this->permission = [$resource, $privilege];
 	}
 
