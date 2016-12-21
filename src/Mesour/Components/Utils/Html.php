@@ -50,6 +50,16 @@ class Html extends Nette\Utils\Html implements IString
 {
 
 	/**
+	 * Adds new element's child.
+	 * @param  Html|string Html node or raw HTML string
+	 * @return static
+	 */
+	public function add($child)
+	{
+		return $this->addHtml($child);
+	}
+
+	/**
 	 * Inserts child node.
 	 * @param int|NULL $index position of NULL for appending
 	 * @param Html|string $child Html node or raw HTML string
