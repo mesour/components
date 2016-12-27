@@ -22,7 +22,7 @@ trait Authorised
 	private $permission = [];
 
 	/**
-	 * @return IAuthorizator|Permission
+	 * @return IAuthorizator|Permission|object
 	 */
 	public function getAuthorizator()
 	{
@@ -36,6 +36,11 @@ trait Authorised
 	protected function setPermissionCheck($resource = IAuthorizator::ALL, $privilege = IAuthorizator::ALL)
 	{
 		$this->permission = [$resource, $privilege];
+	}
+
+	protected function getUserRole()
+	{
+		return $this->getApplication()->getUser()->getRoles();
 	}
 
 	public function isAllowed()

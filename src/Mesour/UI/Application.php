@@ -17,6 +17,7 @@ use Mesour\Components\Application\Url;
 use Mesour\Components\ComponentModel\Container;
 use Mesour\Components\Localization\ITranslator;
 use Mesour\Components\Localization\NullTranslator;
+use Mesour\Components\Security\Authorised;
 use Mesour\Components\Security\IUser;
 use Mesour\Components\Security\User;
 use Mesour\InvalidStateException;
@@ -26,6 +27,8 @@ use Mesour\InvalidStateException;
  */
 class Application extends Container implements IApplication
 {
+
+	use Authorised;
 
 	/**
 	 * @var Request
@@ -77,15 +80,6 @@ class Application extends Container implements IApplication
 	public function getTranslator()
 	{
 		return $this->getContext()->getByType(ITranslator::class);
-	}
-
-	/**
-	 * @return string[]
-	 * @deprecated
-	 */
-	public function getUserRole()
-	{
-		return $this->getUser()->getRoles();
 	}
 
 	/**
@@ -171,6 +165,14 @@ class Application extends Container implements IApplication
 			$this->configuration = new Configuration();
 		}
 		return $this->configuration;
+	}
+
+	/**
+	 * @return static|null
+	 */
+	public function getApplication()
+	{
+		return $this;
 	}
 
 	public function run()
