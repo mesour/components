@@ -3,4 +3,3 @@ parameters:
 nette:
 
 services:
-    router: Mesour\Tests\TestNetteRouter::createRouter
