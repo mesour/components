@@ -3,20 +3,24 @@
  * Mesour Components
  *
  * @license       LGPL-3.0 and BSD-3-Clause
- * @Copyright (c) 2015-2016 Matous Nemec <http://mesour.com>
+ * @Copyright (c) 2017 Matous Nemec <http://mesour.com>
  */
 
 namespace Mesour\ComponentsTests\Classes;
 
 use Mesour;
+use Mesour\Components\Localization\ITranslatable;
+use Mesour\Components\Security\IAuthorised;
 use Tester\Assert;
 
 /**
  * @author  mesour <http://mesour.com>
- * @package Mesour Components
  */
-class Span extends Mesour\UI\Control
+class Span extends Mesour\UI\Control implements IAuthorised, ITranslatable
 {
+
+	use Mesour\Components\Localization\Translatable;
+	use Mesour\Components\Security\Authorised;
 
 	/**
 	 * @var Mesour\Components\Utils\Html

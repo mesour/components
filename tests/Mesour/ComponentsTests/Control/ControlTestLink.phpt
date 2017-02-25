@@ -12,21 +12,25 @@ class ControlTestLink extends Mesour\Tests\BaseTestCase
 
 	public function testDefaultLink()
 	{
-		$span = new Classes\Span;
+		$application = new Mesour\UI\Application;
+
+		$span = new Classes\Span('testSpan', $application);
 
 		$link = new Mesour\Components\Link\Link;
 
-		$span->setLink($link);
+		$application->getContext()->setService($link, Mesour\Components\Link\ILink::class);
 
 		Assert::same($span->getLink(), $link);
 	}
 
 	public function testLinkMethod()
 	{
-		$span = new Classes\Span;
+		$application = new Mesour\UI\Application;
+
+		$span = new Classes\Span('testSpan', $application);
 
 		$link = new Mesour\Components\Link\Link;
-		$span->setLink($link);
+		$application->getContext()->setService($link, Mesour\Components\Link\ILink::class);
 
 		$address = 'http://mesour.com';
 		$args = ['key' => 'val[]'];
@@ -37,31 +41,37 @@ class ControlTestLink extends Mesour\Tests\BaseTestCase
 		$url = $span->link($address, $args);
 
 		Assert::type(Mesour\Components\Link\IUrl::class, $url);
-		Assert::same($url->create(), $completeAddress);
+		Assert::same($completeAddress, $url->create());
 	}
 
 	public function testLinkSetAndGet()
 	{
-		$span = new Classes\Span;
+		$application = new Mesour\UI\Application;
+
+		$span = new Classes\Span('testSpan', $application);
 
 		$link = new Mesour\Components\Link\Link;
 
-		$span->setLink($link);
+		$application->getContext()->setService($link, Mesour\Components\Link\ILink::class);
 
-		Assert::same($span->getLink(), $link);
+		Assert::same($link, $span->getLink());
 	}
 
 	public function testLinkFromParent()
 	{
-		$span = new Classes\Span;
+		$application = new Mesour\UI\Application;
+
+		$span = new Classes\Span('testSpan', $application);
 
 		$link = new Mesour\Components\Link\Link;
 
-		$span->setLink($link);
+		$application->getContext()->setService($link, Mesour\Components\Link\ILink::class);
 
 		$span->addComponent(new Classes\Span, 'children');
 
-		Assert::same($span->getComponent('children')->getLink(), $link);
+		/** @var Mesour\ComponentsTests\Classes\Span $children */
+		$children = $span->getComponent('children');
+		Assert::same($children->getLink(), $link);
 	}
 
 }

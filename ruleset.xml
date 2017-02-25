@@ -8,20 +8,8 @@
         <!-- because of "@param int" over "@param integer" -->
         <exclude name="Squiz.Commenting.FunctionComment.IncorrectParamVarName"/>
 
-        <!-- because of functions without visibility in interfaces -->
-        <exclude name="Squiz.Scope.MethodScope.Missing"/>
-
-        <!-- because of ") {" when arguments are on multiple lines -->
-        <exclude name="Generic.Functions.OpeningFunctionBraceBsdAllman.BraceOnSameLine"/>
-
         <!-- because of *.phpt -->
         <exclude name="PSR1.Files.SideEffects.FoundWithSymbols"/>
-
-        <!-- because of ::class -->
-        <exclude name="Squiz.Classes.SelfMemberReference.NotUsed"/>
-
-        <!-- because of $formControl->addCondition() -->
-        <exclude name="PEAR.WhiteSpace.ObjectOperatorIndent.Incorrect"/>
 
         <!-- because of some methods with very much usage have it -->
         <exclude name="PSR2.Methods.MethodDeclaration.Underscore"/>
@@ -30,9 +18,6 @@
         <exclude name="SlevomatCodingStandard.Namespaces.FullyQualifiedClassNameAfterKeyword"/>
         <exclude name="SlevomatCodingStandard.Namespaces.FullyQualifiedExceptions"/>
         <exclude name="SlevomatCodingStandard.Namespaces.UseOnlyWhitelistedNamespaces"/>
-
-        <!-- because of &getRules() method (sniffer expected & method name) -->
-        <exclude name="SlevomatCodingStandard.Classes.UnusedPrivateElements.unusedMethod"/>
 
         <!-- because of exceptions.php -->
         <exclude name="SlevomatCodingStandard.Files.TypeNameMatchesFileName"/>
@@ -50,7 +35,7 @@
     </rule>
     <rule ref="SlevomatCodingStandard.Files.TypeNameMatchesFileName">
         <properties>
-            <property name="rootNamespaces" type="array" value="libs/SmartSelling=>SmartSelling"/>
+            <property name="rootNamespaces" type="array" value="src/Mesour=>Mesour"/>
         </properties>
     </rule>
     <rule ref="SlevomatCodingStandard.Namespaces.ReferenceUsedNamesOnly">
@@ -64,5 +49,6 @@
         </properties>
     </rule>
     <exclude-pattern>src/Mesour/Components/Security/Permission.php</exclude-pattern>
+    <exclude-pattern>tests/environment.php</exclude-pattern>
     <exclude-pattern>tests/bootstrap.php</exclude-pattern>
 </ruleset>

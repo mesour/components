@@ -2,7 +2,7 @@
 /**
  * This file is part of the Mesour components (http://components.mesour.com)
  *
- * Copyright (c) 2015-2016 Matouš Němec (http://mesour.com)
+ * Copyright (c) 2017 Matouš Němec (http://mesour.com)
  *
  * For full licence and copyright please view the file licence.md in root of this project
  */
@@ -49,5 +49,12 @@ interface IContainer extends \Iterator, \ArrayAccess, \Countable
 	 * @return IComponent|null
 	 */
 	public function lookup($className, $need = true, $reverse = false);
+
+	/**
+	 * @param Mesour\Components\Filter\Rules\RulesContainer|null $rulesContainer
+	 * @return Mesour\Components\Filter\FilterIterator
+	 * @internal
+	 */
+	public function createFilterIterator(Mesour\Components\Filter\Rules\RulesContainer $rulesContainer = null);
 
 }

@@ -3,7 +3,7 @@
  * Mesour Components
  *
  * @license       LGPL-3.0 and BSD-3-Clause
- * @Copyright (c) 2015-2016 Matous Nemec <http://mesour.com>
+ * @Copyright (c) 2017 Matous Nemec <http://mesour.com>
  */
 
 namespace Mesour\ComponentsTests\Classes;

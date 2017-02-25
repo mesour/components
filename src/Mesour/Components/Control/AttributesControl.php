@@ -2,7 +2,7 @@
 /**
  * This file is part of the Mesour components (http://components.mesour.com)
  *
- * Copyright (c) 2015-2016 Matouš Němec (http://mesour.com)
+ * Copyright (c) 2017 Matouš Němec (http://mesour.com)
  *
  * For full licence and copyright please view the file licence.md in root of this project
  */
@@ -45,7 +45,9 @@ abstract class AttributesControl extends OptionsControl implements IAttributesCo
 			$this->translatedArguments[] = $key;
 			$this->translatedArguments = array_unique($this->translatedArguments);
 
-			$value = $this->getTranslator()->translate($value);
+			if ($this instanceof Mesour\Components\Localization\ITranslatable) {
+				$value = $this->getTranslator()->translate($value);
+			}
 		}
 		Mesour\Components\Utils\Helpers::createAttribute($this->attributes, $key, $value, $append);
 

@@ -2,7 +2,7 @@
 /**
  * This file is part of the Mesour components (http://components.mesour.com)
  *
- * Copyright (c) 2015-2016 Matouš Němec (http://mesour.com)
+ * Copyright (c) 2017 Matouš Němec (http://mesour.com)
  *
  * For full licence and copyright please view the file licence.md in root of this project
  */
@@ -10,6 +10,9 @@
 namespace Mesour\Components\Control;
 
 use Mesour;
+use Mesour\Components\Application\IPayload;
+use Mesour\Components\Link\ILink;
+use Mesour\Components\Session\ISession;
 
 /**
  * @author Matouš Němec <http://mesour.com>
@@ -22,30 +25,6 @@ abstract class BaseControl extends Mesour\Components\ComponentModel\Container im
 	const SNIPPET_PREFIX = 'm_snippet-';
 
 	const HANDLER_PREFIX = 'handle';
-
-	/** @var Mesour\Components\Security\IAuthorizator|null */
-	private $authorizator = null;
-
-	/** @var string */
-	private $iconClass = null;
-
-	/** @var Mesour\Components\Session\ISession|null */
-	private $session = null;
-
-	/** @var Mesour\Components\Application\IPayload */
-	private $payload = null;
-
-	/** @var Mesour\Components\Localization\ITranslator|null */
-	private $translator = null;
-
-	private $nullTranslator = null;
-
-	private $disabledTranslate = false;
-
-	/** @var Mesour\Components\Link\ILink|null */
-	private $link;
-
-	private $userRole = null;
 
 	public function beforeRender()
 	{
@@ -66,13 +45,10 @@ abstract class BaseControl extends Mesour\Components\ComponentModel\Container im
 
 	public function createLinkName()
 	{
-		return $this->getParent() instanceof self ? $this->getParent()->createLinkName() . '-' . $this->getName() : $this->getName();
-	}
-
-	public function setLink(Mesour\Components\Link\ILink $link)
-	{
-		$this->link = $link;
-		return $this;
+		$parent = $this->getParent();
+		return $parent instanceof self || $parent instanceof Mesour\UI\Application
+			? ($this->getParent()->createLinkName() . '-' . $this->getName())
+			: $this->getName();
 	}
 
 	/**
@@ -91,43 +67,11 @@ abstract class BaseControl extends Mesour\Components\ComponentModel\Container im
 	 */
 	public function getLink()
 	{
-		$parent = $this->getParent();
-		if (!$this->link) {
-			if ($parent instanceof self) {
-				return $parent->getLink();
-			} else {
-				return $this->link = new Mesour\Components\Link\Link;
-			}
+		$context = $this->getApplication()->getContext();
+		if (!$context->hasService(ILink::class)) {
+			$context->setService(new Mesour\Components\Link\Link(), ILink::class);
 		}
-		return $this->link;
-	}
-
-	public function setPayload(Mesour\Components\Application\IPayload $payload)
-	{
-		$this->payload = $payload;
-		return $this;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getUserRole()
-	{
-		$parent = $this->getParent();
-		if (!$this->userRole) {
-			if ($parent instanceof self) {
-				return $parent->getUserRole();
-			} else {
-				return $this->userRole = 'guest';
-			}
-		}
-		return $this->userRole;
-	}
-
-	public function setUserRole($userRole)
-	{
-		$this->userRole = $userRole;
-		return $this;
+		return $context->getByType(ILink::class);
 	}
 
 	/**
@@ -135,21 +79,11 @@ abstract class BaseControl extends Mesour\Components\ComponentModel\Container im
 	 */
 	public function getPayload()
 	{
-		$parent = $this->getParent();
-		if (!$this->payload) {
-			if ($parent instanceof self) {
-				return $parent->getPayload();
-			} else {
-				return $this->payload = new Mesour\Components\Application\Payload;
-			}
+		$context = $this->getApplication()->getContext();
+		if (!$context->hasService(IPayload::class)) {
+			$context->setService(new Mesour\Components\Application\Payload(), IPayload::class);
 		}
-		return $this->payload;
-	}
-
-	public function setSession(Mesour\Components\Session\ISession $session)
-	{
-		$this->session = $session;
-		return $this;
+		return $context->getByType(IPayload::class);
 	}
 
 	/**
@@ -158,24 +92,19 @@ abstract class BaseControl extends Mesour\Components\ComponentModel\Container im
 	 */
 	public function getSession($need = true)
 	{
-		$parent = $this->getParent();
-		if (!$this->session) {
-			if ($parent instanceof self) {
-				return $parent->getSession($need);
-			} else {
-				if ($need) {
-					return $this->session = new Mesour\Components\Session\Session;
-				} else {
-					return null;
-				}
-			}
+		if (!$this->getApplication(false) && !$need) {
+			return null;
 		}
-		return $this->session;
+		$context = $this->getApplication()->getContext();
+		if (!$context->hasService(ISession::class) && $need) {
+			$context->setService(new Mesour\Components\Session\Session(), ISession::class);
+		}
+		return $context->hasService(ISession::class) ? $context->getByType(ISession::class) : null;
 	}
 
 	/**
 	 * @param bool $need
-	 * @return Mesour\Components\Application\IApplication|null
+	 * @return Mesour\UI\Application|null
 	 * @throws Mesour\InvalidStateException
 	 */
 	public function getApplication($need = true)
@@ -195,46 +124,6 @@ abstract class BaseControl extends Mesour\Components\ComponentModel\Container im
 		} else {
 			return $this->getParent()->getApplication($need);
 		}
-	}
-
-	public function setTranslator(Mesour\Components\Localization\ITranslator $translator)
-	{
-		$this->translator = $translator;
-		return $this;
-	}
-
-	/**
-	 * @param bool|FALSE $fromChildren
-	 * @return Mesour\Components\Localization\ITranslator
-	 */
-	public function getTranslator($fromChildren = false)
-	{
-		$parent = $this->getParent();
-		if (!$this->translator && (!$this->disabledTranslate || ($this->disabledTranslate && $fromChildren))) {
-			if ($parent instanceof self) {
-				return $parent->getTranslator(true);
-			} else {
-				return $this->translator = new Mesour\Components\Localization\NullTranslator;
-			}
-		} elseif ($this->disabledTranslate && !$fromChildren) {
-			if (!$this->nullTranslator) {
-				$this->nullTranslator = new Mesour\Components\Localization\NullTranslator;
-			}
-			return $this->nullTranslator;
-		}
-		return $this->translator;
-	}
-
-	public function setDisableTranslate($disabled = true)
-	{
-		$this->disabledTranslate = (bool) $disabled;
-		return $this;
-	}
-
-	public function setAuthorizator(Mesour\Components\Security\IAuthorizator $authorizator)
-	{
-		$this->authorizator = $authorizator;
-		return $this;
 	}
 
 	public function createSnippet()
@@ -259,87 +148,6 @@ abstract class BaseControl extends Mesour\Components\ComponentModel\Container im
 		return is_object($created) && $created !== $this && method_exists($created, 'render')
 			? $created->render()
 			: $created;
-	}
-
-	/**
-	 * @return Mesour\Components\Security\IAuthorizator|Mesour\Components\Security\Permission
-	 */
-	public function getAuthorizator()
-	{
-		$parent = $this->getParent();
-		if (!$this->authorizator) {
-			if ($parent instanceof self) {
-				return $parent->getAuthorizator();
-			} else {
-				return $this->authorizator = new Mesour\Components\Security\Permission;
-			}
-		}
-		return $this->authorizator;
-	}
-
-	public function setIconClass($iconClass)
-	{
-		if (is_object($iconClass)) {
-			if (!$iconClass instanceof Mesour\Icon\IIcon) {
-				throw new Mesour\InvalidArgumentException(
-					sprintf(
-						'Class "%s" must implements interface "%s".',
-						get_class($iconClass),
-						Mesour\Icon\IIcon::class
-					)
-				);
-			}
-			$iconClass = get_class($iconClass);
-		} else {
-			if (!class_exists($iconClass)) {
-				throw new Mesour\InvalidArgumentException(
-					sprintf('Icon class "%s" does not exits.', $iconClass)
-				);
-			}
-			$interfaces = class_implements($iconClass);
-			if (!$interfaces || !count($interfaces) || !in_array(Mesour\Icon\IIcon::class, $interfaces)) {
-				throw new Mesour\InvalidArgumentException(
-					sprintf('Class "%s" must implements interface "%s".', $iconClass, Mesour\Icon\IIcon::class)
-				);
-			}
-		}
-
-		$this->iconClass = $iconClass;
-		return $this;
-	}
-
-	/**
-	 * @param string $type
-	 * @return Mesour\Icon\IIcon
-	 */
-	protected function createNewIcon($type)
-	{
-		/** @var Mesour\Icon\IIcon $icon */
-		$className = $this->getIconClass();
-		$icon = new $className;
-		$icon->setType($type);
-		return $icon;
-	}
-
-	public function getIconClass()
-	{
-		$parent = $this->getParent();
-		if (!$this->iconClass) {
-			if ($parent instanceof self) {
-				return $parent->getIconClass();
-			} else {
-				if (!class_exists(Mesour\UI\Icon::class)) {
-					throw new Mesour\InvalidArgumentException(
-						sprintf(
-							'For using icons, install mesour/icon package. Class "%s" does not exists.',
-							Mesour\UI\Icon::class
-						)
-					);
-				}
-				return $this->iconClass = Mesour\UI\Icon::class;
-			}
-		}
-		return $this->iconClass;
 	}
 
 	public function __toString()
