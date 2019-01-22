@@ -14,8 +14,10 @@ use Mesour;
 /**
  * @author Matouš Němec <http://mesour.com>
  */
-abstract class Component extends Mesour\Object implements IComponent
+abstract class Component implements IComponent
 {
+
+	use Mesour\SmartObject;
 
 	private $name;
 

@@ -14,8 +14,10 @@ use Mesour;
 /**
  * @author Matouš Němec <http://mesour.com>
  */
-class Context extends Mesour\Object
+class Context
 {
+
+	use Mesour\SmartObject;
 
 	/**
 	 * @var object[]

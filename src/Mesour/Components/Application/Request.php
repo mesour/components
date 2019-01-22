@@ -14,8 +14,10 @@ use Mesour;
 /**
  * @author Matouš Němec <http://mesour.com>
  */
-class Request extends Mesour\Object
+class Request
 {
+
+	use Mesour\SmartObject;
 
 	private $request = [];
 

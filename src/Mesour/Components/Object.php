@@ -14,7 +14,7 @@ use Mesour;
 /**
  * @author Matouš Němec <http://mesour.com>
  */
-abstract class Object
+trait SmartObject
 {
 
 	/**

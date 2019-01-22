@@ -14,8 +14,10 @@ use Mesour;
 /**
  * @author Matouš Němec <http://mesour.com>
  */
-abstract class RulesContainer extends Mesour\Object
+abstract class RulesContainer
 {
+
+	use Mesour\SmartObject;
 
 	/** @var IRule[] */
 	private $rules = [];

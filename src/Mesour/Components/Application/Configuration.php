@@ -14,8 +14,10 @@ use Mesour;
 /**
  * @author Matouš Němec <http://mesour.com>
  */
-class Configuration extends Mesour\Object
+class Configuration
 {
+
+	use Mesour\SmartObject;
 
 	protected $parameters = [];
 
